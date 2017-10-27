@@ -1,8 +1,8 @@
 'use strict';
 
 module.exports = function (sequelize, DataTypes) {
-  const SYSTEM_USER = sequelize.define('systemUsers', {
-    ID_SYSTEM_USER: {
+  const systemUser = sequelize.define('systemUsers', {
+    idSystemUser: {
       type: DataTypes.BIGINT,
       primaryKey: true,
       autoIncrement: true
@@ -13,7 +13,7 @@ module.exports = function (sequelize, DataTypes) {
       unique: true
     },
     firstName: {
-      type: DataTypes.STRING(25),
+      type: DataTypes.STRING(25), 
       allowNull: false
     },
     secondName: {
@@ -81,25 +81,25 @@ module.exports = function (sequelize, DataTypes) {
     classMethods: {
       associate: function (models) {
         // FK USER_TYPE
-        SYSTEM_USER.belongsTo(models.userTypes, {
+        systemUser.belongsTo(models.userTypes, {
           foreignKey: 'idUserType'
         });
 
-        models.userTypes.hasMany(SYSTEM_USER, {
+        models.userTypes.hasMany(systemUser, {
           foreignKey: 'idUserType'
         });
 
         // FK COMPANY
-        SYSTEM_USER.belongsTo(models.companies, {
+        systemUser.belongsTo(models.companies, {
           foreignKey: 'idCompany'
         });
 
-        models.companies.hasMany(SYSTEM_USER, {
+        models.companies.hasMany(systemUser, {
           foreignKey: 'idCompany'
         });
       }
     }
   });
 
-  return SYSTEM_USER;
+  return systemUser;
 };

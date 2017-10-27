@@ -5,7 +5,7 @@ const ENV = process.env.NODE_ENV || 'development';
 const CONF = require('../config/config')[ENV];
 
 function sendEmail (sendData) {
-  const { req, res, usuario, token } = sendData;
+  const { res, usuario, token } = sendData;
   // Create the transporter with the required configuration for Outlook
   // change the user and pass !
   const transporter = nodemailer.createTransport({
