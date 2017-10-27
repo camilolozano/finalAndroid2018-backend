@@ -1,0 +1,876 @@
+creacion usuarios
+url: localhost:8000/users/create
+post
+data:
+{
+ 	"codigo_usuario": "COD123",
+  "nombre1": "Gelber",
+  "nombre2": "Horlando",
+  "apellido1": "Moran",
+  "apellido2": "Silva",
+  "emailusername": "gelber@correo.com",
+  "password": "admin123",
+  "id_tipo_usuario": 1,
+  "id_oficina": 1,
+  "numero_contacto": "7202020",
+  numero_contacto_referencia: "7202020" 
+  "id_empresa": 1,
+  "identificacion": "1234567898",
+  "id_tipo_identificacion": 1
+}
+--------------------------------
+tipo usuarios
+url localhost:8000/users/tipo_user/:id_user
+get
+regresa:
+{
+	"data": [
+		{
+			"id_tipo_usuario": 1,
+			"descripcion": "Administrador",
+			"createdAt": null,
+			"updatedAt": null
+		},
+		{
+			"id_tipo_usuario": 2,
+			"descripcion": "Operador",
+			"createdAt": null,
+			"updatedAt": null
+		}
+	],
+	"success": true
+}
+-----------------------------------
+tipo identifiaciones
+url: localhost:8000/users/tipo_identificacion/:id_user
+get
+regresa:
+{
+	"data": [
+		{
+			"id_tipo_identificacion": 1,
+			"descripcion": "Cedula",
+			"createdAt": null,
+			"updatedAt": null
+		},
+		{
+			"id_tipo_identificacion": 2,
+			"descripcion": "Pasaporte",
+			"createdAt": null,
+			"updatedAt": null
+		}
+	],
+	"success": true
+}
+
+-------------------------------------
+informacion titular de la cuenta
+url: localhost:8000/holder/titular/:id_user&:codigo
+get
+regresa:
+{
+  "success": true,
+  "data": {
+    "id_informacion_titular": "30",
+    "codigo": 30,
+    "saldo_pendiente": 52470,
+    "categoria": 1,
+    "des_categoria": "RESIDENCIAL",
+    "subcategoria": 3,
+    "desc_subcategoria": "MEDIO BAJO",
+    "ciclo": 1,
+    "nombre": "UNIGARRO ROSERO MIGUEL",
+    "direccion": "CL 19D # 45 - 14        SANTA_RITHA",
+    "cuentas_con_saldo": 1,
+    "estado": 1,
+    "createdAt": null,
+    "updatedAt": null
+  }
+}
+
+---------------------------------------
+Tipo llamadas
+url: localhost:8000/crear_reporte/tipos_llamadas/:id_user
+get
+regresa:
+regresa:
+{
+  "data": [
+    {
+      "id_tipo_llamada": "1",
+      "descripcion": "llamada_uno",
+      "createdAt": null,
+      "updatedAt": null
+    },
+    {
+      "id_tipo_llamada": "2",
+      "descripcion": "llamada_dos",
+      "createdAt": null,
+      "updatedAt": null
+    }
+  ],
+  "success": true
+}
+
+
+---------------------------------------
+Tipo de asuntos segun llamadas
+url: localhost:8000/crear_reporte/asunto/:id_user&:tipo_llamada
+get
+regresa:
+{
+  "data": [
+    {
+      "id_tipo_asunto": "1",
+      "id_tipo_llamada": "1",
+      "descripcion": "asunto_llamada_uno",
+      "createdAt": null,
+      "updatedAt": null
+    },
+    {
+      "id_tipo_asunto": "2",
+      "id_tipo_llamada": "1",
+      "descripcion": "asunto_llamada_uno2",
+      "createdAt": null,
+      "updatedAt": null
+    }
+  ],
+  "success": true
+}
+
+--------------------------------------
+Creacion de tramites
+url: localhost:8000/crear_reporte/create/:id_user
+post
+enviar:
+// Reportante nuevo
+{
+  "id_tipo_tramite": 1,
+  "id_user": 1,
+  "cedula_reportante": "231231231",
+  "nombre1_reportante": "pedro",
+  "nombre2_reportante" : "pedro",
+  "apellido1_reportante": "perez",
+  "apellido2_reportante": "perez",
+  "direccion_reportante": "calle 123123",
+  "numero_reportante": "12123123",
+  "id_tipo_registro" : 1,
+  "id_asunto" : 2,
+  "observacion": "Observaciones",
+  "id_informacion_titular": 1
+}
+// Reportante con id_asunto
+{
+  "id_tipo_registro":1,
+  "id_asunto":3,
+  "id_reportante": 3,
+  "observacion": "Esta es la observacion del daño",
+  "id_informacion_titular": 2,
+  "id_tipo_tramite":1
+}
+
+--------------------------------------
+informacion reportantes registrados
+url: localhost:8000/crear_reporte/registrantes/:id_user&:cedula
+get
+regresa:
+{
+  "data": [
+    {
+      "id_reportante": "1",
+      "cedula": "231231231",
+      "nombre1": "pedro",
+      "nombre2": "pedro",
+      "apellido1": "perez",
+      "apellido2": "perez",
+      "direccion": "calle 123123",
+      "createdAt": "2017-06-10T14:18:20.801Z",
+      "updatedAt": "2017-06-10T14:18:20.801Z"
+    }
+  ],
+  "success": true
+}
+
+--------------------------------------
+tipo registros
+url: localhost:8000/crear_reporte/tipo_registros/:id_user
+get
+regresa:
+{
+  "data": [
+    {
+      "id_tipo_registro": "1",
+      "descripcion": "Suscriptor",
+      "createdAt": null,
+      "updatedAt": null
+    },
+    {
+      "id_tipo_registro": "2",
+      "descripcion": "Anonimo",
+      "createdAt": null,
+      "updatedAt": null
+    },
+    {
+      "id_tipo_registro": "3",
+      "descripcion": "Grupal",
+      "createdAt": null,
+      "updatedAt": null
+    }
+  ],
+  "success": true
+}
+
+--------------------------------------BUSQUEDAS
+Busqueda de pqrd por:
+
+url: localhost:8000/tramites/info_completa/:id_user&:busqueda&data&:offset&:limit
+
+busqueda = {
+              todos (se pasa como data un 0),
+              codigo_suscriptor,
+              cedula,
+              id_asunto
+            }
+get
+
+regresa:
+{
+  "seccess": true,
+  "data": [
+    {
+      "id_tramite": "1",
+      "codigo_usuario_sistema": "cod123",
+      "usu_sistema": "Juan Perez",
+      "descripcion": "PQRS",
+      "tipo_registro": "Anonimo",
+      "tipo_llamada": "DAÑO",
+      "tipo_asunto": "GALAPAGO",
+      "observaciones": "Observacisfdfsdones",
+      "codigo": "1",
+      "saldo_pendiente": 0,
+      "des_categoria": "RESIDENCIAL",
+      "desc_subcategoria": "BAJO BAJO",
+      "ciclo": 1,
+      "nombre_titular": "CUATIN LUIS",
+      "direccion": "CR 44 # 20 - 196        JUANOY",
+      "cuentas_con_saldo": 0,
+      "estado": 1,
+      "nombre_reportante": "pedro perez",
+      "cedula_reportante": "233331231",
+      "direccion_reportate": "calle 123123"
+    }
+  ]
+}
+
+
+tamaño del arreglo anterior (Conteo de rows)
+ur: localhost:8000/tramites/info_completa_count/:id_user
+get
+
+tegresa: {
+  "seccess": true,
+  "count": 1
+}
+
+
+------------------------
+informacion completa de tramites segun id:tramite
+
+url: localhost:8000/tramites/detalle/:id_user&:id_tramite
+get
+
+tegresa:
+{
+  "seccess": true,
+  "data": [
+    {
+      "id_tramite": "1",
+      "codigo_usuario_sistema": "cod123",
+      "usu_sistema": "Juan Perez",
+      "descripcion": "PQRS",
+      "tipo_registro": "Anonimo",
+      "tipo_llamada": "DAÑO",
+      "tipo_asunto": "GALAPAGO",
+      "observaciones": "Observacisfdfsdones",
+      "codigo": "1",
+      "saldo_pendiente": 0,
+      "des_categoria": "RESIDENCIAL",
+      "desc_subcategoria": "BAJO BAJO",
+      "ciclo": 1,
+      "nombre_titular": "CUATIN LUIS",
+      "direccion": "CR 44 # 20 - 196        JUANOY",
+      "cuentas_con_saldo": 0,
+      "estado": 1,
+      "nombre_reportante": "pedro perez",
+      "cedula_reportante": "233331231",
+      "direccion_reportate": "calle 123123"
+    }
+  ]
+}
+
+------------------------------------------
+
+Conteo de reportes segun filtro
+url : http://localhost:8000/tramites/info_completa_conteo/1&cedula&1212155
+get
+regresa:
+{
+  "success": true,
+  "count": 1
+}
+
+-----------------------------------------//
+Asignar tramites
+
+url: localhost:8000/resol_tramites/asignar/:id_user
+post
+enviar:
+{
+	"id_tramite": 1,
+	"id_usuario_asignado": 1,
+	"respuesta": "Gracias por participar"
+}
+
+resouesta:
+{
+    "success": true,
+    "msg": "Se asigno con exito"
+}
+
+----------------------------------------
+
+Responder tramites
+
+url: localhost:8000/resol_tramites/responder/:id_user
+post
+enviar:
+{
+	"id_asignacion_tramite": 1,
+	"respuesta": "Gracias por participar"
+}
+
+resouesta:
+{
+    "success": true,
+    "msg": "Se asigno con exito"
+}
+
+----------------------------------------
+
+Buscar usuarios
+url localhost:8000/users/buscar_usu/:id_user
+get
+regresa
+{
+    "data": [
+        {
+            "id_usuario_sistema": "1",
+            "codigo_usuario": "cod123",
+            "nombre1": "Juan",
+            "apellido1": "Perez"
+        },
+        {
+            "id_usuario_sistema": "2",
+            "codigo_usuario": "cod1234",
+            "nombre1": "Pedro",
+            "apellido1": "Lopez"
+        },
+        {
+            "id_usuario_sistema": "3",
+            "codigo_usuario": "cod1235",
+            "nombre1": "Juan",
+            "apellido1": "Perez"
+        },
+        {
+            "id_usuario_sistema": "4",
+            "codigo_usuario": "cod1236",
+            "nombre1": "Pedro",
+            "apellido1": "Lopez"
+        }
+    ],
+    "success": true
+}
+
+
+--------------------------------------
+
+Detalle de proceso con ORM
+get
+url: localhost:8000/tramites/detalle_orm/:user&:id_tramite
+regresa
+{
+  "data": {
+    "id_informacion_tramite": "1",
+    "id_informacion_titular": "18",
+    "id_tipo_registro": "1",
+    "id_asunto": "10",
+    "id_reportante": "1",
+    "observaciones": "fuga de agua",
+    "createdAt": "2017-06-13T01:01:04.772Z",
+    "updatedAt": "2017-06-13T01:01:04.772Z",
+    "tipos_registro": {
+      "id_tipo_registro": "1",
+      "descripcion": "Suscriptor",
+      "createdAt": null,
+      "updatedAt": null
+    },
+    "tipos_asunto": {
+      "id_tipo_asunto": "10",
+      "id_tipo_llamada": "2",
+      "descripcion": "GALAPAGO",
+      "createdAt": null,
+      "updatedAt": null,
+      "tipos_llamada": {
+        "id_tipo_llamada": "2",
+        "descripcion": "FUGA",
+        "createdAt": null,
+        "updatedAt": null
+      }
+    },
+    "reportante": {
+      "id_reportante": "1",
+      "cedula": "30725411",
+      "nombre1": "Dora",
+      "nombre2": "Carmen",
+      "apellido1": "Arteaga",
+      "apellido2": "",
+      "direccion": "av santander",
+      "createdAt": "2017-06-13T01:01:04.765Z",
+      "updatedAt": "2017-06-13T01:01:04.765Z",
+      "telefonos_reportantes": [
+        {
+          "id_telefono_reportante": "2",
+          "tipo_telefono": "Fijo",
+          "numero": "3155052222",
+          "id_reportante": "1",
+          "createdAt": "2017-06-13T01:03:36.051Z",
+          "updatedAt": "2017-06-13T01:03:36.051Z"
+        },
+        {
+          "id_telefono_reportante": "3",
+          "tipo_telefono": "Fijo",
+          "numero": "7111111",
+          "id_reportante": "1",
+          "createdAt": "2017-06-14T21:23:18.941Z",
+          "updatedAt": "2017-06-14T21:23:19.622Z"
+        },
+        {
+          "id_telefono_reportante": "1",
+          "tipo_telefono": "Fijo",
+          "numero": "7202020",
+          "id_reportante": "1",
+          "createdAt": "2017-06-13T01:01:04.769Z",
+          "updatedAt": "2017-06-13T01:01:04.769Z"
+        },
+        {
+          "id_telefono_reportante": "4",
+          "tipo_telefono": "Fijo",
+          "numero": "7555555",
+          "id_reportante": "1",
+          "createdAt": "2017-06-14T21:24:19.519Z",
+          "updatedAt": "2017-06-14T21:24:20.341Z"
+        }
+      ]
+    },
+    "tramites": [
+      {
+        "id_tramite": "1",
+        "id_tipo_tramite": "1",
+        "id_usuario_sistema": "1",
+        "id_informacion_tramite": "1",
+        "fecha_ingreso": "2017-06-13T01:01:04.764Z",
+        "createdAt": "2017-06-13T01:01:04.774Z",
+        "updatedAt": "2017-06-13T01:01:04.774Z",
+        "asignacion_tremites": [
+          {
+            "id_asignacion_tramite": "1",
+            "id_tramite": "1",
+            "id_usuario_sistema": "1",
+            "fecha_asignacion": "2017-06-13T00:56:05.012Z",
+            "createdAt": "2017-06-13T01:01:11.487Z",
+            "updatedAt": "2017-06-13T01:01:11.487Z",
+            "usuarios_sistema": {
+              "id_usuario_sistem": "1",
+              "codigo_usuario": "cod123",
+              "nombre1": "Juan",
+              "nombre2": "Carlos",
+              "apellido1": "Perez",
+              "apellido2": "Castro",
+              "emailusername": "juan@nexus.com",
+              "password": "$2a$08$c23.I3q4DQKQ4621hW7DzuuggtITuqm7uWWVCvmR0Vt63WM1LRs62",
+              "id_tipo_usuario": 1,
+              "id_empresa": "1",
+              "identificacion": "121212122",
+              "id_tipo_identific": 2,
+              "estado": true,
+              "createdAt": null,
+              "updatedAt": null
+            },
+            "tramite_seguimientos": [
+              {
+                "id_tramite_se": "1",
+                "id_asignacion": "1",
+                "respuesta": "Se da solucion al tramite",
+                "fecha_respues": "2017-06-13T00:56:05.012Z",
+                "createdAt": "2017-06-13T01:01:28.177Z",
+                "updatedAt": "2017-06-13T01:01:28.177Z"
+              }
+            ]
+          }
+        ],
+        "usuarios_sistema": {
+          "id_usuario_sistema": "1",
+          "codigo_usuario": "cod123",
+          "nombre1": "Juan",
+          "nombre2": "Carlos",
+          "apellido1": "Perez",
+          "apellido2": "Castro",
+          "emailusername": "juan@nexus.com",
+          "password": "$2a$08$c23.I3q4DQKQ4621hW7DzuuggtITuqm7uWWVCvmR0Vt63WM1LRs62",
+          "id_tipo_usuario": 1,
+          "id_empresa": "1",
+          "identificacion": "121212122",
+          "id_tipo_identificacion": 2,
+          "estado": true,
+          "createdAt": null,
+          "updatedAt": null
+        }
+      }
+    ]
+  },
+  "success": true
+}
+
+
+-------------------------------------
+Mostrar informacion de procesos asignados por usuario
+url: localhost:8000/resol_tramites/mis_procesos_orm/:id_user
+get
+regresa:
+{
+    "data": {
+        "id_informacion_tramite": "1",
+        "id_informacion_titular": "18",
+        "id_tipo_registro": "1",
+        "id_asunto": "10",
+        "id_reportante": "1",
+        "observaciones": "fuga de agua",
+        "createdAt": "2017-06-13T01:01:04.772Z",
+        "updatedAt": "2017-06-13T01:01:04.772Z",
+        "tipos_registro": {
+            "id_tipo_registro": "1",
+            "descripcion": "Suscriptor",
+            "createdAt": null,
+            "updatedAt": null
+        },
+        "tipos_asunto": {
+            "id_tipo_asunto": "10",
+            "id_tipo_llamada": "2",
+            "descripcion": "GALAPAGO",
+            "createdAt": null,
+            "updatedAt": null,
+            "tipos_llamada": {
+                "id_tipo_llamada": "2",
+                "descripcion": "FUGA",
+                "createdAt": null,
+                "updatedAt": null
+            }
+        },
+        "reportante": {
+            "id_reportante": "1",
+            "cedula": "30725411",
+            "nombre1": "Dora",
+            "nombre2": "Carmen",
+            "apellido1": "Arteaga",
+            "apellido2": "",
+            "correo": null,
+            "direccion": "av santander",
+            "createdAt": "2017-06-13T01:01:04.765Z",
+            "updatedAt": "2017-06-13T01:01:04.765Z",
+            "telefonos_reportantes": [
+                {
+                    "id_telefono_reportante": "2",
+                    "tipo_telefono": "Fijo",
+                    "numero": "3155052222",
+                    "id_reportante": "1",
+                    "createdAt": "2017-06-13T01:03:36.051Z",
+                    "updatedAt": "2017-06-13T01:03:36.051Z"
+                },
+                {
+                    "id_telefono_reportante": "3",
+                    "tipo_telefono": "Fijo",
+                    "numero": "7111111",
+                    "id_reportante": "1",
+                    "createdAt": "2017-06-14T21:23:18.941Z",
+                    "updatedAt": "2017-06-14T21:23:19.622Z"
+                },
+                {
+                    "id_telefono_reportante": "1",
+                    "tipo_telefono": "Fijo",
+                    "numero": "7202020",
+                    "id_reportante": "1",
+                    "createdAt": "2017-06-13T01:01:04.769Z",
+                    "updatedAt": "2017-06-13T01:01:04.769Z"
+                },
+                {
+                    "id_telefono_reportante": "4",
+                    "tipo_telefono": "Fijo",
+                    "numero": "7555555",
+                    "id_reportante": "1",
+                    "createdAt": "2017-06-14T21:24:19.519Z",
+                    "updatedAt": "2017-06-14T21:24:20.341Z"
+                }
+            ]
+        },
+        "tramites": [
+            {
+                "id_tramite": "1",
+                "id_tipo_tramite": "1",
+                "id_usuario_sistema": "1",
+                "id_informacion_tramite": "1",
+                "fecha_ingreso": "2017-06-13T01:01:04.764Z",
+                "createdAt": "2017-06-13T01:01:04.774Z",
+                "updatedAt": "2017-06-13T01:01:04.774Z",
+                "asignacion_tremites": [
+                    {
+                        "id_asignacion_tramite": "1",
+                        "id_tramite": "1",
+                        "id_usuario_sistema": "1",
+                        "fecha_asignacion": "2017-06-13T00:56:05.012Z",
+                        "createdAt": "2017-06-13T01:01:11.487Z",
+                        "updatedAt": "2017-06-13T01:01:11.487Z",
+                        "usuarios_sistema": {
+                            "id_usuario_sistem": "1",
+                            "codigo_usuario": "cod001",
+                            "nombre1": "Nino",
+                            "nombre2": "Nino 2",
+                            "apellido1": "Bravo",
+                            "apellido2": "Bravo 2",
+                            "emailusername": "camilo@nexus.com",
+                            "password": "$2a$08$2lz4T1OEOPYBgT6ddMeGfu/3GS20.ni/1hfsxFBi/8OqKHGmRJuRm",
+                            "id_tipo_usuario": 1,
+                            "id_empresa": "1",
+                            "identificacion": "",
+                            "id_tipo_identific": 2,
+                            "estado": true,
+                            "createdAt": null,
+                            "updatedAt": "2017-06-15T15:22:13.626Z"
+                        },
+                        "tramite_seguimientos": [
+                            {
+                                "id_tramite_se": "1",
+                                "id_asignacion": "1",
+                                "respuesta": "Se da solucion al tramite",
+                                "fecha_respues": "2017-06-13T00:56:05.012Z",
+                                "createdAt": "2017-06-13T01:01:28.177Z",
+                                "updatedAt": "2017-06-13T01:01:28.177Z"
+                            }
+                        ]
+                    }
+                ],
+                "usuarios_sistema": {
+                    "id_usuario_sistema": "1",
+                    "codigo_usuario": "cod001",
+                    "nombre1": "Nino",
+                    "nombre2": "Nino 2",
+                    "apellido1": "Bravo",
+                    "apellido2": "Bravo 2",
+                    "emailusername": "camilo@nexus.com",
+                    "password": "$2a$08$2lz4T1OEOPYBgT6ddMeGfu/3GS20.ni/1hfsxFBi/8OqKHGmRJuRm",
+                    "id_tipo_usuario": 1,
+                    "id_empresa": "1",
+                    "identificacion": "",
+                    "id_tipo_identificacion": 2,
+                    "estado": true,
+                    "createdAt": null,
+                    "updatedAt": "2017-06-15T15:22:13.626Z"
+                }
+            }
+        ],
+        "informacion_titulare": {
+            "id_informacion_titular": "18",
+            "codigo": 18,
+            "saldo_pendiente": 0,
+            "categoria": 1,
+            "des_categoria": "RESIDENCIAL",
+            "subcategoria": 3,
+            "desc_subcategoria": "MEDIO BAJO",
+            "ciclo": 1,
+            "nombre": "TORRES RICARDO IVAN",
+            "direccion": "CL 19E # 45 - 48        SANTA_RITHA",
+            "cuentas_con_saldo": 0,
+            "estado": 1,
+            "createdAt": null,
+            "updatedAt": null
+        }
+    },
+    "success": true
+}
+
+
+
+// ----------------- usuarios
+
+listar a todos los usuarios
+url: localhost:8000/users/list_user/:id_user
+get
+regresa:
+{
+    "data": [
+        {
+            "id_usuario_sistema": "2",
+            "codigo_usuario": "nexus-2",
+            "nombre1": "Gelber",
+            "nombre2": null,
+            "apellido1": "Moran",
+            "apellido2": null,
+            "emailusername": "director@parquesoftpasto.com",
+            "password": "$2a$08$Gpw6/J4nsstAWGTBZWQbIexLJs30ZwajEElO/3nm8ErPUnSqZNtC.",
+            "id_tipo_usuario": 1,
+            "id_empresa": "1",
+            "identificacion": "123456789",
+            "id_tipo_identificacion": 1,
+            "estado": true,
+            "createdAt": "2017-06-13T01:05:00.936Z",
+            "updatedAt": "2017-06-13T01:05:00.936Z"
+        }
+    ],
+    "success": true
+}
+
+
+-------------------
+
+Ver toda la información de un usuario
+url: localhost:8000/users/user_info/:id_user&:id_user_sis
+get
+regresa:
+{
+    "data": {
+        "id_usuario_sistema": "1",
+        "codigo_usuario": "cod001",
+        "nombre1": "Nino",
+        "nombre2": "Nino 2",
+        "apellido1": "Bravo",
+        "apellido2": "Bravo 2",
+        "emailusername": "camilo@nexus.com",
+        "password": "$2a$08$47ey6Ip2u7ToYB4hScx.0Ow/sL2o0V1ik4gkQ8vn2pE66Lt23ze1W",
+        "id_tipo_usuario": 1,
+        "id_empresa": "1",
+        "identificacion": "",
+        "id_tipo_identificacion": 2,
+        "estado": true,
+        "createdAt": null,
+        "updatedAt": "2017-06-15T15:06:40.227Z"
+    },
+    "success": true
+}
+
+------------------------
+Actualizar la información de un usuario
+url: localhost:8000/users/upd_user_info/:id_user
+put
+
+enviar:
+{
+	"id_user_sis": 1,
+	"codigo_usuario": "cod001",
+	"nombre1": "Nino",
+	"nombre2": "Nino 2",
+	"apellido1": "Bravo",
+	"apellido2": "Bravo 2",
+	"emailusername" : "camilo@nexus.com",
+	"password": "123admin",
+	"identificacion": ""
+}
+
+regresa
+{
+    "msg": "Información actualizada",
+    "success": true | false
+}
+
+---------------------------
+
+Ver información del titular (grilla de busqueda)
+url: localhost:8000/holder/find_titular/:id_user&:offset&limit
+regresa
+{
+    "data": [
+        {
+            "codigo": 1,
+            "saldo_pendiente": 0,
+            "categoria": 1,
+            "des_categoria": "RESIDENCIAL",
+            "subcategoria": 1,
+            "desc_subcategoria": "BAJO BAJO",
+            "ciclo": 1,
+            "nombre": "CUATIN LUIS",
+            "direccion": "CR 44 # 20 - 196        JUANOY",
+            "cuentas_con_saldo": 0,
+            "estado": 1
+        },
+        {
+            "codigo": 2,
+            "saldo_pendiente": 0,
+            "categoria": 2,
+            "des_categoria": "INDUSTRIAL",
+            "subcategoria": 1,
+            "desc_subcategoria": "UNICO",
+            "ciclo": 1,
+            "nombre": "MARTINEZ GRACIELA",
+            "direccion": "CR 44 # 20 - 156        JUANOY",
+            "cuentas_con_saldo": 0,
+            "estado": 1
+        }
+    ]
+}
+
+
+----------------------------
+Recuperar contraseña
+url: localhost:8000/recoverPass/:email
+get
+regresa:
+{
+    "success": true,
+    "msg": "Correo enviado exitosamente"
+}
+
+Enviar nueva contraseña
+url: localhost:8000/recoverPass/reset
+put
+enviar:
+{
+  "newPassword" : "23ertdfgfdg"
+}
+regresa:
+{
+  "success": true,
+  "msg": "Contraseña actualizada"
+}
+
+------------------------
+Descargar archivos csv rango de fecha_asignacion
+url: localhost:8000/tramites/obtenerSUI_rango
+post
+enviar
+{
+  data_init,
+  date_init
+}
+
+============ TURNERO ==================
+CREAR TURNO
+url: localhost:8000/nw-turnero
+post
+enviar {
+  codigo,
+  cedula,
+  especial,
+  optTurno,
+}
+regresa {
+  
+}
+

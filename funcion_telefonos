@@ -1,0 +1,49 @@
+CREATE OR REPLACE FUNCTION telefonos(usr BIGINT)
+  RETURNS VARCHAR(100) AS
+$$
+DECLARE
+  cadena   TEXT;
+  r        RECORD;
+  telefono VARCHAR(100);
+BEGIN
+  telefono = '';
+  FOR r IN SELECT
+             t.id_reportante,
+             t.numero
+           FROM telefonos_reportantes AS t
+           WHERE t.id_reportante = usr AND t.numero IS NOT NULL
+           ORDER BY t.id_reportante
+  LOOP
+    RAISE INFO 'aqui da %      %', r.id_reportante, r.numero;
+    telefono = telefono || ' - ' || r.numero;
+  END LOOP;
+
+  RETURN telefono;
+END;
+$$
+LANGUAGE 'plpgsql' STABLE;
+
+----------------------------------
+
+CREATE OR REPLACE FUNCTION consecutivo(tipo INTEGER, idEmp INTEGER)
+  RETURNS INTEGER AS
+$$
+DECLARE
+  consecutivo INT;
+  lastNum INT;
+BEGIN
+  SELECT
+    MAX(numero) INTO lastNum
+  FROM turnero_turnos tt
+  WHERE tt.id_opcion_turno = tipo
+  AND tt.estado = true
+  AND tt.id_empresa = idEmp
+  AND date_trunc('day', tt.fecha_ingreso) = date_trunc('day', now()::timestamptz(0));
+  IF (lastNum ISNULL) THEN
+    lastNum = 0;
+  END IF;
+  --RAISE INFO 'aqui da %    %', tipo, lastNum;
+  RETURN lastNum;
+END;
+$$
+LANGUAGE 'plpgsql' STABLE;

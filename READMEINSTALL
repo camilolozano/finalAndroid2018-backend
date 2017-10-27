@@ -1,0 +1,38 @@
+// ============= LOCAL ======================
+
+PREREQUISITOS
+* postgres
+* memcached // sudo apt install memcached
+
+TRAS BAJAR EL REPOSITORIO SE INSTALA LAS DEPENDENCIAS
+  npm install
+
+SE DEBE CREAR LA BASE DE DATOS (SIN TABLAS)
+
+LA PARAMETRIZACION  DE CONEXION SE DEBE INGRESAR EN EL ARCHIVO
+  src/config/config.js
+
+EJECUTAMOS LA APLICACION MEDIANTE EL COMANDO.
+ npm run dev
+SE DEBE HACER ESTE PROCESO DOS VECES
+
+EJECUTAMOS LOS SEEDERS
+   node_modules/.bin/sequelize db:seed:all
+
+VOLVEMOS A CORRES LA APLICACION
+ npm run dev
+
+// ============ PRODUCCIÓN ===================
+
+PREREQUISITOS
+* postgres
+* memcached // sudo apt install memcached
+* PM2 (Process Management aplicaciones Nodejs) -> https://github.com/Unitech/pm2
+
+-----> Se ejecutan los mismos pasos de LOCAL
+
+PARA EJECUTAR LA APLICACIÓN EN PRODUCCIÓN
+  npm run build
+
+PARA LEVANTAR EL SERVICIO PARA PRODUCCIÓN
+pm2 start nombre_del_proyecto/dist/index.js
