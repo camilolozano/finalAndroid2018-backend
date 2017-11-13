@@ -1,48 +1,47 @@
 import express from 'express';
 import cookie from '../middlewares/coockie-session.js';
-import models from '../models';
+import { systemUsers, userTypes } from '../models';
 import bcrypt from 'bcryptjs';
 import emails from '../controllers/email_new_user';
 import jwt from 'jwt-simple';
 
 import cfg from '../config/config-jwt';
-//const auth = require('../auth')();
+// const auth = require('../auth')();
 const router = express.Router();
 
 router.get('/:id_user', ...cookie, (req, res) => {
   res.sendStatus(200);
 });
 
-function existIdClient (_identificacion) {
-  return models.crm_usuarios_sistemas.findOne({
+function existIdClient(_identificationCard) {
+  return systemUsers.findOne({
     where: {
-      identificacion: _identificacion
+      identificationCard: _identificationCard
     }
   }).then(t => {
     const val = (t) ? true : false;
     return val;
-  })
+  });
 }
 
-function existEmailClient (_correo) {
+function existEmailClient(_correo) {
   if (_correo) {
     return false;
   } else {
-    return models.crm_usuarios_sistemas.findOne({
+    return systemUsers.findOne({
       where: {
         emailusername: _correo
       }
     }).then(t => {
       const val = (t) ? true : false;
       return val;
-    })
+    });
   }
 }
 
 // Actualizar la información de un usuario
 router.put('/upd_user_info/:id_user', async (req, res) => {
-
-  const isIdentification = await existIdClient(req.body.identificacion);
+  const isIdentification = await existIdClient(req.body.identificationCard);
   const isEmail = await existEmailClient(req.body.correo);
 
   if (isIdentification) {
@@ -56,23 +55,21 @@ router.put('/upd_user_info/:id_user', async (req, res) => {
       msg: 'Correo electrónico ya registrado, verifique la información'
     });
   } else {
-    models.crm_usuarios_sistemas.find({
+    systemUsers.find({
       where: {
         id_usuario_sistema: req.body.id_user_sis
       }
     }).then((data) => {
       return data.update({
-        codigo_usuario: req.body.codigo_usuario,
-        nombre1: req.body.nombre1,
-        nombre2: req.body.nombre2,
-        apellido1: req.body.apellido1,
-        apellido2: req.body.apellido2,
-        identificacion: req.body.identificacion,
-        id_tipo_usuario: req.body.tipousu,
-        id_oficina: req.body.oficina,
-        numero_contacto: req.body.numcontact,
-        numero_contacto_referencia: req.body.numref,
-        id_tipo_identificacion: req.body.tipodoc
+        userCode: req.body.userCode,
+        firstName: req.body.firstName,
+        secondName: req.body.secondName,
+        firstLastName: req.body.firstLastName,
+        secondLastName: req.body.secondLastName,
+        identificationCard: req.body.identificationCard,
+        idUserType: req.body.idUserType,
+        contactNumber: req.body.contactNumber,
+        identificationType: req.body.identificationType
       });
     }).then(() => {
       res.json({
@@ -90,20 +87,20 @@ router.put('/upd_user_info/:id_user', async (req, res) => {
 
 // Crear usuario ========================================
 const jwtPayload = (data) => {
-  const { req, res, usuario } = data;
+  const { req, res, user } = data;
   const payload = {
-    id: usuario.id_usuario_sistema
+    id: user.idSystemUser
   };
   const token = jwt.encode(payload, cfg.jwtSecret);
   const sendData = {
-    req, res, usuario, token
+    req, res, user, token
   };
   emails.email(sendData);
 };
 
 router.post('/create/:id_user', ...cookie, async (req, res) => {
-  const isIdentification = await existIdClient(req.body.identificacion);
-  const isEmail = await existEmailClient(req.body.correo);
+  const isIdentification = await existIdClient(req.body.identificationCard);
+  const isEmail = await existEmailClient(req.body.emailusername);
   if (isIdentification) {
     res.json({
       success: false,
@@ -115,9 +112,9 @@ router.post('/create/:id_user', ...cookie, async (req, res) => {
       msg: 'Correo electrónico ya registrado, verifique la información'
     });
   } else {
-    models.crm_usuarios_sistemas.find({
+    systemUsers.find({
       where: {
-        codigo_usuario: req.body.codigo_usuario
+        userCode: req.body.userCode
       }
     }).then((data) => {
       if (data) {
@@ -126,31 +123,28 @@ router.post('/create/:id_user', ...cookie, async (req, res) => {
           success: false
         });
       } else {
-        models.crm_usuarios_sistemas.create({
-          codigo_usuario: req.body.codigo_usuario,
-          nombre1: req.body.nombre1,
-          nombre2: req.body.nombre2,
-          apellido1: req.body.apellido1,
-          apellido2: req.body.apellido2,
-          emailusername: req.body.emailusername,
-          // Se da un caracter provicional para el psw 
+        systemUsers.create({
+          userCode: req.body.userCode,
+          firstName: req.body.firstName,
+          secondName: req.body.secondName,
+          firstLastName: req.body.firstLastName,
+          secondLastName: req.body.secondLastName,
+          emailUsername: req.body.emailUsername,
+          // Se da un caracter provicional para el psw
           password: bcrypt.hashSync('"#$%&/"', 8),
-          id_tipo_usuario: req.body.id_tipo_usuario,
-          id_oficina: req.body.id_oficina,
-          numero_contacto: req.body.numero_contacto,
-          numero_contacto_referencia: req.body.contacto_referencia,
-          id_empresa: req.body.id_empresa,
-          identificacion: req.body.identificacion,
-          id_tipo_identificacion: req.body.id_tipo_identificacion
-        }).then((usuarioCreado) => {
-          const usuario = usuarioCreado;
+          idUserType: req.body.id_tipo_usuario,
+          contactNumber: req.body.numero_contacto,
+          idCompany: req.body.id_empresa,
+          identificationCard: req.body.identificationCard,
+          identificationType: req.body.id_tipo_identificationCard
+        }).then((user) => {
           const data = {
             req,
             res,
-            usuario
-          }
+            user
+          };
           jwtPayload(data);
-        }).catch((err) => {
+        }).catch(() => {
           res.json({
             success: false,
             msg: 'No se creo usuario'
@@ -161,28 +155,12 @@ router.post('/create/:id_user', ...cookie, async (req, res) => {
   }
 });
 
-router.get('/oficinas/:id_user', ...cookie, (req, res) => {
-  models.crm_oficinas.findAll({
-    attributes: ['id_oficina', 'descripcion'],
-  }).then((oficinas) => {
-    res.json({
-      data: oficinas,
-      success: true
-    });
-  }).catch(err => {
-    res.json({
-      success: false,
-      msg: 'Error al cargar oficinas'
-    })
-  })
-});
-
 router.get('/buscar_usu/:id_user', ...cookie, (req, res) => {
-  models.crm_usuarios_sistemas.findAll({
-    attributes: ['id_usuario_sistema', 'codigo_usuario', 'nombre1', 'apellido1']
-  }).then((usuarios) => {
+  systemUsers.findAll({
+    attributes: ['idSystemUser', 'userCode', 'firstName', 'firstLastName']
+  }).then((user) => {
     res.json({
-      data: usuarios,
+      data: user,
       success: true
     });
   }).catch(() => {
@@ -195,9 +173,9 @@ router.get('/buscar_usu/:id_user', ...cookie, (req, res) => {
 
 // TIpo usaurios
 router.get('/tipo_user/:id_user', ...cookie, (req, res) => {
-  models.crm_tipo_usuarios.findAll().then((tipoUsuarios) => {
+  userTypes.findAll().then((userTypes) => {
     res.json({
-      data: tipoUsuarios,
+      data: userTypes,
       success: true
     });
   }).catch(() => {
@@ -210,19 +188,16 @@ router.get('/tipo_user/:id_user', ...cookie, (req, res) => {
 
 // Contador de todos los usuarios registrados
 router.get('/list_user_count/:id_user', ...cookie, (req, res) => {
-  models.crm_usuarios_sistemas.findAll({
-    attributes: ['id_usuario_sistema'],
+  systemUsers.findAll({
+    attributes: ['idSystemUser'],
     where: {
-      id_usuario_sistema: {
+      idSystemUser: {
         $ne: 1
-      },
+      }
     },
     include: [{
-      attributes: ['descripcion'],
-      model: models.crm_tipo_usuarios
-    }, {
-      attributes: ['descripcion'],
-      model: models.crm_tipo_identificaciones
+      attributes: ['description'],
+      model: userTypes
     }]
   }).then((data) => {
     res.json({
@@ -238,67 +213,35 @@ router.get('/list_user_count/:id_user', ...cookie, (req, res) => {
 });
 
 // listar a todos los usuarios
-router.get('/list_user/:id_user&:offset&:limit', ...cookie, (req, res) => {
-  models.crm_usuarios_sistemas.findAll({
+router.get('/list-users/:id_user', ...cookie, (req, res) => {
+  systemUsers.findAll({
     attributes: [
-      'id_usuario_sistema',
-      'codigo_usuario',
-      'nombre1',
-      'nombre2',
-      'apellido1',
-      'apellido2',
-      'emailusername',
-      'id_tipo_usuario',
-      'id_oficina',
-      'numero_contacto',
-      'numero_contacto_referencia',
-      'id_empresa',
-      'identificacion',
-      'id_tipo_identificacion',
-      'estado',
+      'idSystemUser',
+      'userCode',
+      'firstName',
+      'secondName',
+      'firstLastName',
+      'secondLastName',
+      'emailUsername',
+      'idUserType',
+      'state',
+      'contactNumber',
+      'identificationCard',
+      'identificationType'
     ],
-    where: {
-      id_usuario_sistema: {
-        $ne: 1
-      },
-    },
     include: [{
-      attributes: ['descripcion'],
-      model: models.crm_tipo_usuarios
-    }, {
-      attributes: ['descripcion'],
-      model: models.crm_tipo_identificaciones
-    }, {
-      attributes: ['descripcion'],
-      model: models.crm_oficinas
+      attributes: ['description'],
+      model: userTypes
     }],
-    order: ['id_usuario_sistema'],
+    order: ['idSystemUser'],
     limit: req.params.limit,
-    offset: req.params.offset,
+    offset: req.params.offset
   }).then((data) => {
     res.json({
-      data,
-      success: true
+      data
     });
   }).catch((err) => {
     res.json({
-      msg: 'error ' + err,
-      success: false
-    });
-  });
-});
-
-// Tipo de identificaciones
-router.get('/tipo_identificacion/:id_user', ...cookie, (req, res) => {
-  models.crm_tipo_identificaciones.findAll({
-  }).then((tipoIdent) => {
-    res.json({
-      data: tipoIdent,
-      success: true
-    });
-  }).catch(() => {
-    res.json({
-      msg: 'error',
       success: false
     });
   });
@@ -306,16 +249,13 @@ router.get('/tipo_identificacion/:id_user', ...cookie, (req, res) => {
 
 // Ver toda la información de un usuario
 router.get('/user_info/:id_user&:id_user_sis', ...cookie, (req, res) => {
-  models.crm_usuarios_sistemas.find({
+  systemUsers.find({
     where: {
-      id_usuario_sistema: req.params.id_user_sis
+      idSystemUser: req.params.id_user
     },
     include: [{
       attributes: ['descripcion'],
-      model: models.crm_tipo_usuarios
-    }, {
-      attributes: ['descripcion'],
-      model: models.crm_tipo_identificaciones
+      model: userTypes
     }]
   }).then((data) => {
     res.json({
@@ -332,28 +272,27 @@ router.get('/user_info/:id_user&:id_user_sis', ...cookie, (req, res) => {
 
 // actualizar el estado de un usaurio
 router.put('/upd_user/:id_user', ...cookie, (req, res) => {
-  const state = !req.body.estado;
-  models.crm_usuarios_sistemas.find({
+  const state = !req.body.state;
+  systemUsers.find({
     where: {
-      id_usuario_sistema: req.body.id_usuario
+      idSystemUser: req.body.idSystemUser
     }
   }).then((u) => {
-    // console.log('-----', u);
     return u.updateAttributes({
-      estado: state
+      state
     });
   }).then((e) => {
     res.json({
-      msg: 'Actualización exitosa',
+      msg: 'successfully updated user',
       success: true,
-      estado: e.estado
+      estado: e.state
     });
-  }).catch((err) => {
+  }).catch(() => {
     res.json({
-      msg: 'Error al actualizar',
-      success: true
+      msg: 'Error updating',
+      success: false
     });
-  })
+  });
 });
 
 module.exports = router;

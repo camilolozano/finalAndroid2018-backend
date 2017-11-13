@@ -7,10 +7,10 @@ import bodyParser from 'body-parser';
 import helmet from 'helmet';
 import cors from 'cors';
 
-// import login from './routes/login';
-// import logout from './routes/logout';
-// import users from './routes/users';
-// import recuperarContrasena from './routes/recover_password';
+import login from './routes/login';
+import logout from './routes/logout';
+import users from './routes/users';
+import recuperarContrasena from './routes/recover-password';
 
 const app = express();
 
@@ -38,11 +38,10 @@ app.use(express.static(path.join(__dirname, 'views')));
 app.use(express.static(path.join(__dirname, 'globalViews')));
 app.use('/storage', express.static(path.join(__dirname, '../uploads')));
 
-// app.use('/', index);
-// app.use('/login', login);
-// app.use('/logout', logout);
-// app.use('/users', users);
-// app.use('/recoverPass', recuperarContrasena);
+app.use('/login', login);
+app.use('/log-out', logout);
+app.use('/users', users);
+app.use('/recover-pass', recuperarContrasena);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

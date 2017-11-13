@@ -1,15 +1,15 @@
-import { AUTH_COOKIES } from '../models';
+import { auths } from '../models';
 
 const validateCoockie = (req, res, next) => {
   const coockie = !!(req.cookies.sessionId);
   if (coockie) {
-    models.AUTH_COOKIES.find({
+    auths.find({
       where: {
-        ID_AUTH: req.params.id_auth
+        idSystemUser: req.params.id_user
       }
     }).then((auth) => {
       if (auth) {
-        if (auth.SESSION_UUID === req.cookies.sessionId) {
+        if (auth.sessionUuid === req.cookies.sessionId) {
           next();
         } else {
           res.sendStatus(401);
