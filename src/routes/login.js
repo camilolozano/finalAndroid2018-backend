@@ -1,5 +1,5 @@
 import express from 'express';
-import { auths, systemUsers, serverConfigurations } from '../models';
+import { auths, systemUsers, serverConfigurations, userTypes } from '../models';
 import uuidV4 from 'uuid/v4';
 import bcrypt from 'bcryptjs';
 
@@ -31,7 +31,10 @@ function validate (loginData, res) {
   systemUsers.find({
     where: {
       emailUsername: email
-    }
+    },
+    include: [{
+      model: userTypes
+    }]
   }).then((userlogin) => {
     if (userlogin === null) {
       res.json({
@@ -49,7 +52,8 @@ function validate (loginData, res) {
         names: `${userlogin.firstName} ${userlogin.secondName}`,
         surnames: `${userlogin.firstLastName} ${userlogin.secondLastName}`,
         emailUsername: userlogin.emailUsername,
-        idUserType: userlogin.idUserType
+        idUserType: userlogin.idUserType,
+        userTypeDesc: userlogin.userType['description']
       };
       const comparePass = bcrypt.compareSync(password, userlogin.password);
       if (comparePass && userlogin.emailUsername === email) {
