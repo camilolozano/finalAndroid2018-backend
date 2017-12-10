@@ -12,7 +12,7 @@ module.exports = {
         isBetaMember: false
       }], {});
     */
-    return queryInterface.bulkInsert('Person', [{
+    return queryInterface.bulkInsert('sctructureInformationTypes', [{
       description: 'Monopole Tower',
     }, {
       description: 'Lattice Tower - 3 Leg SST',

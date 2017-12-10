@@ -1,6 +1,6 @@
 'use strict';
 module.exports = function (sequelize, DataTypes) {
-  const locationType = sequelize.define('locationType', {
+  const locationType = sequelize.define('locationTypes', {
     idLocationType: {
       type: DataTypes.INTEGER,
       primaryKey: true,

@@ -12,7 +12,7 @@ module.exports = {
         isBetaMember: false
       }], {});
     */
-    return queryInterface.bulkInsert('locationType', [{
+    return queryInterface.bulkInsert('locationTypes', [{
       description: 'Urban, suburban or wooden areas',
     }, {
       description: 'Flat or Rolling, open country and grasslands',
