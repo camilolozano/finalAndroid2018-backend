@@ -53,7 +53,8 @@ function validate (loginData, res) {
         surnames: `${userlogin.firstLastName} ${userlogin.secondLastName}`,
         emailUsername: userlogin.emailUsername,
         idUserType: userlogin.idUserType,
-        userTypeDesc: userlogin.userType['description']
+        userTypeDesc: userlogin.userType['description'],
+        idCompany: userlogin.idCompany
       };
       const comparePass = bcrypt.compareSync(password, userlogin.password);
       if (comparePass && userlogin.emailUsername === email) {
@@ -63,7 +64,7 @@ function validate (loginData, res) {
           }).then((conf) => {
             // Configurate databse
             userInfo.config = conf;
-            res.cookie('sessionId', sessionId, { domain: 'localhost' })
+            res.cookie('sessionId', sessionId, { domain: '1434f8d9.ngrok.io' })
               .json({
                 success: true,
                 userInfo

@@ -1,13 +1,14 @@
 import express from 'express';
-import { systemUsers } from '../../models';
+// import { systemUsers } from '../../models';
 import bcrypt from 'bcryptjs';
+import { auths, systemUsers, serverConfigurations, userTypes } from '../models';
 
 const router = express.Router();
 
 function validatePassword (res, passDB, password, data) {
   const {
-    id_usuario,
-    nombre,
+    idSystemUser,
+    fullName,
     DBemail
   } = data;
 
@@ -15,8 +16,8 @@ function validatePassword (res, passDB, password, data) {
   if (comparePass) {
     res.json({
       success: true,
-      id_usuario,
-      nombre,
+      idSystemUser,
+      fullName,
       DBemail,
       msg: 'login'
     });
@@ -36,20 +37,28 @@ function validateEmail (email, password, res) {
     }
   }).then((login) => {
     if (login) {
-      const passDB = login.password;
-      const idUsuario = login.idSystemUser;
-      const nombre = `${login.firstName} ${login.firstLastName}`;
-      const DBemail = login.emailUsername;
-
-      const data = {
-        idUsuario,
-        nombre,
-        DBemail
-      };
-      validatePassword(res, passDB, password, data);
+      if (login.state) {
+        const passDB = login.password;
+        const idSystemUser = login.idSystemUser;
+        const fullName = `${login.firstName} ${login.firstLastName}`;
+        const DBemail = login.emailUsername;
+  
+        const data = {
+          idSystemUser,
+          fullName,
+          DBemail
+        };
+        validatePassword(res, passDB, password, data);
+      } else {
+        res.json({
+          msg: 'User disabled, please contact to system administrator',
+          success: false,
+          flag: 'NONstate'
+        });
+      }
     } else {
       res.json({
-        msg: 'El usuario no existe',
+        msg: 'User isn´t register, please contact to system administrator',
         success: false,
         flag: 'NONemail'
       });

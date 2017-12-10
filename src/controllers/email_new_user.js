@@ -5,7 +5,7 @@ const ENV = process.env.NODE_ENV || 'development';
 const CONF = require('../config/config')[ENV];
 
 function sendEmail (sendData) {
-  const { res, usuario, token } = sendData;
+  const { res, user, token } = sendData;
   // Create the transporter with the required configuration for Outlook
   // change the user and pass !
   const transporter = nodemailer.createTransport({
@@ -22,12 +22,12 @@ function sendEmail (sendData) {
     }
   });
 
-  transporter.use('compile', hbs({ viewPath: 'globalViews/emails/nuevo_usuario', extName: '.hbs' }));
+  transporter.use('compile', hbs({ viewPath: 'globalViews/emails/new-user', extName: '.hbs' }));
 
   // Contexto que se pasa a la plantilla html de handlebar para mostrar
   const host = CONF.cliente;
   const endPoint = 'enter-password';
-  const idusu = usuario.id_usuario_sistema;
+  const idusu = user.idSystemUser;
 
   const objectContext = {
     host,
@@ -39,8 +39,8 @@ function sendEmail (sendData) {
   // setup e-mail data, even with unicode symbols
   const mailOptions = {
     from: 'kamilo92@live.com', // sender address (who sends)
-    to: usuario.emailusername, // list of receivers (who receives)
-    subject: 'Bienvenido CRM Empopasto', // Subject line
+    to: user.emailUsername, // list of receivers (who receives)
+    subject: 'Welcome', // Subject line
     template: 'email', // Template html  y handlebars
     context: objectContext
   };
@@ -50,12 +50,12 @@ function sendEmail (sendData) {
     if (error) {
       res.json({
         success: false,
-        msg: 'El correo electrónico no fue enviado' + error
+        msg: 'The email was not sent' + error
       });
     }
     res.json({
       success: true,
-      msg: 'Usuario creado exitosamente'
+      msg: 'Successfully created user, please check your email'
     });
   });
 };

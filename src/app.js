@@ -11,6 +11,7 @@ import login from './routes/login';
 import logout from './routes/logout';
 import users from './routes/users';
 import recuperarContrasena from './routes/recover-password';
+import loginApp from './routes/login-app';
 
 const app = express();
 
@@ -42,6 +43,7 @@ app.use('/login', login);
 app.use('/log-out', logout);
 app.use('/users', users);
 app.use('/recover-pass', recuperarContrasena);
+app.use('/app-login', loginApp);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

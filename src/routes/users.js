@@ -100,16 +100,17 @@ const jwtPayload = (data) => {
 
 router.post('/create/:id_user', ...cookie, async (req, res) => {
   const isIdentification = await existIdClient(req.body.identificationCard);
-  const isEmail = await existEmailClient(req.body.emailusername);
+  const isEmail = await existEmailClient(req.body.emailUsername);
+
   if (isIdentification) {
     res.json({
       success: false,
-      msg: 'Número de identificación ya registrado, verifique la información'
+      msg: 'Identification number already registered, verify the information'
     });
   } else if (isEmail) {
     res.json({
       success: false,
-      msg: 'Correo electrónico ya registrado, verifique la información'
+      msg: 'Email already registered, verify the information'
     });
   } else {
     systemUsers.find({
@@ -119,7 +120,7 @@ router.post('/create/:id_user', ...cookie, async (req, res) => {
     }).then((data) => {
       if (data) {
         res.json({
-          msg: 'El codigo ya fue asignado a otro usuario',
+          msg: 'The code was already assigned to another user',
           success: false
         });
       } else {
@@ -131,12 +132,12 @@ router.post('/create/:id_user', ...cookie, async (req, res) => {
           secondLastName: req.body.secondLastName,
           emailUsername: req.body.emailUsername,
           // Se da un caracter provicional para el psw
-          password: bcrypt.hashSync('"#$%&/"', 8),
-          idUserType: req.body.id_tipo_usuario,
-          contactNumber: req.body.numero_contacto,
-          idCompany: req.body.id_empresa,
+          password: bcrypt.hashSync('admin123', 8),
+          idUserType: req.body.idUserType,
+          contactNumber: req.body.contactNumber,
+          idCompany: req.body.idCompany,
           identificationCard: req.body.identificationCard,
-          identificationType: req.body.id_tipo_identificationCard
+          identificationType: req.body.identificationType
         }).then((user) => {
           const data = {
             req,
@@ -144,10 +145,10 @@ router.post('/create/:id_user', ...cookie, async (req, res) => {
             user
           };
           jwtPayload(data);
-        }).catch(() => {
+        }).catch((err) => {
           res.json({
             success: false,
-            msg: 'No se creo usuario'
+            msg: 'I do not think user '+err
           });
         });
       }
