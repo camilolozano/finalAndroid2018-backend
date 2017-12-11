@@ -1,7 +1,7 @@
 'use strict';
 module.exports = function (sequelize, DataTypes) {
   const cellularServiceProviderType = sequelize.define('cellularServiceProviderTypes', {
-    idcellularServiceProvider: {
+    idCellularServiceProvider: {
       type: DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true

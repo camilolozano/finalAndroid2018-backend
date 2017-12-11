@@ -1,7 +1,7 @@
 'use strict';
 module.exports = function (sequelize, DataTypes) {
-  const structureInformationType = sequelize.define('structureInformationTypes', {
-    idStructureInformationType: {
+  const accessType = sequelize.define('accessTypes', {
+    idAccessType: {
       type: DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true
@@ -19,6 +19,6 @@ module.exports = function (sequelize, DataTypes) {
       defaultValue: sequelize.NOW
     }
   });
-  return structureInformationType;
+  return accessType;
 };
 

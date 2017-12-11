@@ -1,7 +1,7 @@
 'use strict';
 module.exports = function (sequelize, DataTypes) {
   const buildingType = sequelize.define('buildingTypes', {
-    idAntenaType: {
+    idBuildingType: {
       type: DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true

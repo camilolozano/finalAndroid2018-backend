@@ -1,7 +1,7 @@
 'use strict';
 module.exports = function (sequelize, DataTypes) {
   const technologyType = sequelize.define('technologyTypes', {
-    idtechnologyType: {
+    idTechnologyType: {
       type: DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true
