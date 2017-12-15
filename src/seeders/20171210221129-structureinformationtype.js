@@ -12,21 +12,33 @@ module.exports = {
         isBetaMember: false
       }], {});
     */
-    return queryInterface.bulkInsert('sctructureInformationTypes', [{
-      description: 'Monopole Tower',
-    }, {
-      description: 'Lattice Tower - 3 Leg SST',
-    }, {
-      description: 'Lattice Tower - 4 Leg SST',
-    }, {
-      description: 'Guyed Tower',
-    }, {
-      description: 'Stealth  Tower',
-    }, {
-      description: 'Broadcast Tower',
-    }, {
-      description: 'Roof Top',
-    }], {});
+    return queryInterface.bulkInsert(
+      'structureInformationTypes',
+      [
+        {
+          description: 'Monopole Tower'
+        },
+        {
+          description: 'Lattice Tower - 3 Leg SST'
+        },
+        {
+          description: 'Lattice Tower - 4 Leg SST'
+        },
+        {
+          description: 'Guyed Tower'
+        },
+        {
+          description: 'Stealth  Tower'
+        },
+        {
+          description: 'Broadcast Tower'
+        },
+        {
+          description: 'Roof Top'
+        }
+      ],
+      {}
+    );
   },
 
   down: (queryInterface, Sequelize) => {

@@ -1,8 +1,11 @@
 import express from 'express';
 // import { systemUsers } from '../../models';
 import bcrypt from 'bcryptjs';
-import { auths, systemUsers, serverConfigurations, userTypes } from '../models';
+import { systemUsers } from '../models';
+import cfg from '../config/config-jwt';
+import jwt from 'jwt-simple';
 
+const auth = require('../auth.js')();
 const router = express.Router();
 
 function validatePassword (res, passDB, password, data) {
@@ -14,12 +17,17 @@ function validatePassword (res, passDB, password, data) {
 
   const comparePass = bcrypt.compareSync(password, passDB);
   if (comparePass) {
+    const payload = {
+      id: idSystemUser
+    };
+    const token = jwt.encode(payload, cfg.jwtSecret);
     res.json({
       success: true,
       idSystemUser,
       fullName,
       DBemail,
-      msg: 'login'
+      msg: 'login',
+      token
     });
   } else {
     res.json({
@@ -42,7 +50,7 @@ function validateEmail (email, password, res) {
         const idSystemUser = login.idSystemUser;
         const fullName = `${login.firstName} ${login.firstLastName}`;
         const DBemail = login.emailUsername;
-  
+
         const data = {
           idSystemUser,
           fullName,

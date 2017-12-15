@@ -12,6 +12,8 @@ import logout from './routes/logout';
 import users from './routes/users';
 import recuperarContrasena from './routes/recover-password';
 import loginApp from './routes/login-app';
+import setData from './routes/events-app.js';
+import uploadPictures from './routes/events-upload';
 
 const app = express();
 
@@ -44,6 +46,8 @@ app.use('/log-out', logout);
 app.use('/users', users);
 app.use('/recover-pass', recuperarContrasena);
 app.use('/app-login', loginApp);
+app.use('/set-data', setData);
+app.use('/upload-pictures', uploadPictures);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

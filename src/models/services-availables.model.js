@@ -17,44 +17,36 @@ module.exports = function (sequelize, DataTypes) {
     },
     wifi: {
       type: DataTypes.BOOLEAN,
-      allowNull: false,
+      allowNull: false
     },
     publicPrivateWifi: {
       type: DataTypes.STRING(100),
-      allowNull: false,
+      allowNull: false
     },
     phone: {
       type: DataTypes.BOOLEAN,
-      allowNull: false,
-    },
-    microwave: {
-      type: DataTypes.BOOLEAN,
-      allowNull: false,
+      allowNull: false
     },
     fiber: {
       type: DataTypes.BOOLEAN,
-      allowNull: false,
-    },
-    satelite: {
-      type: DataTypes.BOOLEAN,
-      allowNull: false,
+      allowNull: false
     },
     cable: {
       type: DataTypes.BOOLEAN,
-      allowNull: false,
+      allowNull: false
     },
     water: {
       type: DataTypes.BOOLEAN,
-      allowNull: false,
+      allowNull: false
     },
-    'createdAt': {
+    createdAt: {
       type: DataTypes.DATE,
       defaultValue: sequelize.NOW
     },
-    'updatedAt': {
+    updatedAt: {
       type: DataTypes.DATE,
       defaultValue: sequelize.NOW
-    },
+    }
   });
   return servicesAvailable;
 };
