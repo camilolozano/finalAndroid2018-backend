@@ -1,24 +1,11 @@
 import express from 'express';
 import { upload } from '../controllers/upload-pictures';
+import jwt from '../middlewares/jwt';
 
 const router = express.Router();
 
-router.post('/', upload.array('file'), (req, res) => {
-  upload.upload(req, res, (err) => {
-    if (err) {
-      console.log(`Error al subir el archivo ${err}`);
-      return res.end(`Error al subir el archivo ${err}`);
-    }
-    if (req.file) {
-      res.json({
-        success: true
-      });
-    } else {
-      res.json({
-        success: false
-      });
-    }
-  });
+router.post('/', ...jwt, upload.array('file'), (req, res) => {
+  res.json({ success: true });
 });
 
 module.exports = router;

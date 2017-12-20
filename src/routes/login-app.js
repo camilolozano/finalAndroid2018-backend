@@ -2,25 +2,18 @@ import express from 'express';
 // import { systemUsers } from '../../models';
 import bcrypt from 'bcryptjs';
 import { systemUsers } from '../models';
-import cfg from '../config/config-jwt';
-import jwt from 'jwt-simple';
+import config from '../config/config-jwt';
+import jwt from 'jsonwebtoken';
+import kg from '../global/key';
 
-const auth = require('../auth.js')();
 const router = express.Router();
 
 function validatePassword (res, passDB, password, data) {
-  const {
-    idSystemUser,
-    fullName,
-    DBemail
-  } = data;
+  const { idSystemUser, fullName, DBemail } = data;
 
   const comparePass = bcrypt.compareSync(password, passDB);
   if (comparePass) {
-    const payload = {
-      id: idSystemUser
-    };
-    const token = jwt.encode(payload, cfg.jwtSecret);
+    const token = jwt.sign(kg.kg(), config.jwtSecret);
     res.json({
       success: true,
       idSystemUser,
@@ -39,39 +32,41 @@ function validatePassword (res, passDB, password, data) {
 }
 
 function validateEmail (email, password, res) {
-  return systemUsers.findOne({
-    where: {
-      emailUsername: email
-    }
-  }).then((login) => {
-    if (login) {
-      if (login.state) {
-        const passDB = login.password;
-        const idSystemUser = login.idSystemUser;
-        const fullName = `${login.firstName} ${login.firstLastName}`;
-        const DBemail = login.emailUsername;
+  return systemUsers
+    .findOne({
+      where: {
+        emailUsername: email
+      }
+    })
+    .then(login => {
+      if (login) {
+        if (login.state) {
+          const passDB = login.password;
+          const idSystemUser = login.idSystemUser;
+          const fullName = `${login.firstName} ${login.firstLastName}`;
+          const DBemail = login.emailUsername;
 
-        const data = {
-          idSystemUser,
-          fullName,
-          DBemail
-        };
-        validatePassword(res, passDB, password, data);
+          const data = {
+            idSystemUser,
+            fullName,
+            DBemail
+          };
+          validatePassword(res, passDB, password, data);
+        } else {
+          res.json({
+            msg: 'User disabled, please contact to system administrator',
+            success: false,
+            flag: 'NONstate'
+          });
+        }
       } else {
         res.json({
-          msg: 'User disabled, please contact to system administrator',
+          msg: 'User isn´t register, please contact to system administrator',
           success: false,
-          flag: 'NONstate'
+          flag: 'NONemail'
         });
       }
-    } else {
-      res.json({
-        msg: 'User isn´t register, please contact to system administrator',
-        success: false,
-        flag: 'NONemail'
-      });
-    }
-  });
+    });
 }
 
 router.post('/', (req, res) => {

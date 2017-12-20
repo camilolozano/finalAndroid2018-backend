@@ -12,15 +12,24 @@ module.exports = {
         isBetaMember: false
       }], {});
     */
-    return queryInterface.bulkInsert('fenceTypes', [{
-      description: 'Chainlink',
-    }, {
-      description: 'Wood',
-    }, {
-      description: 'Ornamental Iron',
-    }, {
-      description: 'Vinyl',
-    }], {});
+    return queryInterface.bulkInsert(
+      'fenceTypes',
+      [
+        {
+          description: 'Chainlink'
+        },
+        {
+          description: 'Wood'
+        },
+        {
+          description: 'Ornamental Iron'
+        },
+        {
+          description: 'Vinyl'
+        }
+      ],
+      {}
+    );
   },
 
   down: (queryInterface, Sequelize) => {

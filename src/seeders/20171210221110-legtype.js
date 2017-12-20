@@ -12,15 +12,24 @@ module.exports = {
         isBetaMember: false
       }], {});
     */
-    return queryInterface.bulkInsert('legTypes', [{
-      description: 'Tubular',
-    }, {
-      description: 'Angle Bracing',
-    }, {
-      description: 'Solid Round',
-    }, {
-      description: 'N/A',
-    }], {});
+    return queryInterface.bulkInsert(
+      'legTypes',
+      [
+        {
+          description: 'Tubular'
+        },
+        {
+          description: 'Angle Bracing'
+        },
+        {
+          description: 'Solid Round'
+        },
+        {
+          description: 'N/A'
+        }
+      ],
+      {}
+    );
   },
 
   down: (queryInterface, Sequelize) => {

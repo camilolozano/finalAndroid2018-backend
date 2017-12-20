@@ -12,17 +12,27 @@ module.exports = {
         isBetaMember: false
       }], {});
     */
-    return queryInterface.bulkInsert('generalConditionTypes', [{
-      description: 'Poor',
-    }, {
-      description: 'Fair',
-    }, {
-      description: 'Good',
-    }, {
-      description: 'Very Good',
-    }, {
-      description: 'Excellent',
-    }], {});
+    return queryInterface.bulkInsert(
+      'generalConditionTypes',
+      [
+        {
+          description: 'Poor'
+        },
+        {
+          description: 'Fair'
+        },
+        {
+          description: 'Good'
+        },
+        {
+          description: 'Very Good'
+        },
+        {
+          description: 'Excellent'
+        }
+      ],
+      {}
+    );
   },
 
   down: (queryInterface, Sequelize) => {

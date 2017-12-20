@@ -55,38 +55,47 @@ module.exports = function (sequelize, DataTypes) {
       },
       loam: {
         type: DataTypes.BOOLEAN,
+        defaultValue: false,
         allowNull: false
       },
       clay: {
         type: DataTypes.BOOLEAN,
+        defaultValue: false,
         allowNull: false
       },
       granite: {
         type: DataTypes.BOOLEAN,
+        defaultValue: false,
         allowNull: false
       },
       sendAndGravel: {
         type: DataTypes.BOOLEAN,
+        defaultValue: false,
         allowNull: false
       },
       limestone: {
         type: DataTypes.BOOLEAN,
+        defaultValue: false,
         allowNull: false
       },
       slate: {
         type: DataTypes.BOOLEAN,
+        defaultValue: false,
         allowNull: false
       },
       shale: {
         type: DataTypes.BOOLEAN,
+        defaultValue: false,
         allowNull: false
       },
       sandstone: {
         type: DataTypes.BOOLEAN,
+        defaultValue: false,
         allowNull: false
       },
       other: {
-        type: DataTypes.STRING(100),
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
         allowNull: false
       },
       accessRoad: {
@@ -99,6 +108,7 @@ module.exports = function (sequelize, DataTypes) {
       },
       required4x4: {
         type: DataTypes.BOOLEAN,
+        defaultValue: false,
         allowNull: false
       },
       idAcPowerAvailable: {
@@ -111,6 +121,7 @@ module.exports = function (sequelize, DataTypes) {
       },
       solarPower: {
         type: DataTypes.BOOLEAN,
+        defaultValue: false,
         allowNull: false
       },
       sizeSolarPower: {

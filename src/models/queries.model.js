@@ -12,7 +12,7 @@ module.exports = function (sequelize, DataTypes) {
       unique: true
     },
     queryName: {
-      type: DataTypes.STRING(70),     
+      type: DataTypes.STRING(70),
       allowNull: false
     },
     description: {
@@ -22,11 +22,11 @@ module.exports = function (sequelize, DataTypes) {
       type: DataTypes.TEXT,
       allowNull: false
     },
-    'createdAt': {
+    createdAt: {
       type: DataTypes.DATE,
       defaultValue: sequelize.NOW
     },
-    'updatedAt': {
+    updatedAt: {
       type: DataTypes.DATE,
       defaultValue: sequelize.NOW
     }

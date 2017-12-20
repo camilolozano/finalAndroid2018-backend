@@ -12,23 +12,36 @@ module.exports = {
         isBetaMember: false
       }], {});
     */
-    return queryInterface.bulkInsert('buildingTypes', [{
-      description: 'None',
-    }, {
-      description: 'Enclosures',
-    }, {
-      description: 'Modular Concrete',
-    }, {
-      description: 'Modular Fiberglass',
-    }, {
-      description: 'Steel Envolock',
-    }, {
-      description: 'Cabinets',
-    }, {
-      description: 'Wood Construction',
-    }, {
-      description: 'Brick Construction',
-    }], {});
+    return queryInterface.bulkInsert(
+      'buildingTypes',
+      [
+        {
+          description: 'None'
+        },
+        {
+          description: 'Enclosures'
+        },
+        {
+          description: 'Modular Concrete'
+        },
+        {
+          description: 'Modular Fiberglass'
+        },
+        {
+          description: 'Steel Envolock'
+        },
+        {
+          description: 'Cabinets'
+        },
+        {
+          description: 'Wood Construction'
+        },
+        {
+          description: 'Brick Construction'
+        }
+      ],
+      {}
+    );
   },
 
   down: (queryInterface, Sequelize) => {

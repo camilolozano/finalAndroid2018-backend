@@ -1,6 +1,3 @@
 module.exports = {
-  jwtSecret: '{}3Mp0p4sT00++--20157',
-  jwtSession: {
-    session: false
-  }
+  jwtSecret: '{}4M3RiC2Sd++--20158S'
 };

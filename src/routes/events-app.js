@@ -11,6 +11,7 @@ import {
   serviceAvailableGrids,
   structureInformationGrids
 } from '../models';
+import jwt from '../middlewares/jwt';
 
 const db = models.sequelize;
 const router = express.Router();
@@ -276,15 +277,15 @@ function setTrasactionEvents (data, user) {
   });
 }
 
-router.post('/', async (req, res) => {
+router.post('/', ...jwt, async (req, res) => {
   const transactionData = req.body.data;
   const user = req.body.idUser;
 
-  transactionData.map((v, i) => {
+  const t = transactionData.map((v, i) => {
     return setTrasactionEvents(v, user);
   });
 
-  Promise.all([transactionData])
+  Promise.all([t])
     .then(() => {
       res.json({
         success: true

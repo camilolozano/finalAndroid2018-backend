@@ -1,89 +1,95 @@
 'use strict';
 
 module.exports = function (sequelize, DataTypes) {
-  const compound = sequelize.define('compounds', {
-    idcompound: {
-      type: DataTypes.BIGINT,
-      primaryKey: true,
-      autoIncrement: true
-    },
-    idEvent: {
-      type: DataTypes.BIGINT,
-      allowNull: false,
-      references: {
-        model: 'events',
-        key: 'idEvent'
+  const compound = sequelize.define(
+    'compounds',
+    {
+      idcompound: {
+        type: DataTypes.BIGINT,
+        primaryKey: true,
+        autoIncrement: true
+      },
+      idEvent: {
+        type: DataTypes.BIGINT,
+        allowNull: false,
+        references: {
+          model: 'events',
+          key: 'idEvent'
+        }
+      },
+      idLocationType: {
+        type: DataTypes.BIGINT,
+        allowNull: false,
+        references: {
+          model: 'locationTypes',
+          key: 'idLocationType'
+        }
+      },
+      locationDescription: {
+        type: DataTypes.STRING(100),
+        allowNull: false
+      },
+      locationFence: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
+        allowNull: false
+      },
+      idfenceType: {
+        type: DataTypes.BIGINT,
+        allowNull: false,
+        references: {
+          model: 'fenceTypes',
+          key: 'idfenceType'
+        }
+      },
+      fenceSize: {
+        type: DataTypes.STRING(10),
+        allowNull: false
+      },
+      idAccessType: {
+        type: DataTypes.BIGINT,
+        allowNull: false,
+        references: {
+          model: 'accessTypes',
+          key: 'idAccessType'
+        }
+      },
+      idBuildingType: {
+        type: DataTypes.BIGINT,
+        allowNull: false,
+        references: {
+          model: 'buildingTypes',
+          key: 'idBuildingType'
+        }
+      },
+      buildingOwnerIfAvailable: {
+        type: DataTypes.STRING(100),
+        allowNull: false
+      },
+      genset: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
+        allowNull: false
+      },
+      fuePropaneTankType: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
+        allowNull: false
+      },
+      propaneFuelTankSize: {
+        type: DataTypes.STRING(15),
+        allowNull: false
+      },
+      createdAt: {
+        type: DataTypes.DATE,
+        defaultValue: sequelize.NOW
+      },
+      updatedAt: {
+        type: DataTypes.DATE,
+        defaultValue: sequelize.NOW
       }
     },
-    idLocationType: {
-      type: DataTypes.BIGINT,
-      allowNull: false,
-      references: {
-        model: 'locationTypes',
-        key: 'idLocationType'
-      }
-    },
-    locationDescription: {
-      type: DataTypes.STRING(100),
-      allowNull: false,
-    },
-    locationFence: {
-      type: DataTypes.BOOLEAN,
-      allowNull: false,
-    },
-    idfenceType: {
-      type: DataTypes.BIGINT,
-      allowNull: false,
-      references: {
-        model: 'fenceTypes',
-        key: 'idfenceType'
-      }
-    },
-    fenceSize: {
-      type: DataTypes.STRING(10),
-      allowNull: false,
-    },
-    idAccessType: {
-      type: DataTypes.BIGINT,
-      allowNull: false,
-      references: {
-        model: 'accessTypes',
-        key: 'idAccessType'
-      }
-    },
-    idBuildingType: {
-      type: DataTypes.BIGINT,
-      allowNull: false,
-      references: {
-        model: 'buildingTypes',
-        key: 'idBuildingType'
-      }
-    },
-    buildingOwnerIfAvailable: {
-      type: DataTypes.STRING(100),
-      allowNull: false,
-    },
-    genset: {
-      type: DataTypes.BOOLEAN,
-      allowNull: false,
-    },
-    fuePropaneTankType: {
-      type: DataTypes.BOOLEAN,
-      allowNull: false,
-    },
-    propaneFuelTankSize: {
-      type: DataTypes.STRING(15),
-      allowNull: false,
-    },
-    'createdAt': {
-      type: DataTypes.DATE,
-      defaultValue: sequelize.NOW
-    },
-    'updatedAt': {
-      type: DataTypes.DATE,
-      defaultValue: sequelize.NOW
-    },
-  }, {
+    {
       claseMethods: {
         associate: function (models) {
           compound.belongsTo(models.events, {
@@ -125,9 +131,9 @@ module.exports = function (sequelize, DataTypes) {
           models.buildingTypes.hasMany(compound, {
             foreignKey: 'idBuildingType'
           });
-
         }
       }
-    });
+    }
+  );
   return compound;
 };

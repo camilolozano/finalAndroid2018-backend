@@ -12,11 +12,18 @@ module.exports = {
         isBetaMember: false
       }], {});
     */
-    return queryInterface.bulkInsert('accessTypes', [{
-      description: 'Open',
-    }, {
-      description: 'Pad Lock Gate',
-    }], {});
+    return queryInterface.bulkInsert(
+      'accessTypes',
+      [
+        {
+          description: 'Open'
+        },
+        {
+          description: 'Pad Lock Gate'
+        }
+      ],
+      {}
+    );
   },
 
   down: (queryInterface, Sequelize) => {

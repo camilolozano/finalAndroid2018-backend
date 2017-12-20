@@ -64,7 +64,7 @@ function validate (loginData, res) {
           }).then((conf) => {
             // Configurate databse
             userInfo.config = conf;
-            res.cookie('sessionId', sessionId, { domain: '1434f8d9.ngrok.io' })
+            res.cookie('sessionId', sessionId, { domain: 'localhost' })
               .json({
                 success: true,
                 userInfo

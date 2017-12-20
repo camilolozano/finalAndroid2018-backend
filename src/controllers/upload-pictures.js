@@ -7,12 +7,14 @@ const storage = multer.diskStorage({
   },
   filename: (req, file, callback) => {
     const name = file.originalname;
-    callback(null, `${name}`);
+    const extArray = file.mimetype.split('/');
+    const extension = extArray[extArray.length - 1];
+    callback(null, `${name}.${extension}`);
   }
 });
 
 // Tamaño mx de la imagen
-const maxSize = 400 * 1000 * 1000;
+// const maxSize = 400 * 1000 * 1000;
 
 // funcion de carga del archivo
 exports.upload = multer({

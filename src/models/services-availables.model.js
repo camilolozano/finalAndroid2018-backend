@@ -17,6 +17,7 @@ module.exports = function (sequelize, DataTypes) {
     },
     wifi: {
       type: DataTypes.BOOLEAN,
+      defaultValue: false,
       allowNull: false
     },
     publicPrivateWifi: {
@@ -25,18 +26,22 @@ module.exports = function (sequelize, DataTypes) {
     },
     phone: {
       type: DataTypes.BOOLEAN,
+      defaultValue: false,
       allowNull: false
     },
     fiber: {
       type: DataTypes.BOOLEAN,
+      defaultValue: false,
       allowNull: false
     },
     cable: {
       type: DataTypes.BOOLEAN,
+      defaultValue: false,
       allowNull: false
     },
     water: {
       type: DataTypes.BOOLEAN,
+      defaultValue: false,
       allowNull: false
     },
     createdAt: {
