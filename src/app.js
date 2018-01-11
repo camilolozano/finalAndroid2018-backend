@@ -15,6 +15,7 @@ import loginApp from './routes/login-app';
 import setData from './routes/events-app.js';
 import uploadPictures from './routes/events-upload';
 import myEvents from './routes/get-events';
+import tagSelects from './routes/get-tag-selects';
 
 const app = express();
 
@@ -50,6 +51,7 @@ app.use('/app-login', loginApp);
 app.use('/set-data', setData);
 app.use('/upload-pictures', uploadPictures);
 app.use('/events', myEvents);
+app.use('/tags', tagSelects);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

@@ -171,9 +171,10 @@ function setTrasactionEvents (data, user) {
                         phone: phone,
                         publicPrivateWifi: Public_Private_wifi,
                         fiber: fiber,
-                        satelite: satellite,
+                        satellite: satellite,
                         cable: cable,
-                        water: water
+                        water: water,
+                        microwave: microwave
                       },
                         { transaction: t }
                       )

@@ -44,6 +44,16 @@ module.exports = function (sequelize, DataTypes) {
       defaultValue: false,
       allowNull: false
     },
+    microwave: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
+      allowNull: false
+    },
+    satellite: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
+      allowNull: false
+    },
     createdAt: {
       type: DataTypes.DATE,
       defaultValue: sequelize.NOW
