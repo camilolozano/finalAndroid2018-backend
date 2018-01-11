@@ -13,53 +13,45 @@ router.get('/:id_user', ...cookie, (req, res) => {
   res.sendStatus(200);
 });
 
-function existIdClient(_identificationCard) {
-  return systemUsers.findOne({
-    where: {
-      identificationCard: _identificationCard
-    }
-  }).then(t => {
-    const val = (t) ? true : false;
-    return val;
-  });
+function existIdClient (_identificationCard) {
+  return systemUsers
+    .findOne({
+      where: {
+        identificationCard: _identificationCard
+      }
+    })
+    .then(t => {
+      const val = !!t;
+      return val;
+    });
 }
 
-function existEmailClient(_correo) {
+function existEmailClient (_correo) {
   if (_correo) {
     return false;
   } else {
-    return systemUsers.findOne({
-      where: {
-        emailusername: _correo
-      }
-    }).then(t => {
-      const val = (t) ? true : false;
-      return val;
-    });
+    return systemUsers
+      .findOne({
+        where: {
+          emailusername: _correo
+        }
+      })
+      .then(t => {
+        const val = !!t;
+        return val;
+      });
   }
 }
 
 // Actualizar la información de un usuario
 router.put('/upd_user_info/:id_user', async (req, res) => {
-  const isIdentification = await existIdClient(req.body.identificationCard);
-  const isEmail = await existEmailClient(req.body.correo);
-
-  if (isIdentification) {
-    res.json({
-      success: false,
-      msg: 'Número de identificación ya registrado, verifique la información'
-    });
-  } else if (isEmail) {
-    res.json({
-      success: false,
-      msg: 'Correo electrónico ya registrado, verifique la información'
-    });
-  } else {
-    systemUsers.find({
+  systemUsers
+    .find({
       where: {
         id_usuario_sistema: req.body.id_user_sis
       }
-    }).then((data) => {
+    })
+    .then(data => {
       return data.update({
         userCode: req.body.userCode,
         firstName: req.body.firstName,
@@ -71,29 +63,33 @@ router.put('/upd_user_info/:id_user', async (req, res) => {
         contactNumber: req.body.contactNumber,
         identificationType: req.body.identificationType
       });
-    }).then(() => {
+    })
+    .then(() => {
       res.json({
         msg: 'Información actualizada',
         success: true
       });
-    }).catch((err) => {
+    })
+    .catch(err => {
       res.json({
         msg: 'error ' + err,
         success: false
       });
     });
-  }
 });
 
 // Crear usuario ========================================
-const jwtPayload = (data) => {
+const jwtPayload = data => {
   const { req, res, user } = data;
   const payload = {
     id: user.idSystemUser
   };
   const token = jwt.encode(payload, cfg.jwtSecret);
   const sendData = {
-    req, res, user, token
+    req,
+    res,
+    user,
+    token
   };
   emails.email(sendData);
 };
@@ -113,187 +109,209 @@ router.post('/create/:id_user', ...cookie, async (req, res) => {
       msg: 'Email already registered, verify the information'
     });
   } else {
-    systemUsers.find({
-      where: {
-        userCode: req.body.userCode
-      }
-    }).then((data) => {
-      if (data) {
-        res.json({
-          msg: 'The code was already assigned to another user',
-          success: false
-        });
-      } else {
-        systemUsers.create({
-          userCode: req.body.userCode,
-          firstName: req.body.firstName,
-          secondName: req.body.secondName,
-          firstLastName: req.body.firstLastName,
-          secondLastName: req.body.secondLastName,
-          emailUsername: req.body.emailUsername,
-          // Se da un caracter provicional para el psw
-          password: bcrypt.hashSync('admin123', 8),
-          idUserType: req.body.idUserType,
-          contactNumber: req.body.contactNumber,
-          idCompany: req.body.idCompany,
-          identificationCard: req.body.identificationCard,
-          identificationType: req.body.identificationType
-        }).then((user) => {
-          const data = {
-            req,
-            res,
-            user
-          };
-          jwtPayload(data);
-        }).catch((err) => {
+    systemUsers
+      .find({
+        where: {
+          userCode: req.body.userCode
+        }
+      })
+      .then(data => {
+        if (data) {
           res.json({
-            success: false,
-            msg: 'I do not think user '+err
+            msg: 'The code was already assigned to another user',
+            success: false
           });
-        });
-      }
-    });
+        } else {
+          systemUsers
+            .create({
+              userCode: req.body.userCode,
+              firstName: req.body.firstName,
+              secondName: req.body.secondName,
+              firstLastName: req.body.firstLastName,
+              secondLastName: req.body.secondLastName,
+              emailUsername: req.body.emailUsername,
+              // Se da un caracter provicional para el psw
+              password: bcrypt.hashSync('admin123', 8),
+              idUserType: req.body.idUserType,
+              contactNumber: req.body.contactNumber,
+              idCompany: req.body.idCompany,
+              identificationCard: req.body.identificationCard,
+              identificationType: req.body.identificationType
+            })
+            .then(user => {
+              const data = {
+                req,
+                res,
+                user
+              };
+              jwtPayload(data);
+            })
+            .catch(err => {
+              res.json({
+                success: false,
+                msg: 'I do not think user ' + err
+              });
+            });
+        }
+      });
   }
 });
 
 router.get('/buscar_usu/:id_user', ...cookie, (req, res) => {
-  systemUsers.findAll({
-    attributes: ['idSystemUser', 'userCode', 'firstName', 'firstLastName']
-  }).then((user) => {
-    res.json({
-      data: user,
-      success: true
+  systemUsers
+    .findAll({
+      attributes: ['idSystemUser', 'userCode', 'firstName', 'firstLastName']
+    })
+    .then(user => {
+      res.json({
+        data: user,
+        success: true
+      });
+    })
+    .catch(() => {
+      res.json({
+        msg: 'error',
+        success: false
+      });
     });
-  }).catch(() => {
-    res.json({
-      msg: 'error',
-      success: false
-    });
-  });
 });
 
 // TIpo usaurios
 router.get('/tipo_user/:id_user', ...cookie, (req, res) => {
-  userTypes.findAll().then((userTypes) => {
-    res.json({
-      data: userTypes,
-      success: true
+  userTypes
+    .findAll()
+    .then(userTypes => {
+      res.json({
+        data: userTypes,
+        success: true
+      });
+    })
+    .catch(() => {
+      res.json({
+        msg: 'error',
+        success: false
+      });
     });
-  }).catch(() => {
-    res.json({
-      msg: 'error',
-      success: false
-    });
-  });
 });
 
 // Contador de todos los usuarios registrados
 router.get('/list_user_count/:id_user', ...cookie, (req, res) => {
-  systemUsers.findAll({
-    attributes: ['idSystemUser'],
-    where: {
-      idSystemUser: {
-        $ne: 1
-      }
-    },
-    include: [{
-      attributes: ['description'],
-      model: userTypes
-    }]
-  }).then((data) => {
-    res.json({
-      data: data.length,
-      success: true
+  systemUsers
+    .findAll({
+      attributes: ['idSystemUser'],
+      where: {
+        idSystemUser: {
+          $ne: 1
+        }
+      },
+      include: [
+        {
+          attributes: ['description'],
+          model: userTypes
+        }
+      ]
+    })
+    .then(data => {
+      res.json({
+        data: data.length,
+        success: true
+      });
+    })
+    .catch(err => {
+      res.json({
+        msg: 'error ' + err,
+        success: false
+      });
     });
-  }).catch((err) => {
-    res.json({
-      msg: 'error ' + err,
-      success: false
-    });
-  });
 });
 
 // listar a todos los usuarios
 router.get('/list-users/:id_user', ...cookie, (req, res) => {
-  systemUsers.findAll({
-    attributes: [
-      'idSystemUser',
-      'userCode',
-      'firstName',
-      'secondName',
-      'firstLastName',
-      'secondLastName',
-      'emailUsername',
-      'idUserType',
-      'state',
-      'contactNumber',
-      'identificationCard',
-      'identificationType'
-    ],
-    include: [{
-      attributes: ['description'],
-      model: userTypes
-    }],
-    order: ['idSystemUser'],
-    limit: req.params.limit,
-    offset: req.params.offset
-  }).then((data) => {
-    res.json({
-      data
+  systemUsers
+    .findAll({
+      attributes: [
+        'idSystemUser',
+        'userCode',
+        'firstName',
+        'secondName',
+        'firstLastName',
+        'secondLastName',
+        'emailUsername',
+        'idUserType',
+        'state',
+        'contactNumber',
+        'identificationCard',
+        'identificationType'
+      ],
+      order: ['idSystemUser']
+    })
+    .then(data => {
+      res.json({
+        data
+      });
+    })
+    .catch(() => {
+      res.json({
+        success: false
+      });
     });
-  }).catch((err) => {
-    res.json({
-      success: false
-    });
-  });
 });
 
 // Ver toda la información de un usuario
 router.get('/user_info/:id_user&:id_user_sis', ...cookie, (req, res) => {
-  systemUsers.find({
-    where: {
-      idSystemUser: req.params.id_user
-    },
-    include: [{
-      attributes: ['descripcion'],
-      model: userTypes
-    }]
-  }).then((data) => {
-    res.json({
-      data,
-      success: true
+  systemUsers
+    .find({
+      where: {
+        idSystemUser: req.params.id_user
+      },
+      include: [
+        {
+          attributes: ['descripcion'],
+          model: userTypes
+        }
+      ]
+    })
+    .then(data => {
+      res.json({
+        data,
+        success: true
+      });
+    })
+    .catch(err => {
+      res.json({
+        msg: 'error ' + err,
+        success: false
+      });
     });
-  }).catch((err) => {
-    res.json({
-      msg: 'error ' + err,
-      success: false
-    });
-  });
 });
 
 // actualizar el estado de un usaurio
 router.put('/upd_user/:id_user', ...cookie, (req, res) => {
   const state = !req.body.state;
-  systemUsers.find({
-    where: {
-      idSystemUser: req.body.idSystemUser
-    }
-  }).then((u) => {
-    return u.updateAttributes({
-      state
+  systemUsers
+    .find({
+      where: {
+        idSystemUser: req.body.idSystemUser
+      }
+    })
+    .then(u => {
+      return u.updateAttributes({
+        state
+      });
+    })
+    .then(e => {
+      res.json({
+        msg: 'successfully updated user',
+        success: true,
+        estado: e.state
+      });
+    })
+    .catch(() => {
+      res.json({
+        msg: 'Error updating',
+        success: false
+      });
     });
-  }).then((e) => {
-    res.json({
-      msg: 'successfully updated user',
-      success: true,
-      estado: e.state
-    });
-  }).catch(() => {
-    res.json({
-      msg: 'Error updating',
-      success: false
-    });
-  });
 });
 
 module.exports = router;
