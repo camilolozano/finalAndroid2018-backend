@@ -44,11 +44,11 @@ function existEmailClient (_correo) {
 }
 
 // Actualizar la información de un usuario
-router.put('/upd_user_info/:id_user', async (req, res) => {
+router.put('/upd_user_info/:id_user&:id_user_update', async (req, res) => {
   systemUsers
     .find({
       where: {
-        id_usuario_sistema: req.body.id_user_sis
+        idSystemUser: req.params.id_user_update
       }
     })
     .then(data => {
@@ -59,20 +59,20 @@ router.put('/upd_user_info/:id_user', async (req, res) => {
         firstLastName: req.body.firstLastName,
         secondLastName: req.body.secondLastName,
         identificationCard: req.body.identificationCard,
-        idUserType: req.body.idUserType,
+        idUserType: req.body.IDUserType,
         contactNumber: req.body.contactNumber,
         identificationType: req.body.identificationType
       });
     })
     .then(() => {
       res.json({
-        msg: 'Información actualizada',
+        msg: 'Successfully updated user',
         success: true
       });
     })
-    .catch(err => {
+    .catch(() => {
       res.json({
-        msg: 'error ' + err,
+        msg: 'Error updating ',
         success: false
       });
     });
@@ -301,7 +301,7 @@ router.put('/upd_user/:id_user', ...cookie, (req, res) => {
     })
     .then(e => {
       res.json({
-        msg: 'successfully updated user',
+        msg: 'Successfully updated user',
         success: true,
         estado: e.state
       });
