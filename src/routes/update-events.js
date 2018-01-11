@@ -1,6 +1,12 @@
 import express from 'express';
 import cookie from '../middlewares/coockie-session.js';
-import { oSurveyInformations, aSiteLocationInformations, structureInformations, compounds, servicesAvailables } from '../models';
+import {
+  oSurveyInformations,
+  aSiteLocationInformations,
+  structureInformations,
+  compounds,
+  servicesAvailables
+} from '../models';
 
 const router = express.Router();
 
