@@ -94,7 +94,7 @@ const jwtPayload = data => {
   emails.email(sendData);
 };
 
-router.post('/create/:id_user', ...cookie, async (req, res) => {
+router.post('/create/:id_user&:idCompany', ...cookie, async (req, res) => {
   const isIdentification = await existIdClient(req.body.identificationCard);
   const isEmail = await existEmailClient(req.body.emailUsername);
 
@@ -134,7 +134,7 @@ router.post('/create/:id_user', ...cookie, async (req, res) => {
               password: bcrypt.hashSync('admin123', 8),
               idUserType: req.body.idUserType,
               contactNumber: req.body.contactNumber,
-              idCompany: req.body.idCompany,
+              idCompany: req.params.idCompany,
               identificationCard: req.body.identificationCard,
               identificationType: req.body.identificationType
             })
