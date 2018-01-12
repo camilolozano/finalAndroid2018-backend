@@ -47,7 +47,55 @@ router.get('/:email', (req, res) => {
   });
 });
 
-router.put('/reset', auth.authenticate(), (req, res) => {
+router.put('/update/:id_user', (req, res) => {
+  const newPassword = req.body.newPassword;
+  const currentPassword = req.body.currentPassword;
+
+  // validates that user exists
+  systemUsers.findOne({
+    attributes: ['emailUsername', 'idSystemUser', 'idCompany', 'password'],
+    where: {
+      idSystemUser: req.params.id_user
+    }
+  }).then((usuario) => {
+    const comparePass = bcrypt.compareSync(currentPassword, usuario.password);
+    if (comparePass) {
+      // current password and user password match
+      return usuario.updateAttributes({
+        password: bcrypt.hashSync(newPassword, 8)
+      })
+      .then((info) => {
+        res.json({
+          success: true,
+          msg: 'Password updated',
+          info
+        });
+      })
+      .catch((err) => {
+        res.json({
+          success: false,
+          msg: 'Error updating',
+          err
+        });
+      });
+    } else {
+      res.json({
+        msg: 'Current password no match',
+        success: false
+      });
+    }
+  })
+  .catch(err => {
+    res.json({
+      msg: 'User no founded',
+      success: false,
+      err
+    });
+  });
+});
+
+// falta midleware. se ingresa la contraseña por primera vez. El token viene por url
+router.put('/reset', (req, res) => {
   const newPassword = req.body.newPassword;
   // mira si el usuario existe
   systemUsers.find({
@@ -62,19 +110,19 @@ router.put('/reset', auth.authenticate(), (req, res) => {
       });
     } else {
       return res.json({
-        msg: 'Usuario no encontrado',
+        msg: 'User no founded',
         success: false
       });
     }
   }).then(() => {
     res.json({
       success: true,
-      msg: 'Contraseña actualizada'
+      msg: 'Password inserted'
     });
   }).catch(() => {
     res.json({
       success: false,
-      msg: 'Error en la consulta'
+      msg: 'Error inserting'
     });
   });
 });
