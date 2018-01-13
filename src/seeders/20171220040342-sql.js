@@ -54,40 +54,44 @@ module.exports = {
       queryName: 'GET aSiteLocationInformations data',
       description: 'Get aSiteLocationInformations data',
       query: `
-            SELECT
-              a."idEvent",
-              a.name,
-              a.owner,
-              a.address,
-              a.state,
-              a.city,
-              a.county,
-              a.zip,
-              a."idLocationType",
-              a.loam,
-              a.clay,
-              a.granite,
-              a."sendAndGravel",
-              a.limestone,
-              a.slate,
-              a.shale,
-              a.sandstone,
-              a.other,
-              a."accessRoad",
-              a."typeAccessRoad",
-              a.required4x4,
-              a."idAcPowerAvailable",
-              a."solarPower",
-              a."pointOfContact",
-              a.phone,
-              a."sizeSolarPower",
-              a.latitude,
-              a.longitude,
-              a."groundElevation"
-            FROM
-              "aSiteLocationInformations" a
-            WHERE
-              a."idEvent" = :id_event
+        SELECT
+          a."idEvent",
+          a.name,
+          a.owner,
+          a.address,
+          a.state,
+          a.city,
+          a.county,
+          a.zip,
+          a."idLocationType",
+          lt."description" AS locationType,
+          a.loam,
+          a.clay,
+          a.granite,
+          a."sendAndGravel",
+          a.limestone,
+          a.slate,
+          a.shale,
+          a.sandstone,
+          a.other,
+          a."accessRoad",
+          a."typeAccessRoad",
+          a.required4x4,
+          a."idAcPowerAvailable",
+          apa."description" AS acPowerAvailable,
+          a."solarPower",
+          a."pointOfContact",
+          a.phone,
+          a."sizeSolarPower",
+          a.latitude,
+          a.longitude,
+          a."groundElevation"
+        FROM
+          "aSiteLocationInformations" a
+        JOIN "locationTypes" lt ON a."idLocationType" = lt."idLocationType"
+        JOIN "acPowerAvailableTypes" apa ON a."idAcPowerAvailable" = apa."idAcPowerAvailable"
+        WHERE
+          a."idEvent" = :id_event
       `
     }, {
       queryCode: 'SEL004',
@@ -132,56 +136,70 @@ module.exports = {
       queryName: 'GET structureInformations data',
       description: 'Get structureInformations data',
       query: `
-            SELECT
-              s."idstructureInformation",
-              s."idEvent",
-              s.asr_number,
-              s.faa,
-              s.fcc_call_sign,
-              s.owner,
-              s.manufacturer,
-              s."drawingNumber",
-              s."designNumber",
-              s."yearBuild",
-              s."idGeneralConditionType",
-              s.height,
-              s."idLegType",
-              s.sections,
-              s."idStructureInformationType",
-              s."towerSize",
-              s."topOfTaper",
-              s."legSize",
-              s."caissonHeight",
-              s.latitude,
-              s.longitude,
-              s."groundElevation"
-            FROM
-              "structureInformations" s
-            WHERE
-              s."idEvent" = :id_event
+        SELECT
+          s."idstructureInformation",
+          s."idEvent",
+          s.asr_number,
+          s.faa,
+          s.fcc_call_sign,
+          s.owner,
+          s.manufacturer,
+          s."drawingNumber",
+          s."designNumber",
+          s."yearBuild",
+          s."idGeneralConditionType",
+          gct."description" AS "generalConditionType", 
+          s.height,
+          s."idLegType",
+          lt."description" AS "legType",
+          s.sections,
+          s."idStructureInformationType",
+          sit."description" AS "structureInformationType",
+          s."towerSize",
+          s."topOfTaper",
+          s."legSize",
+          s."caissonHeight",
+          s.latitude,
+          s.longitude,
+          s."groundElevation"
+        FROM
+          "structureInformations" s
+          JOIN "structureInformationTypes" sit ON s."idStructureInformationType" = sit."idStructureInformationType"
+          JOIN "legTypes" lt ON s."idLegType" = lt."idLegType"
+          JOIN "generalConditionTypes" gct ON s."idGeneralConditionType" = gct."idGeneralConditionType"
+        WHERE
+          s."idEvent" = :id_event
       `
     }, {
       queryCode: 'SEL007',
       queryName: 'GET compounds data',
       description: 'Get compounds data',
       query: `
-            SELECT
-              c."idEvent",
-              c."idLocationType",
-              c."locationDescription",
-              c."locationFence",
-              c."idfenceType",
-              c."fenceSize",
-              c."idAccessType",
-              c."idBuildingType",
-              c."buildingOwnerIfAvailable",
-              c.genset,
-              c."fuePropaneTankType",
-              c."propaneFuelTankSize"
-            FROM
-              "compounds" c
-            WHERE
-              c."idEvent" = :id_event
+        SELECT
+          c."idEvent",
+          c."idLocationType",
+          lt."description" AS "locationType",
+          c."locationDescription",
+          c."locationFence",
+          c."idfenceType",
+          ft."description" AS "fenceType",
+          c."fenceSize",
+          c."idAccessType",
+          at."description" AS "accessType",
+          c."idBuildingType",
+          bt."description" AS "buildingType",
+          c."buildingOwnerIfAvailable",
+          c.genset,
+          c."fuePropaneTankType",
+          c."propaneFuelTankSize"
+        FROM
+          "compounds" c
+        JOIN "locationTypes" lt ON c."idLocationType" = lt."idLocationType"
+        JOIN "fenceTypes" ft ON c."idfenceType" = ft."idfenceType"
+        JOIN "accessTypes" at ON c."idAccessType" = at."idAccessType"
+        JOIN "buildingTypes" bt ON c."idBuildingType" = bt."idBuildingType"
+        WHERE
+          c."idEvent" = :id_event
       `
     }, {
       queryCode: 'SEL008',
@@ -237,6 +255,121 @@ module.exports = {
               sg."idCellularServiceProvider" = cst."idCellularServiceProvider"
               AND sg."idTechnologyType" = tt."idTechnologyType"
               AND sg."idServicesAvailable" = :id_service
+      `
+    }, {
+      queryCode: 'SEL011',
+      queryName: 'Get events detail',
+      description: 'Get events detail',
+      query: `
+      select
+        o.surveyor,
+        o.date_create,
+        o."watherConditions",
+        o.temperature,
+        o."directionToSite",
+        a.name,
+        a.owner,
+        a.address,
+        a.city,
+        a.state,
+        a.zip,
+        a.county,
+        la.description as location_type,
+        CASE WHEN a.shale THEN 'Yes' ELSE 'No' END as shale,
+        CASE WHEN a."sendAndGravel" THEN 'Yes' ELSE 'No' END as send_and_gravel,
+        CASE WHEN a.loam THEN 'Yes' ELSE 'No' END as loam,
+        CASE WHEN a.clay THEN 'Yes' ELSE 'No' END as clay,
+        CASE WHEN a.limestone THEN 'Yes' ELSE 'No' END as limestone,
+        CASE WHEN a.sandstone THEN 'Yes' ELSE 'No' END as sandstone,
+        CASE WHEN a.granite THEN 'Yes' ELSE 'No' END as granite,
+        CASE WHEN a.slate THEN 'Yes' ELSE 'No' END as slate,
+        CASE WHEN a.other THEN 'Yes' ELSE 'No' END as other,
+        CASE WHEN a.required4x4 THEN 'Yes' ELSE 'No' END as required4x4,
+        CASE WHEN a."solarPower" THEN 'Yes' ELSE 'No' END as solar_power,
+        a."typeAccessRoad",
+        a."accessRoad",
+        ap.description as ac_power_available,
+        a."sizeSolarPower",
+        a."pointOfContact",
+        a.phone,
+        a.latitude,
+        a.longitude,
+        a."groundElevation",
+      
+        s.asr_number,
+        s.faa,
+        s.fcc_call_sign,
+        s.owner,
+        s.manufacturer,
+        s."drawingNumber",
+        s."designNumber",
+        s."yearBuild",
+        st.description as type,
+        s.height,
+        lt.description leg_type,
+        s.sections,
+        gn.description as general_conditions,
+        s."topOfTaper",
+        s."topOfTaper",
+        s."legSize",
+        s."caissonHeight",
+        s.latitude,
+        s.longitude,
+        s."groundElevation",
+      
+        lty.description as location_type,
+        c."locationDescription",
+        CASE WHEN c."locationFence" THEN 'Yes' ELSE 'No' END as location_fence,
+        ft.description as fence_type,
+        c."fenceSize",
+        aty.description as access_type,
+        bt.description as building_type,
+        c."buildingOwnerIfAvailable",
+        CASE WHEN c.genset THEN 'Yes' ELSE 'No' END as genset,
+        CASE WHEN c."fuePropaneTankType" THEN 'Yes' ELSE 'No' END as fuel_propane_tank_type,
+        c."propaneFuelTankSize",
+        sa."publicPrivateWifi",
+        CASE WHEN sa.wifi THEN 'Yes' ELSE 'No' END as wifi,
+        CASE WHEN sa.phone THEN 'Yes' ELSE 'No' END as phone,
+        CASE WHEN sa.microwave THEN 'Yes' ELSE 'No' END as microwave,
+        CASE WHEN sa.fiber THEN 'Yes' ELSE 'No' END as fiber,
+        CASE WHEN sa.satellite THEN 'Yes' ELSE 'No' END as satellite,
+        CASE WHEN sa.cable THEN 'Yes' ELSE 'No' END as cable,
+        CASE WHEN sa.water THEN 'Yes' ELSE 'No' END as water
+      
+      from
+        events as e,
+        "oSurveyInformations" as o,
+        "aSiteLocationInformations" as a,
+        "structureInformations" as s,
+        compounds as c,
+        "servicesAvailables" as sa,
+        "locationTypes" as la,
+        "acPowerAvailableTypes" ap,
+        "structureInformationTypes" st,
+        "legTypes" lt,
+        "generalConditionTypes" gn,
+        "locationTypes" as lty,
+        "fenceTypes" as ft,
+        "accessTypes" as aty,
+        "buildingTypes" as bt
+      WHERE
+        e."idEvent" = o."idEvent"
+        AND e."idEvent" = a."idEvent"
+        AND e."idEvent" = s."idEvent"
+        AND e."idEvent" = c."idEvent"
+        AND e."idEvent" = s."idEvent"
+        AND a."idLocationType" = la."idLocationType"
+        AND a."idAcPowerAvailable" = ap."idAcPowerAvailable"
+        AND s."idStructureInformationType" = st."idStructureInformationType"
+        AND s."idLegType" = lt."idLegType"
+        AND s."idGeneralConditionType" = gn."idGeneralConditionType"
+        AND c."idLocationType" = lty."idLocationType"
+        AND c."idfenceType" = ft."idfenceType"
+        AND c."idAccessType" = aty."idAccessType"
+        AND c."idBuildingType" = bt."idBuildingType"
+        AND e."idSystemUser" = :id_user
+            
       `
     }], {});
   },
