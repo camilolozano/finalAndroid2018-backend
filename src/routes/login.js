@@ -79,7 +79,7 @@ function validate (loginData, res) {
       } else {
         res.json({
           success: false,
-          msg: 'He user and password isn\'t valid'
+          msg: 'Email and password aren\'t valid'
         });
       }
     }
