@@ -106,7 +106,8 @@ router.put('/reset', (req, res) => {
   }).then((usuario) => {
     if (usuario) {
       return usuario.updateAttributes({
-        password: bcrypt.hashSync(newPassword, 8)
+        password: bcrypt.hashSync(newPassword, 8),
+        state: true
       });
     } else {
       return res.json({

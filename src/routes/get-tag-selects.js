@@ -9,7 +9,8 @@ import {
   structureInformationTypes,
   legTypes,
   generalConditionTypes,
-  antenaTypes
+  antenaTypes,
+  publicPrivateWifiType
 } from '../models';
 
 const router = express.Router();
@@ -146,6 +147,22 @@ router.get('/anttena-type/:id_user', ...cookie, (req, res) => {
   antenaTypes
     .findAll({
       attributes: [['idAntenaType', 'value'], ['description', 'viewValue']]
+    })
+    .then(data => {
+      res.json({
+        success: true,
+        data
+      });
+    })
+    .catch(err => {
+      console.log(err);
+    });
+});
+
+router.get('/public-private-wifi/:id_user', ...cookie, (req, res) => {
+  publicPrivateWifiType
+    .findAll({
+      attributes: [['idPublicPrivateWifi', 'value'], ['description', 'viewValue']]
     })
     .then(data => {
       res.json({

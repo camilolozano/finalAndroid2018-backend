@@ -11,8 +11,7 @@ module.exports = function (sequelize, DataTypes) {
       },
       userCode: {
         type: DataTypes.STRING(30),
-        allowNull: true,
-        unique: true
+        allowNull: true
       },
       firstName: {
         type: DataTypes.STRING(25),
@@ -69,7 +68,7 @@ module.exports = function (sequelize, DataTypes) {
       },
       state: {
         type: DataTypes.BOOLEAN,
-        defaultValue: true
+        defaultValue: false
       },
       createdAt: {
         type: DataTypes.DATE,

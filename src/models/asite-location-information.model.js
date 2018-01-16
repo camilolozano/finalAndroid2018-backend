@@ -94,7 +94,7 @@ module.exports = function (sequelize, DataTypes) {
         allowNull: false
       },
       other: {
-        type: DataTypes.BOOLEAN,
+        type: DataTypes.STRING(150),
         defaultValue: false,
         allowNull: false
       },

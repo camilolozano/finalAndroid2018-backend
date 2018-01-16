@@ -130,7 +130,7 @@ function setTrasactionEvents (data, user) {
                   building_type,
                   building_owner_if_available,
                   genset,
-                  fue_Propane_tank_type,
+                  fuel_Propane_tank_type,
                   propane_fuel_tank_size
                 } = Compound;
                 return compounds
@@ -146,7 +146,7 @@ function setTrasactionEvents (data, user) {
                     idBuildingType: building_type,
                     buildingOwnerIfAvailable: building_owner_if_available,
                     genset: genset,
-                    fuePropaneTankType: fue_Propane_tank_type,
+                    fuePropaneTankType: fuel_Propane_tank_type,
                     propaneFuelTankSize: propane_fuel_tank_size
                   },
                     { transaction: t }
@@ -160,8 +160,7 @@ function setTrasactionEvents (data, user) {
                       fiber,
                       satellite,
                       cable,
-                      water,
-                      gridData
+                      water
                     } = ServicesAvailables;
                     return servicesAvailables
                       .create(
@@ -169,7 +168,7 @@ function setTrasactionEvents (data, user) {
                         idEvent: idEvent,
                         wifi: Wifi,
                         phone: phone,
-                        publicPrivateWifi: Public_Private_wifi,
+                        idPublicPrivateWifi: Public_Private_wifi,
                         fiber: fiber,
                         satellite: satellite,
                         cable: cable,

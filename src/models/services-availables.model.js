@@ -20,9 +20,17 @@ module.exports = function (sequelize, DataTypes) {
       defaultValue: false,
       allowNull: false
     },
-    publicPrivateWifi: {
-      type: DataTypes.STRING(100),
-      allowNull: false
+    // publicPrivateWifi: {
+    //   type: DataTypes.STRING(100),
+    //   allowNull: false
+    // },
+    idPublicPrivateWifi: {
+      type: DataTypes.BIGINT,
+      allowNull: false,
+      references: {
+        model: 'publicPrivateWifiType',
+        key: 'idPublicPrivateWifi'
+      }
     },
     phone: {
       type: DataTypes.BOOLEAN,
@@ -61,6 +69,26 @@ module.exports = function (sequelize, DataTypes) {
     updatedAt: {
       type: DataTypes.DATE,
       defaultValue: sequelize.NOW
+    }
+  }, {
+    claseMethods: {
+      associate: function (models) {
+        servicesAvailable.belongsTo(models.events, {
+          foreignKey: 'idEvent'
+        });
+
+        models.events.hasMany(servicesAvailable, {
+          foreignKey: 'idEvent'
+        });
+
+        servicesAvailable.belongsTo(models.publicPrivateWifiType, {
+          foreignKey: 'idPublicPrivateWifi'
+        });
+
+        models.publicPrivateWifiType.hasMany(servicesAvailable, {
+          foreignKey: 'idPublicPrivateWifi'
+        });
+      }
     }
   });
   return servicesAvailable;

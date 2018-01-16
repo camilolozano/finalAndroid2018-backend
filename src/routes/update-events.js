@@ -182,10 +182,11 @@ router.put('/services-available/:id_user&:id_event', ...cookie, (req, res) => {
       success: true,
       msg: 'Successful update'
     });
-  }).catch(() => {
+  }).catch((err) => {
     res.json({
       success: false,
-      msg: 'Error updating'
+      msg: 'Error updating',
+      err
     });
   });
 });

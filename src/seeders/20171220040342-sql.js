@@ -115,21 +115,21 @@ module.exports = {
       queryName: 'GET Services Availables data',
       description: 'Get Services Availables data',
       query: `
-            SELECT
-              s."idServicesAvailable",
-              s."idEvent",
-              s.wifi,
-              s."publicPrivateWifi",
-              s.phone,
-              s.fiber,
-              s.cable,
-              s.water,
-              s.satellite,
-              s.microwave
-            FROM
-              "servicesAvailables" s
-            WHERE
-              s."idEvent" = :id_event
+          SELECT
+            s."idServicesAvailable",
+            s."idEvent",
+            s.wifi,
+            s."idpublicPrivateWifi" as publicPrivatewifi,
+            s.phone,
+            s.fiber,
+            s.cable,
+            s.water,
+            s.satellite,
+            s.microwave
+          FROM
+            "servicesAvailables" s
+          WHERE
+            s."idEvent" = :id_event
       `
     }, {
       queryCode: 'SEL006',
@@ -148,7 +148,7 @@ module.exports = {
           s."designNumber",
           s."yearBuild",
           s."idGeneralConditionType",
-          gct."description" AS "generalConditionType", 
+          gct."description" AS "generalConditionType",
           s.height,
           s."idLegType",
           lt."description" AS "legType",
@@ -295,7 +295,7 @@ module.exports = {
         a.latitude,
         a.longitude,
         a."groundElevation",
-      
+
         s.asr_number,
         s.faa,
         s.fcc_call_sign,
@@ -316,7 +316,7 @@ module.exports = {
         s.latitude,
         s.longitude,
         s."groundElevation",
-      
+
         lty.description as location_type,
         c."locationDescription",
         CASE WHEN c."locationFence" THEN 'Yes' ELSE 'No' END as location_fence,
@@ -336,7 +336,7 @@ module.exports = {
         CASE WHEN sa.satellite THEN 'Yes' ELSE 'No' END as satellite,
         CASE WHEN sa.cable THEN 'Yes' ELSE 'No' END as cable,
         CASE WHEN sa.water THEN 'Yes' ELSE 'No' END as water
-      
+
       from
         events as e,
         "oSurveyInformations" as o,
@@ -369,7 +369,7 @@ module.exports = {
         AND c."idAccessType" = aty."idAccessType"
         AND c."idBuildingType" = bt."idBuildingType"
         AND e."idSystemUser" = :id_user
-            
+
       `
     }], {});
   },

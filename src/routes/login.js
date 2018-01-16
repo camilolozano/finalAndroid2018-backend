@@ -49,8 +49,8 @@ function validate (loginData, res) {
     } else {
       const userInfo = {
         idSystemUser: userlogin.idSystemUser,
-        names: `${userlogin.firstName} ${userlogin.secondName}`,
-        surnames: `${userlogin.firstLastName} ${userlogin.secondLastName}`,
+        names: `${userlogin.firstName} ${(userlogin.secondName !== null) ? userlogin.secondName : ''}`,
+        surnames: `${userlogin.firstLastName} ${(userlogin.secondLastName !== null ? userlogin.secondLastName : '')}`,
         emailUsername: userlogin.emailUsername,
         idUserType: userlogin.idUserType,
         userTypeDesc: userlogin.userType['description'],

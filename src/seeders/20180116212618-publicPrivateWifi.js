@@ -12,14 +12,10 @@ module.exports = {
         isBetaMember: false
       }], {});
     */
-    return queryInterface.bulkInsert('acPowerAvailableTypes', [{
-      description: 'Single Phase 120'
+    return queryInterface.bulkInsert('publicPrivateWifiType', [{
+      description: 'Public'
     }, {
-      description: 'Single Phase 120/240'
-    }, {
-      description: 'No power but power line is nearby'
-    }, {
-      description: 'No power'
+      description: 'Private'
     }], {});
   },
 
