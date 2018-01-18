@@ -35,6 +35,9 @@ module.exports = {
         },
         {
           description: 'Roof Top'
+        },
+        {
+          description: 'N/A'
         }
       ],
       {}

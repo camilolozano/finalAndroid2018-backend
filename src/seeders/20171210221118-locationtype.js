@@ -13,17 +13,20 @@ module.exports = {
       }], {});
     */
     return queryInterface.bulkInsert('locationTypes', [{
-      description: 'Urban, suburban or wooden areas',
+      description: 'Urban, suburban or wooden areas'
     }, {
-      description: 'Flat or Rolling, open country and grasslands',
+      description: 'Flat or Rolling, open country and grasslands'
     }, {
-      description: 'Flat or Rolling, unobstructed areas over open water',
+      description: 'Flat or Rolling, unobstructed areas over open water'
     }, {
-      description: 'Ridge, long narrow chain of hills or mountains',
+      description: 'Ridge, long narrow chain of hills or mountains'
     }, {
-      description: 'Hill, top or within the upper half of a hill',
+      description: 'Hill, top or within the upper half of a hill'
     }, {
-      description: 'Escarpment, a steep slope or long cliff',
+      description: 'Escarpment, a steep slope or long cliff'
+    },
+    {
+      description: 'N/A'
     }], {});
   },
 

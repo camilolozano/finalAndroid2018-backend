@@ -13,15 +13,17 @@ module.exports = {
       }], {});
     */
     return queryInterface.bulkInsert('antenaTypes', [{
-      description: 'Parabolic',
+      description: 'Parabolic'
     }, {
-      description: 'Panel',
+      description: 'Panel'
     }, {
-      description: 'Omni',
+      description: 'Omni'
     }, {
-      description: 'Yagui',
+      description: 'Yagui'
     }, {
-      description: 'Dipole',
+      description: 'Dipole'
+    }, , {
+      description: 'N/A'
     }], {});
   },
 

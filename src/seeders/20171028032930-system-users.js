@@ -13,17 +13,16 @@ module.exports = {
       }], {});
     */
     return queryInterface.bulkInsert('systemUsers', [{
-      userCode: 'CODE-1',
-      firstName: 'JHON',
+      firstName: 'ALL',
       secondName: '',
-      firstLastName: 'LENNON',
+      firstLastName: 'NEXUS',
       secondLastName: '',
-      emailUsername: 'jhon@americas.com',
+      emailUsername: 'liderdesarrollo@allnexus.com.co',
       password: '$2a$08$c23.I3q4DQKQ4621hW7DzuuggtITuqm7uWWVCvmR0Vt63WM1LRs62',
       idUserType: 1,
       contactNumber: '',
       idCompany: 1,
-      identificationCard: '123456789',
+      identificationCard: '1085301245',
       identificationType: 'ID_NUMBER',
       state: true
     }], {});

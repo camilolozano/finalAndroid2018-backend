@@ -13,25 +13,27 @@ module.exports = {
       }], {});
     */
     return queryInterface.bulkInsert('cellularServiceProviderTypes', [{
-      description: 'AT&T Mobility',
+      description: 'AT&T Mobility'
     }, {
-      description: 'Breakaway Wireless',
+      description: 'Breakaway Wireless'
     }, {
-      description: 'Cellular One of East Arizona',
+      description: 'Cellular One of East Arizona'
     }, {
-      description: 'Choice Wireless',
+      description: 'Choice Wireless'
     }, {
-      description: 'ClearTalk Wireless',
+      description: 'ClearTalk Wireless'
     }, {
-      description: 'Commnet Wireless',
+      description: 'Commnet Wireless'
     }, {
-      description: 'Sprint Corporation',
+      description: 'Sprint Corporation'
     }, {
-      description: 'T-Mobile US',
+      description: 'T-Mobile US'
     }, {
-      description: 'U.S. Cellular',
+      description: 'U.S. Cellular'
     }, {
-      description: 'Verizon Wireless',
+      description: 'Verizon Wireless'
+    }, {
+      description: 'N/A'
     }], {});
   },
 

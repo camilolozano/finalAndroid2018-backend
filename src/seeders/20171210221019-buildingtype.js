@@ -38,6 +38,9 @@ module.exports = {
         },
         {
           description: 'Brick Construction'
+        },
+        {
+          description: 'N/A'
         }
       ],
       {}

@@ -137,11 +137,11 @@ module.exports = function (sequelize, DataTypes) {
         allowNull: false
       },
       latitude: {
-        type: DataTypes.STRING(15),
+        type: DataTypes.STRING(30),
         allowNull: false
       },
       longitude: {
-        type: DataTypes.STRING(15),
+        type: DataTypes.STRING(30),
         allowNull: false
       },
       groundElevation: {

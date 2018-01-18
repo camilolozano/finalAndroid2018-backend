@@ -31,6 +31,10 @@ module.exports = function (sequelize, DataTypes) {
         key: 'idTechnologyType'
       }
     },
+    other: {
+      type: DataTypes.STRING(50),
+      allowNull: true
+    },
     'createdAt': {
       type: DataTypes.DATE,
       defaultValue: sequelize.NOW

@@ -24,6 +24,9 @@ module.exports = {
       description: 'LTE',
     }, {
       description: '3G',
+    },
+    {
+      description: 'N/A'
     }], {});
   },
 

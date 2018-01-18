@@ -12,10 +12,13 @@ module.exports = {
         isBetaMember: false
       }], {});
     */
-    return queryInterface.bulkInsert('publicPrivateWifiType', [{
+    return queryInterface.bulkInsert('publicPrivateWifiTypes', [{
       description: 'Public'
     }, {
       description: 'Private'
+    },
+    {
+      description: 'N/A'
     }], {});
   },
 

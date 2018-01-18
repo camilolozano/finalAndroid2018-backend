@@ -20,6 +20,9 @@ module.exports = {
         },
         {
           description: 'Pad Lock Gate'
+        },
+        {
+          description: 'N/A'
         }
       ],
       {}

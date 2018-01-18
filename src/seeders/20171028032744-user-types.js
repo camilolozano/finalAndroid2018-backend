@@ -15,7 +15,7 @@ module.exports = {
     return queryInterface.bulkInsert('userTypes', [{
       description: 'ADMINISTRATOR'
     }, {
-      description: 'OPERATOR'      
+      description: 'OPERATOR'
     }], {});
   },
 

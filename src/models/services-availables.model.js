@@ -28,7 +28,7 @@ module.exports = function (sequelize, DataTypes) {
       type: DataTypes.BIGINT,
       allowNull: false,
       references: {
-        model: 'publicPrivateWifiType',
+        model: 'publicPrivateWifiTypes',
         key: 'idPublicPrivateWifi'
       }
     },
@@ -81,11 +81,11 @@ module.exports = function (sequelize, DataTypes) {
           foreignKey: 'idEvent'
         });
 
-        servicesAvailable.belongsTo(models.publicPrivateWifiType, {
+        servicesAvailable.belongsTo(models.publicPrivateWifiTypes, {
           foreignKey: 'idPublicPrivateWifi'
         });
 
-        models.publicPrivateWifiType.hasMany(servicesAvailable, {
+        models.publicPrivateWifiTypes.hasMany(servicesAvailable, {
           foreignKey: 'idPublicPrivateWifi'
         });
       }

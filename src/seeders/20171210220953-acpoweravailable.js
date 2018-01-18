@@ -20,6 +20,8 @@ module.exports = {
       description: 'No power but power line is nearby'
     }, {
       description: 'No power'
+    }, {
+      description: 'N/A'
     }], {});
   },
 

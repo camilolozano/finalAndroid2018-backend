@@ -116,20 +116,23 @@ module.exports = {
       description: 'Get Services Availables data',
       query: `
           SELECT
-            s."idServicesAvailable",
-            s."idEvent",
-            s.wifi,
-            s."idpublicPrivateWifi" as publicPrivatewifi,
-            s.phone,
-            s.fiber,
-            s.cable,
-            s.water,
-            s.satellite,
-            s.microwave
-          FROM
-            "servicesAvailables" s
-          WHERE
-            s."idEvent" = :id_event
+          s."idServicesAvailable",
+          s."idEvent",
+          s.wifi,
+          s."idPublicPrivateWifi" as publicPrivatewifi,
+          s.phone,
+          s.fiber,
+          s.cable,
+          s.water,
+          s.satellite,
+          s.microwave,
+          pp.description as publicPrivatewifidesc
+        FROM
+          "servicesAvailables" s,
+          "publicPrivateWifiTypes" pp
+        WHERE
+          s."idEvent" = :id_event AND
+          s."idPublicPrivateWifi" = pp."idPublicPrivateWifi"
       `
     }, {
       queryCode: 'SEL006',
@@ -245,7 +248,7 @@ module.exports = {
               sg."idServicesAvailable",
               sg."idCellularServiceProvider",
               sg."idTechnologyType",
-              cst.description as descriptionc,
+              coalesce(sg.other, cst.description)  AS descriptionc,
               tt.description
             FROM
               "serviceAvailableGrids" sg,
@@ -262,6 +265,7 @@ module.exports = {
       description: 'Get events detail',
       query: `
       select
+        DISTINCT ON (e."idEvent")
         o.surveyor,
         o.date_create,
         o."watherConditions",
@@ -283,7 +287,7 @@ module.exports = {
         CASE WHEN a.sandstone THEN 'Yes' ELSE 'No' END as sandstone,
         CASE WHEN a.granite THEN 'Yes' ELSE 'No' END as granite,
         CASE WHEN a.slate THEN 'Yes' ELSE 'No' END as slate,
-        CASE WHEN a.other THEN 'Yes' ELSE 'No' END as other,
+        CASE WHEN a.other != '[NULL]' THEN a.other ELSE NULL END as other,
         CASE WHEN a.required4x4 THEN 'Yes' ELSE 'No' END as required4x4,
         CASE WHEN a."solarPower" THEN 'Yes' ELSE 'No' END as solar_power,
         a."typeAccessRoad",
@@ -328,7 +332,7 @@ module.exports = {
         CASE WHEN c.genset THEN 'Yes' ELSE 'No' END as genset,
         CASE WHEN c."fuePropaneTankType" THEN 'Yes' ELSE 'No' END as fuel_propane_tank_type,
         c."propaneFuelTankSize",
-        sa."publicPrivateWifi",
+        ppw.description as idPublicPrivateWifi,
         CASE WHEN sa.wifi THEN 'Yes' ELSE 'No' END as wifi,
         CASE WHEN sa.phone THEN 'Yes' ELSE 'No' END as phone,
         CASE WHEN sa.microwave THEN 'Yes' ELSE 'No' END as microwave,
@@ -352,7 +356,8 @@ module.exports = {
         "locationTypes" as lty,
         "fenceTypes" as ft,
         "accessTypes" as aty,
-        "buildingTypes" as bt
+        "buildingTypes" as bt,
+        "publicPrivateWifiTypes" as ppw
       WHERE
         e."idEvent" = o."idEvent"
         AND e."idEvent" = a."idEvent"
@@ -369,6 +374,7 @@ module.exports = {
         AND c."idAccessType" = aty."idAccessType"
         AND c."idBuildingType" = bt."idBuildingType"
         AND e."idSystemUser" = :id_user
+        AND sa."idPublicPrivateWifi" = ppw."idPublicPrivateWifi"
 
       `
     }], {});

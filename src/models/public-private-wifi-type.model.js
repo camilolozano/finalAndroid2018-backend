@@ -1,6 +1,6 @@
 'use strict';
 module.exports = function (sequelize, DataTypes) {
-  const publicPrivateWifiType = sequelize.define('publicPrivateWifiType', {
+  const publicPrivateWifiType = sequelize.define('publicPrivateWifiTypes', {
     idPublicPrivateWifi: {
       type: DataTypes.BIGINT,
       primaryKey: true,

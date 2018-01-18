@@ -247,9 +247,10 @@ function setTrasactionEvents (data, user) {
                               for (let i = 0; i < gridServicesAvailables.length; i++) {
                                 const element = gridServicesAvailables[i];
                                 serviceAvailableGrids.create({
-                                  idServicesAvailable: idServicesAvailable,
+                                  idServicesAvailable: (idServicesAvailable === null || idServicesAvailable === undefined ? 3 : idServicesAvailable),
                                   idCellularServiceProvider: element[0],
-                                  idTechnologyType: element[1]
+                                  idTechnologyType: element[1],
+                                  other: element[2]
                                 });
                               }
                             },
@@ -282,7 +283,9 @@ router.post('/', ...jwt, async (req, res) => {
   const user = req.body.idUser;
 
   const t = transactionData.map((v, i) => {
-    return setTrasactionEvents(v, user);
+    if (v.finished) {
+      return setTrasactionEvents(v, user);
+    }
   });
 
   Promise.all([t])

@@ -26,6 +26,9 @@ module.exports = {
         },
         {
           description: 'Vinyl'
+        },
+        {
+          description: 'N/A'
         }
       ],
       {}

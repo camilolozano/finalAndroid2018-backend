@@ -10,7 +10,7 @@ import {
   legTypes,
   generalConditionTypes,
   antenaTypes,
-  publicPrivateWifiType
+  publicPrivateWifiTypes
 } from '../models';
 
 const router = express.Router();
@@ -160,7 +160,8 @@ router.get('/anttena-type/:id_user', ...cookie, (req, res) => {
 });
 
 router.get('/public-private-wifi/:id_user', ...cookie, (req, res) => {
-  publicPrivateWifiType
+  console.log('###############################');
+  publicPrivateWifiTypes
     .findAll({
       attributes: [['idPublicPrivateWifi', 'value'], ['description', 'viewValue']]
     })
