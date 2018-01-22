@@ -27,20 +27,16 @@ function existIdClient (_identificationCard) {
 }
 
 function existEmailClient (_correo) {
-  if (_correo) {
-    return false;
-  } else {
-    return systemUsers
-      .findOne({
-        where: {
-          emailusername: _correo
-        }
-      })
-      .then(t => {
-        const val = !!t;
-        return val;
-      });
-  }
+  return systemUsers
+    .findOne({
+      where: {
+        emailUsername: _correo.toLowerCase()
+      }
+    })
+    .then(t => {
+      const val = !!t;
+      return val;
+    });
 }
 
 // Actualizar la información de un usuario
@@ -61,7 +57,9 @@ router.put('/upd_user_info/:id_user&:id_user_update', async (req, res) => {
         identificationCard: req.body.identificationCard,
         idUserType: req.body.IDUserType,
         contactNumber: req.body.contactNumber,
-        identificationType: req.body.identificationType
+        identificationType: req.body.identificationType,
+        state: req.body.state,
+        emailUsername: req.body.emailUsername.toLowerCase()
       });
     })
     .then(() => {
@@ -129,7 +127,7 @@ router.post('/create/:id_user&:idCompany', ...cookie, async (req, res) => {
               secondName: req.body.secondName,
               firstLastName: req.body.firstLastName,
               secondLastName: req.body.secondLastName,
-              emailUsername: req.body.emailUsername,
+              emailUsername: req.body.emailUsername.toLowerCase(),
               // Se da un caracter provicional para el psw
               password: bcrypt.hashSync('admin123', 8),
               idUserType: req.body.idUserType,
@@ -243,9 +241,21 @@ router.get('/list-users/:id_user', ...cookie, (req, res) => {
         'identificationCard',
         'identificationType'
       ],
+      where: {
+        idSystemUser: {
+          $ne: 1
+        }
+      },
+      include: [
+        {
+          attributes: ['description'],
+          model: userTypes
+        }
+      ],
       order: ['idSystemUser']
     })
     .then(data => {
+      console.log('query ---->', data);
       res.json({
         data
       });

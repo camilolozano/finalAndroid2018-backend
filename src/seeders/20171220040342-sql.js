@@ -224,6 +224,7 @@ module.exports = {
       description: 'Get structure information grid',
       query: `
             SELECT
+              sg."idstructureInformationGrid",
               sg."idstructureInformation",
               sg."idAntenaType",
               sg.height,
@@ -245,6 +246,7 @@ module.exports = {
       description: 'Get service available grids',
       query: `
             SELECT
+              sg."idServiceAvailableGrid",
               sg."idServicesAvailable",
               sg."idCellularServiceProvider",
               sg."idTechnologyType",

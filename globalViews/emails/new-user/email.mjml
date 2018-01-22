@@ -4,17 +4,16 @@
       <mj-section>
         <mj-column>
 
-          <!--<mj-image width="100" src="/assets/img/logo-small.png"></mj-image>-->
+          <mj-image width="300" src="https://apps.americasrf.com/assets/americas.png"></mj-image>
 
           <mj-divider border-color="#00C0E1"></mj-divider>
 
-          <mj-text font-size="20px" color="#24292e" font-family="helvetica">
-            Para activar cuenta, por favor hacer clic en el boton.
+          <mj-text font-size="20px" color="#24292e" font-family="helvetica" align="center">
+            To activate account, please click on activate.
           </mj-text>
 
-          <mj-button href="{{host}}/{{endPoint}};sso={{token}};id={{idusu}}" align="center" background-color="#386c9e" color="#fff" border-radius="24px" 
-            font-family="Ubuntu, Helvetica, Arial, sans-serif, Helvetica, Arial, sans-serif" padding-bottom="3" padding-top="10">
-            Activar Cuenta
+          <mj-button href="{{host}}/{{endPoint}};sso={{token}};id={{idusu}}" align="center" background-color="#386c9e" color="#fff" border-radius="24px" font-family="Ubuntu, Helvetica, Arial, sans-serif, Helvetica, Arial, sans-serif" padding-bottom="3" padding-top="10">
+            Activate
           </mj-button>
           <mj-divider border-color="#00C0E1"></mj-divider>
 

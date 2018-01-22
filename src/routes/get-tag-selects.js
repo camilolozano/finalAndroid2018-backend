@@ -10,7 +10,9 @@ import {
   legTypes,
   generalConditionTypes,
   antenaTypes,
-  publicPrivateWifiTypes
+  publicPrivateWifiTypes,
+  cellularServiceProviderTypes,
+  technologyTypes
 } from '../models';
 
 const router = express.Router();
@@ -160,10 +162,57 @@ router.get('/anttena-type/:id_user', ...cookie, (req, res) => {
 });
 
 router.get('/public-private-wifi/:id_user', ...cookie, (req, res) => {
-  console.log('###############################');
   publicPrivateWifiTypes
     .findAll({
       attributes: [['idPublicPrivateWifi', 'value'], ['description', 'viewValue']]
+    })
+    .then(data => {
+      res.json({
+        success: true,
+        data
+      });
+    })
+    .catch(err => {
+      console.log(err);
+    });
+});
+
+router.get('/antena-type/:id_user', ...cookie, (req, res) => {
+  antenaTypes
+    .findAll({
+      attributes: [['idAntenaType', 'value'], ['description', 'viewValue']]
+    })
+    .then(data => {
+      res.json({
+        success: true,
+        data
+      });
+    })
+    .catch(err => {
+      console.log(err);
+    });
+});
+
+router.get('/cellular-service-type/:id_user', ...cookie, (req, res) => {
+  cellularServiceProviderTypes
+    .findAll({
+      attributes: [['idCellularServiceProvider', 'value'], ['description', 'viewValue']]
+    })
+    .then(data => {
+      res.json({
+        success: true,
+        data
+      });
+    })
+    .catch(err => {
+      console.log(err);
+    });
+});
+
+router.get('/technology-type/:id_user', ...cookie, (req, res) => {
+  technologyTypes
+    .findAll({
+      attributes: [['idTechnologyType', 'value'], ['description', 'viewValue']]
     })
     .then(data => {
       res.json({

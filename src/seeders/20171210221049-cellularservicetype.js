@@ -33,7 +33,7 @@ module.exports = {
     }, {
       description: 'Verizon Wireless'
     }, {
-      description: 'N/A'
+      description: 'Other'
     }], {});
   },
 

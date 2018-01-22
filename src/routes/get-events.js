@@ -653,7 +653,6 @@ router.post('/download/:id_user', async (req, res) => {
   const extQuery = await getSql(query);
   let sentence = extQuery.query;
   const filters = req.body.filters || undefined;
-  console.log(req.body);
   if (filters === undefined || !filters.hasOwnProperty('id_user')) {
     sentence = sentence.replace('AND e."idSystemUser" = :id_user', '');
   }

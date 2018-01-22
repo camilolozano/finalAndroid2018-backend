@@ -5,7 +5,9 @@ import {
   aSiteLocationInformations,
   structureInformations,
   compounds,
-  servicesAvailables
+  servicesAvailables,
+  structureInformationGrids,
+  serviceAvailableGrids
 } from '../models';
 
 const router = express.Router();
@@ -80,7 +82,7 @@ router.put('/asite-location-information/:id_user&:id_event', ...cookie, (req, re
   }).catch((err) => {
     res.json({
       success: false,
-      msg: 'Error updating'+err
+      msg: 'Error updating' + err
     });
   });
 });
@@ -122,7 +124,7 @@ router.put('/structure-information/:id_user&:id_event', ...cookie, (req, res) =>
   }).catch((err) => {
     res.json({
       success: false,
-      msg: 'Error updating'+err
+      msg: 'Error updating' + err
     });
   });
 });
@@ -155,7 +157,7 @@ router.put('/compound/:id_user&:id_event', ...cookie, (req, res) => {
   }).catch((err) => {
     res.json({
       success: false,
-      msg: 'Error updating'+err
+      msg: 'Error updating' + err
     });
   });
 });
@@ -187,6 +189,105 @@ router.put('/services-available/:id_user&:id_event', ...cookie, (req, res) => {
       success: false,
       msg: 'Error updating',
       err
+    });
+  });
+});
+
+// update structure information grid
+router.put('/structure-information-grid/:id_user', ...cookie, (req, res) => {
+  structureInformationGrids.findOne({
+    where: {
+      idstructureInformationGrid: req.body.idstructureInformationGrid
+    }
+  }).then((data) => {
+    return data.updateAttributes({
+      idAntenaType: req.body.antenatype,
+      azimuth: req.body.azimuth,
+      height: req.body.height,
+      legLocation: req.body.legLocation,
+      lines: req.body.lines,
+      qty: req.body.qty
+    });
+  }).then(() => {
+    res.json({
+      success: true,
+      msg: 'Successful update'
+    });
+  }).catch((err) => {
+    res.json({
+      success: false,
+      msg: 'Error updating' + err,
+      err
+    });
+  });
+});
+
+// Add structure information grid
+
+router.post('/structure-information-grid-add/:id_user', ...cookie, (req, res) => {
+  structureInformationGrids.create({
+    idstructureInformation: req.body.idStructureInformation,
+    idAntenaType: req.body.antenatype,
+    azimuth: req.body.azimuth,
+    height: req.body.height,
+    legLocation: req.body.legLocation,
+    lines: req.body.lines,
+    qty: req.body.qty
+  }).then(() => {
+    res.json({
+      success: true,
+      msg: 'Successful create'
+    });
+  }).catch(() => {
+    res.json({
+      success: false,
+      msg: 'Error updating'
+    });
+  });
+});
+
+// update Service AvailableGrid
+router.put('/service-available-grid/:id_user', ...cookie, (req, res) => {
+  serviceAvailableGrids.findOne({
+    where: {
+      idServiceAvailableGrid: req.body.idServiceAvailableGrid
+    }
+  }).then((data) => {
+    return data.updateAttributes({
+      idCellularServiceProvider: req.body.cellularServiceProvider,
+      idTechnologyType: req.body.technologyType,
+      other: req.body.other
+      // other: (+req.body.technologyType === 11) ? req.body.other : null
+    });
+  }).then(() => {
+    res.json({
+      success: true,
+      msg: 'Successful update'
+    });
+  }).catch((err) => {
+    res.json({
+      success: false,
+      msg: 'Error updating' + err,
+    });
+  });
+});
+
+// add service available grid
+router.post('/service-available-grid-add/:id_user', ...cookie, (req, res) => {
+  serviceAvailableGrids.create({
+    idServicesAvailable: req.body.idServiceAvailable_c,
+    idCellularServiceProvider: req.body.cellularServiceProvider,
+    idTechnologyType: req.body.technologyType,
+    other: req.body.other
+  }).then(() => {
+    res.json({
+      success: true,
+      msg: 'Successful create'
+    });
+  }).catch(() => {
+    res.json({
+      success: false,
+      msg: 'Error updating'
     });
   });
 });
