@@ -3,7 +3,7 @@ const multer = require('multer');
 // lugar donde se guardan las imagenes
 const storage = multer.diskStorage({
   destination: (req, file, callback) => {
-    callback(null, 'uploads/images');
+    callback(null, 'uploads/pictures');
   },
   filename: (req, file, callback) => {
     let name = file.originalname;
@@ -26,4 +26,4 @@ exports.upload = multer({
     }
     return cb(null, true);
   },
-}).single('images');
+}).single('image');

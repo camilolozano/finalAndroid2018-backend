@@ -9,6 +9,7 @@ import {
   structureInformationGrids,
   serviceAvailableGrids
 } from '../models';
+import uploadImages from '../upload/upload_picture';
 
 const router = express.Router();
 
@@ -289,6 +290,27 @@ router.post('/service-available-grid-add/:id_user', ...cookie, (req, res) => {
       success: false,
       msg: 'Error updating'
     });
+  });
+});
+
+// update images
+router.put('/picture-update/:id_user', (req, res) => {
+  uploadImages.upload(req, res, (err) => {
+    if (err) {
+      return res.end(`Error al subir el archivo ${err}`);
+    }
+    console.log(req)
+    if (req.file) {
+      console.log(req.file);
+      // const tipo = 1; // Tipo 1 -> imagenes
+      // guardarUrl(req, res, tipo);
+    } else {
+      res.json({
+        success: false,
+        url: 'no-url',
+        msg: 'Lo siento el archivo no fue guardado'
+      });
+    }
   });
 });
 

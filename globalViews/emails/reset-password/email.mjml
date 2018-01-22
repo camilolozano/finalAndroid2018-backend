@@ -4,7 +4,7 @@
       <mj-section>
         <mj-column>
 
-          <mj-image width="100" src="/assets/img/logo-small.png"></mj-image>
+          <mj-image width="300" src="https://apps.americasrf.com/assets/americas.png"></mj-image>
 
           <mj-divider border-color="#00C0E1"></mj-divider>
 
