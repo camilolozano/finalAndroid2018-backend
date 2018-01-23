@@ -145,7 +145,7 @@ module.exports = function (sequelize, DataTypes) {
         allowNull: false
       },
       groundElevation: {
-        type: DataTypes.STRING(15),
+        type: DataTypes.STRING(35),
         allowNull: false
       },
       createdAt: {
