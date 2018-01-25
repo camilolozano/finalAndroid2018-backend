@@ -210,6 +210,7 @@ module.exports = {
       description: 'Get picture log data',
       query: `
             SELECT
+              p."idpicturesLogo",
               p."idEvent",
               p.description,
               p.uuid
@@ -217,6 +218,8 @@ module.exports = {
               "picturesLogos" p
             WHERE
               p."idEvent" = :id_event
+              AND p.state IS TRUE
+            ORDER BY p."idpicturesLogo" ASC
       `
     }, {
       queryCode: 'SEL009',

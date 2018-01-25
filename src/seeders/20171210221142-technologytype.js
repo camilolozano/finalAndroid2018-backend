@@ -13,20 +13,17 @@ module.exports = {
       }], {});
     */
     return queryInterface.bulkInsert('technologyTypes', [{
-      description: 'GPRS EDGE/EGPRS',
+      description: 'GPRS EDGE/EGPRS'
     }, {
-      description: 'CDMA2000 1X',
+      description: 'CDMA2000 1X'
     }, {
-      description: '4G',
+      description: '4G'
     }, {
-      description: 'CDMA2000 1xEV-DO',
+      description: 'CDMA2000 1xEV-DO'
     }, {
-      description: 'LTE',
+      description: 'LTE'
     }, {
-      description: '3G',
-    },
-    {
-      description: 'N/A'
+      description: '3G'
     }], {});
   },
 

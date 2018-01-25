@@ -7,7 +7,8 @@ import {
   compounds,
   servicesAvailables,
   structureInformationGrids,
-  serviceAvailableGrids
+  serviceAvailableGrids,
+  picturesLogos
 } from '../models';
 import uploadImages from '../upload/upload_picture';
 
@@ -265,10 +266,10 @@ router.put('/service-available-grid/:id_user', ...cookie, (req, res) => {
       success: true,
       msg: 'Successful update'
     });
-  }).catch((err) => {
+  }).catch(() => {
     res.json({
       success: false,
-      msg: 'Error updating' + err,
+      msg: 'Error updating'
     });
   });
 });
@@ -293,24 +294,109 @@ router.post('/service-available-grid-add/:id_user', ...cookie, (req, res) => {
   });
 });
 
-// update images
-router.put('/picture-update/:id_user', (req, res) => {
+// update images ===================
+function updateImage (req, res) {
+  const name = req.file.filename.split('.');
+  picturesLogos.findOne({
+    where: {
+      idpicturesLogo: req.params.id_picture
+    }
+  }).then((data) => {
+    return data.updateAttributes({
+      uuid: name[0].toLowerCase()
+    }).catch(err => { return err; });
+  }).then(() => {
+    res.json({
+      success: true,
+      msg: 'Successful update',
+      img: name[0].toLowerCase()
+    });
+  }).catch(() => {
+    res.json({
+      success: false,
+      msg: 'Error updating'
+    });
+  });
+};
+
+router.post('/picture-update/:id_user&:id_picture', ...cookie, (req, res) => {
   uploadImages.upload(req, res, (err) => {
     if (err) {
       return res.end(`Error al subir el archivo ${err}`);
     }
-    console.log(req)
     if (req.file) {
-      console.log(req.file);
-      // const tipo = 1; // Tipo 1 -> imagenes
-      // guardarUrl(req, res, tipo);
+      updateImage(req, res);
     } else {
       res.json({
         success: false,
-        url: 'no-url',
-        msg: 'Lo siento el archivo no fue guardado'
+        msg: 'Error updating'
       });
     }
+  });
+});
+
+// Delete state image, "Delete view"
+router.put('/picture-update-state/:id_user', ...cookie, (req, res) => {
+  picturesLogos.findOne({
+    where: {
+      idpicturesLogo: req.body.id,
+      uuid: req.body.elements
+    }
+  }).then((data) => {
+    return data.updateAttributes({
+      state: false
+    });
+  }).then(() => {
+    res.json({
+      success: true,
+      msg: 'Successful delete'
+    });
+  }).catch(() => {
+    res.json({
+      success: false,
+      msg: 'Error delete'
+    });
+  });
+});
+
+// upload picture file
+router.post('/picture-file-upload/:id_user', ...cookie, (req, res) => {
+  uploadImages.upload(req, res, (err) => {
+    if (err) {
+      return res.end(`Error al subir el archivo ${err}`);
+    }
+    if (req.file) {
+      const name = req.file.filename.split('.');
+      res.json({
+        success: true,
+        uuid: name[0].toLowerCase()
+      });
+    } else {
+      res.json({
+        success: false,
+        msg: 'Error updating'
+      });
+    }
+  });
+});
+
+// persistence data upload picture file
+
+router.post('/picture-file-save/:id_user', ...cookie, (req, res) => {
+  picturesLogos.create({
+    idEvent: req.body.idEvent,
+    description: req.body.description,
+    uuid: req.body.UUID
+  }).then(() => {
+    res.json({
+      success: true,
+      msg: 'Successful create'
+    });
+  }).catch(() => {
+    res.json({
+      success: false,
+      msg: 'Error updating'
+    });
   });
 });
 

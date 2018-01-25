@@ -29,6 +29,9 @@ module.exports = {
         },
         {
           description: 'Excellent'
+        },
+        {
+          description: 'N/A'
         }
       ],
       {}
