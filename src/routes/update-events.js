@@ -337,7 +337,8 @@ router.post('/picture-update/:id_user&:id_picture', ...cookie, (req, res) => {
     gm(req.file.path)
       .setFormat('jpeg')
       .noProfile()
-      .write(`uploads/${name[0]}.jpeg`, (err) => {
+
+      .write(`/mnt/volume1/images/${name[0]}.jpeg`, (err) => {
         if (err) {
           res.json({
             success: false,
@@ -391,7 +392,7 @@ router.post('/picture-file-upload/:id_user', ...cookie, (req, res) => {
     gm(req.file.path)
       .setFormat('jpeg')
       .noProfile()
-      .write(`uploads/${name[0]}.jpeg`, (err) => {
+      .write(`/mnt/volume1/images/${name[0]}.jpeg`, (err) => {
         if (err) {
           res.json({
             success: false,
