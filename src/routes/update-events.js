@@ -11,7 +11,9 @@ import {
   picturesLogos
 } from '../models';
 import uploadImages from '../upload/upload_picture';
+import path from 'path';
 
+const gm = require('gm').subClass({ imageMagick: true });
 const router = express.Router();
 
 // o survey information
@@ -324,14 +326,27 @@ router.post('/picture-update/:id_user&:id_picture', ...cookie, (req, res) => {
     if (err) {
       return res.end(`Error al subir el archivo ${err}`);
     }
-    if (req.file) {
-      updateImage(req, res);
-    } else {
+    if (!req.file) {
       res.json({
         success: false,
         msg: 'Error updating'
       });
+      return;
     }
+    const name = req.file.filename.split('.');
+    gm(req.file.path)
+      .setFormat('jpeg')
+      .noProfile()
+      .write(`uploads/${name[0]}.jpeg`, (err) => {
+        if (err) {
+          res.json({
+            success: false,
+            msg: 'Error updating'
+          });
+        } else {
+          updateImage(req, res);
+        }
+      });
   });
 });
 
@@ -365,18 +380,31 @@ router.post('/picture-file-upload/:id_user', ...cookie, (req, res) => {
     if (err) {
       return res.end(`Error al subir el archivo ${err}`);
     }
-    if (req.file) {
-      const name = req.file.filename.split('.');
-      res.json({
-        success: true,
-        uuid: name[0].toLowerCase()
-      });
-    } else {
+    if (!req.file) {
       res.json({
         success: false,
         msg: 'Error updating'
       });
+      return;
     }
+    const name = req.file.filename.split('.');
+    gm(req.file.path)
+      .setFormat('jpeg')
+      .noProfile()
+      .write(`uploads/${name[0]}.jpeg`, (err) => {
+        if (err) {
+          res.json({
+            success: false,
+            msg: 'Error updating'
+          });
+        } else {
+          const name = req.file.filename.split('.');
+          res.json({
+            success: true,
+            uuid: name[0].toLowerCase()
+          });
+        }
+      });
   });
 });
 
