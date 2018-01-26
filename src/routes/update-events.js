@@ -297,7 +297,7 @@ router.post('/service-available-grid-add/:id_user', ...cookie, (req, res) => {
 });
 
 // update images ===================
-function updateImage (req, res) {
+function updateImage(req, res) {
   const name = req.file.filename.split('.');
   picturesLogos.findOne({
     where: {
@@ -329,25 +329,30 @@ router.post('/picture-update/:id_user&:id_picture', ...cookie, (req, res) => {
     if (!req.file) {
       res.json({
         success: false,
-        msg: 'Error updating'
+        msg: 'Error upload picture file'
       });
       return;
     }
     const name = req.file.filename.split('.');
     gm(req.file.path)
-      .setFormat('jpeg')
-      .noProfile()
+    .setFormat('jpeg')
+    .noProfile()
+    .write(`uploads/pictures/${name[0]}.jpeg`, (err) => {
+      if (err) {
+        res.json({
+          success: false,
+          msg: 'Error upload picture file'
+        });
+      } else {
+        updateImage(req, res);
+        // const name = req.file.filename.split('.');
+        // res.json({
+        //   success: true,
+        //   uuid: name[0].toLowerCase()
+        // });
+      }
+    });
 
-      .write(`/mnt/volume1/images/${name[0]}.jpeg`, (err) => {
-        if (err) {
-          res.json({
-            success: false,
-            msg: 'Error updating'
-          });
-        } else {
-          updateImage(req, res);
-        }
-      });
   });
 });
 
@@ -384,33 +389,32 @@ router.post('/picture-file-upload/:id_user', ...cookie, (req, res) => {
     if (!req.file) {
       res.json({
         success: false,
-        msg: 'Error updating'
+        msg: 'Error upload picture file'
       });
       return;
     }
     const name = req.file.filename.split('.');
     gm(req.file.path)
-      .setFormat('jpeg')
-      .noProfile()
-      .write(`/mnt/volume1/images/${name[0]}.jpeg`, (err) => {
-        if (err) {
-          res.json({
-            success: false,
-            msg: 'Error updating'
-          });
-        } else {
-          const name = req.file.filename.split('.');
-          res.json({
-            success: true,
-            uuid: name[0].toLowerCase()
-          });
-        }
-      });
+    .setFormat('jpeg')
+    .noProfile()
+    .write(`uploads/pictures/${name[0]}.jpeg`, (err) => {
+      if (err) {
+        res.json({
+          success: false,
+          msg: 'Error upload picture file'
+        });
+      } else {
+        const name = req.file.filename.split('.');
+        res.json({
+          success: true,
+          uuid: name[0].toLowerCase()
+        });
+      }
+    });
   });
 });
 
 // persistence data upload picture file
-
 router.post('/picture-file-save/:id_user', ...cookie, (req, res) => {
   picturesLogos.create({
     idEvent: req.body.idEvent,
