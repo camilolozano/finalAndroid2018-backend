@@ -241,28 +241,30 @@ module.exports = {
               "antenaTypes" at
             WHERE
               at."idAntenaType" = sg."idAntenaType"
-              AND sg."idstructureInformation" = :id_structure_information;
+              AND sg."idstructureInformation" = :id_structure_information
+              AND sg.state IS TRUE
       `
     }, {
       queryCode: 'SEL010',
       queryName: 'Get service available grids',
       description: 'Get service available grids',
       query: `
-            SELECT
-              sg."idServiceAvailableGrid",
-              sg."idServicesAvailable",
-              sg."idCellularServiceProvider",
-              sg."idTechnologyType",
-              coalesce(sg.other, cst.description)  AS descriptionc,
-              tt.description
-            FROM
-              "serviceAvailableGrids" sg,
-              "cellularServiceProviderTypes" cst,
-              "technologyTypes" tt
-            WHERE
-              sg."idCellularServiceProvider" = cst."idCellularServiceProvider"
-              AND sg."idTechnologyType" = tt."idTechnologyType"
-              AND sg."idServicesAvailable" = :id_service
+      SELECT
+          sg."idServiceAvailableGrid",
+          sg."idServicesAvailable",
+          sg."idCellularServiceProvider",
+          sg."idTechnologyType",
+          coalesce(sg.other, cst.description)  AS descriptionc,
+          tt.description
+        FROM
+          "serviceAvailableGrids" sg,
+          "cellularServiceProviderTypes" cst,
+          "technologyTypes" tt
+        WHERE
+          sg."idCellularServiceProvider" = cst."idCellularServiceProvider"
+          AND sg."idTechnologyType" = tt."idTechnologyType"
+          AND sg."idServicesAvailable" = :id_service
+          AND sg.state IS TRUE
       `
     }, {
       queryCode: 'SEL011',

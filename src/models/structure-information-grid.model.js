@@ -45,6 +45,11 @@ module.exports = function (sequelize, DataTypes) {
         type: DataTypes.STRING(30),
         allowNull: false
       },
+      state: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: true
+      },
       createdAt: {
         type: DataTypes.DATE,
         defaultValue: sequelize.NOW

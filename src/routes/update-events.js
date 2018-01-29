@@ -337,7 +337,7 @@ router.post('/picture-update/:id_user&:id_picture', ...cookie, (req, res) => {
     gm(req.file.path)
     .setFormat('jpeg')
     .noProfile()
-    .write(`uploads/pictures/${name[0]}.jpeg`, (err) => {
+    .write(`uploads/${name[0]}.jpeg`, (err) => {
       if (err) {
         res.json({
           success: false,
@@ -397,7 +397,7 @@ router.post('/picture-file-upload/:id_user', ...cookie, (req, res) => {
     gm(req.file.path)
     .setFormat('jpeg')
     .noProfile()
-    .write(`uploads/pictures/${name[0]}.jpeg`, (err) => {
+    .write(`uploads/${name[0]}.jpeg`, (err) => {
       if (err) {
         res.json({
           success: false,
@@ -433,4 +433,51 @@ router.post('/picture-file-save/:id_user', ...cookie, (req, res) => {
   });
 });
 
+// delere data delete-structureinfo-row
+router.put('/delete-structureinfo-row/:id_user', ...cookie, (req, res) => {
+  structureInformationGrids.findOne({
+    where: {
+      idstructureInformationGrid: req.body.idstructureInformationGrid,
+      idstructureInformation: req.body.idstructureInformation
+    }
+  }).then((data) => {
+    return data.updateAttributes({
+      state: false
+    });
+  }).then(() => {
+    res.json({
+      success: true,
+      msg: 'Successful delete'
+    });
+  }).catch((err) => {
+    res.json({
+      success: false,
+      msg: 'Error delete'
+    });
+  });
+});
+
+// delere delete-serviceavailable-row
+router.put('/delete-serviceavailable-row/:id_user', ...cookie, (req, res) => {
+  serviceAvailableGrids.findOne({
+    where: {
+      idServiceAvailableGrid: req.body.idServiceAvailableGrid,
+      idServicesAvailable: req.body.idServicesAvailable
+    }
+  }).then((data) => {
+    return data.updateAttributes({
+      state: false
+    });
+  }).then(() => {
+    res.json({
+      success: true,
+      msg: 'Successful delete'
+    });
+  }).catch((err) => {
+    res.json({
+      success: false,
+      msg: 'Error delete'
+    });
+  });
+});
 module.exports = router;
