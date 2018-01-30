@@ -30,7 +30,8 @@ function setTrasactionEvents(data, user) {
   } = data;
   const { gridData: gridServicesAvailables } = ServicesAvailables;
   const { gridData: gridStructureInformation } = StructureInformation;
-  if (data.finished !== undefined && data.finished.finished === true) {
+  console.log(data.finished === true);
+  if (data.finished === true) {
     return db.transaction(t => {
       return events
         .create(
@@ -283,6 +284,7 @@ function setTrasactionEvents(data, user) {
 router.post('/', ...jwt, async (req, res) => {
   const transactionData = req.body.data;
   const user = req.body.idUser;
+
 
   const t = transactionData.map((v, i) => {
     return setTrasactionEvents(v, user);
