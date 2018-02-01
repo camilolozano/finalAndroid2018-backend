@@ -3,9 +3,13 @@ import cookie from '../middlewares/coockie-session.js';
 import { systemUsers, userTypes } from '../models';
 import bcrypt from 'bcryptjs';
 import emails from '../controllers/email_new_user';
-import jwt from 'jwt-simple';
+// import jwt from 'jwt-simple';
 
-import cfg from '../config/config-jwt';
+// import cfg from '../config/config-jwt';
+import config from '../config/config-jwt';
+import jwt from 'jsonwebtoken';
+import kg from '../global/key';
+
 // const auth = require('../auth')();
 const router = express.Router();
 
@@ -79,10 +83,11 @@ router.put('/upd_user_info/:id_user&:id_user_update', async (req, res) => {
 // Crear usuario ========================================
 const jwtPayload = data => {
   const { req, res, user } = data;
-  const payload = {
-    id: user.idSystemUser
-  };
-  const token = jwt.encode(payload, cfg.jwtSecret);
+  // const payload = {
+  //   id: user.idSystemUser
+  // };
+  // const token = jwt.encode(payload, cfg.jwtSecret);
+  const token = jwt.sign(kg.kg(), config.jwtSecret);
   const sendData = {
     req,
     res,
@@ -252,10 +257,9 @@ router.get('/list-users/:id_user', ...cookie, (req, res) => {
           model: userTypes
         }
       ],
-      order: ['idSystemUser']
+      order: ['description']
     })
     .then(data => {
-      console.log('query ---->', data);
       res.json({
         data
       });

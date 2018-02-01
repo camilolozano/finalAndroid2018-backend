@@ -17,37 +17,39 @@ module.exports = {
       queryName: 'GET My events',
       description: 'Get all my events register',
       query: `
-            SELECT
-              e."idEvent",
-              o.surveyor,
-              o.date_create,
-              o."directionToSite",
-              o.temperature,
-              o."watherConditions"
-            FROM
-              "events" e,
-              "oSurveyInformations" o
-            WHERE
-              e."idEvent" = o."idEvent"
-              AND e."idSystemUser" = :id_user
+          SELECT
+            e."idEvent",
+            o.surveyor,
+            o.date_create,
+            o."directionToSite",
+            o.temperature,
+            o."watherConditions"
+          FROM
+            "events" e,
+            "oSurveyInformations" o
+          WHERE
+            e."idEvent" = o."idEvent"
+            AND e."idSystemUser" = :id_user
+          ORDER BY  o.date_create DESC
       `
     }, {
       queryCode: 'SEL002',
       queryName: 'GET All events',
       description: 'Get all events register',
       query: `
-            SELECT
-              e."idEvent",
-              o.surveyor,
-              o.date_create,
-              o."directionToSite",
-              o.temperature,
-              o."watherConditions"
-            FROM
-              "events" e,
-              "oSurveyInformations" o
-            WHERE
-              e."idEvent" = o."idEvent"
+          SELECT
+            e."idEvent",
+            o.surveyor,
+            o.date_create,
+            o."directionToSite",
+            o.temperature,
+            o."watherConditions"
+          FROM
+            "events" e,
+            "oSurveyInformations" o
+          WHERE
+            e."idEvent" = o."idEvent"
+          ORDER BY  o.date_create DESC
       `
     }, {
       queryCode: 'SEL003',

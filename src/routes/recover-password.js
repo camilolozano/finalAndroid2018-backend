@@ -1,27 +1,27 @@
 import express from 'express';
 import { systemUsers } from '../models';
 import cfg from '../config/config-jwt';
-import jwt from 'jwt-simple';
-const auth = require('../auth.js')();
+// import jwt from 'jwt-simple';
 import bcrypt from 'bcryptjs';
 import emails from '../controllers/email_reset_pass';
+// import jwt from '../middlewares/jwt';
+import cookie from '../middlewares/coockie-session.js';
+import jwt from 'jsonwebtoken';
+import kg from '../global/key';
+import jwtAccess from '../middlewares/jwt';
 
 const router = express.Router();
 
 const jwtPayload = (data) => {
   const { req, res, usuario } = data;
-  const payload = {
-    id: usuario.idSystemUser
-  };
-  const token = jwt.encode(payload, cfg.jwtSecret);
-
+  const token = jwt.sign(kg.kg(), cfg.jwtSecret);
   const sendData = {
     req, res, usuario, token
   };
-
   emails.email(sendData);
 };
 
+// request to recover password
 router.get('/:email', (req, res) => {
   const email = req.params.email;
   // mira si el usuario existe
@@ -41,13 +41,13 @@ router.get('/:email', (req, res) => {
     } else {
       res.json({
         success: false,
-        msg: `El correo ${email} no está registrado en el sistema`
+        msg: `The email ${email} is not registered in the system`
       });
     }
   });
 });
 
-router.put('/update/:id_user', (req, res) => {
+router.put('/update/:id_user', ...cookie, (req, res) => {
   const newPassword = req.body.newPassword;
   const currentPassword = req.body.currentPassword;
 
@@ -95,7 +95,7 @@ router.put('/update/:id_user', (req, res) => {
 });
 
 // falta midleware. se ingresa la contraseña por primera vez. El token viene por url
-router.put('/reset', (req, res) => {
+router.put('/reset', ...jwtAccess, (req, res) => {
   const newPassword = req.body.newPassword;
   // mira si el usuario existe
   systemUsers.find({
@@ -111,14 +111,14 @@ router.put('/reset', (req, res) => {
       });
     } else {
       return res.json({
-        msg: 'User no founded',
+        msg: 'User not found',
         success: false
       });
     }
   }).then(() => {
     res.json({
       success: true,
-      msg: 'Password inserted'
+      msg: 'Password updated'
     });
   }).catch(() => {
     res.json({
@@ -127,5 +127,40 @@ router.put('/reset', (req, res) => {
     });
   });
 });
+
+// update reset password
+
+router.put('/update-reset', ...jwtAccess, (req, res) => {
+  const newPassword = req.body.newPassword;
+  // mira si el usuario existe
+  systemUsers.find({
+    where: {
+      idSystemUser: req.body.id_user
+    }
+  }).then((usuario) => {
+    if (usuario) {
+      return usuario.updateAttributes({
+        password: bcrypt.hashSync(newPassword, 8),
+        state: true
+      });
+    } else {
+      return res.json({
+        msg: 'User not found',
+        success: false
+      });
+    }
+  }).then(() => {
+    res.json({
+      success: true,
+      msg: 'Password updated'
+    });
+  }).catch(() => {
+    res.json({
+      success: false,
+      msg: 'Error inserting'
+    });
+  });
+});
+
 
 module.exports = router;

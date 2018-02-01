@@ -5,7 +5,7 @@ const ENV = process.env.NODE_ENV || 'development';
 const CONF = require('../config/config')[ENV];
 
 function sendEmail (sendData) {
-  const { res, user, token } = sendData;
+  const { res, usuario, token } = sendData;
   // Create the transporter with the required configuration for Outlook
   // change the user and pass !
   const transporter = nodemailer.createTransport({
@@ -27,7 +27,7 @@ function sendEmail (sendData) {
   // Contexto que se pasa a la plantilla html de handlebar para mostrar
   const host = CONF.cliente;
   const endPoint = 'recover-password';
-  const idusu = user.idSystemUser;
+  const idusu = usuario.idSystemUser;
 
   const objectContext = {
     host,
@@ -38,7 +38,7 @@ function sendEmail (sendData) {
   // setup e-mail data, even with unicode symbols
   const mailOptions = {
     from: 'kamilo92@live.com', // sender address (who sends)
-    to: user.emailUsername, // list of receivers (who receives)
+    to: usuario.emailUsername, // list of receivers (who receives)
     subject: 'Recover password', // Subject line
     template: 'email', // Template html  y handlebars
     context: objectContext

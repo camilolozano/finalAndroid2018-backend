@@ -16,7 +16,7 @@ import jwt from '../middlewares/jwt';
 const db = models.sequelize;
 const router = express.Router();
 
-function setTrasactionEvents(data, user) {
+function setTrasactionEvents (data, user) {
   let idEvent = '';
   let idServicesAvailable = '';
   let idstructureInformation = '';
@@ -30,7 +30,6 @@ function setTrasactionEvents(data, user) {
   } = data;
   const { gridData: gridServicesAvailables } = ServicesAvailables;
   const { gridData: gridStructureInformation } = StructureInformation;
-  console.log(data.finished === true);
   if (data.finished === true) {
     return db.transaction(t => {
       return events
