@@ -27,7 +27,10 @@ router.put('/osurvey-information/:id_user&:id_event', ...cookie, (req, res) => {
       surveyor: req.body.surveyor,
       watherConditions: req.body.weather_conditions,
       temperature: req.body.temperature,
-      directionToSite: req.body.directions_to_site
+      directionToSite: req.body.directions_to_site,
+
+      identifier: req.body.identifier,
+      site_name: req.body.site_name
     });
   }).then(() => {
     res.json({

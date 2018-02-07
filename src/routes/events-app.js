@@ -41,7 +41,7 @@ function setTrasactionEvents (data, user) {
         )
         .then(eventT => {
           idEvent = eventT.idEvent;
-          const { weather_conditions, temperature, surveyor, directions_to_site, date_create } = OSurveyInformation;
+          const { weather_conditions, temperature, surveyor, directions_to_site, date_create, identifier, site_name } = OSurveyInformation;
           return oSurveyInformations
             .create(
             {
@@ -50,7 +50,9 @@ function setTrasactionEvents (data, user) {
               date_create: date_create,
               watherConditions: weather_conditions,
               temperature: temperature,
-              directionToSite: directions_to_site
+              directionToSite: directions_to_site,
+              identifier: identifier,
+              site_name: site_name
             },
             { transaction: t }
             )

@@ -21,6 +21,14 @@ module.exports = function (sequelize, DataTypes) {
         type: DataTypes.STRING(400),
         allowNull: false
       },
+      identifier: {
+        type: DataTypes.STRING(400),
+        allowNull: false
+      },
+      site_name: {
+        type: DataTypes.STRING(400),
+        allowNull: false
+      },
       date_create: {
         type: DataTypes.STRING(30),
         allowNull: false

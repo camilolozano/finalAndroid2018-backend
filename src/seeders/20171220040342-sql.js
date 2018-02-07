@@ -106,7 +106,9 @@ module.exports = {
               o.date_create,
               o."watherConditions",
               o.temperature,
-              o."directionToSite"
+              o."directionToSite",
+              o.identifier,
+              o.site_name
             FROM
               "oSurveyInformations" o
             WHERE
@@ -251,7 +253,7 @@ module.exports = {
       queryName: 'Get service available grids',
       description: 'Get service available grids',
       query: `
-      SELECT
+        SELECT
           sg."idServiceAvailableGrid",
           sg."idServicesAvailable",
           sg."idCellularServiceProvider",
@@ -275,11 +277,14 @@ module.exports = {
       query: `
       select
         DISTINCT ON (e."idEvent")
+        o."idEvent",
         o.surveyor,
         o.date_create,
         o."watherConditions",
         o.temperature,
         o."directionToSite",
+        o.identifier,
+        o.site_name,
         a.name,
         a.owner,
         a.address,
@@ -308,7 +313,6 @@ module.exports = {
         a.latitude,
         a.longitude,
         a."groundElevation",
-
         s.asr_number,
         s.faa,
         s.fcc_call_sign,
@@ -329,7 +333,6 @@ module.exports = {
         s.latitude,
         s.longitude,
         s."groundElevation",
-
         lty.description as location_type,
         c."locationDescription",
         CASE WHEN c."locationFence" THEN 'Yes' ELSE 'No' END as location_fence,
@@ -349,7 +352,6 @@ module.exports = {
         CASE WHEN sa.satellite THEN 'Yes' ELSE 'No' END as satellite,
         CASE WHEN sa.cable THEN 'Yes' ELSE 'No' END as cable,
         CASE WHEN sa.water THEN 'Yes' ELSE 'No' END as water
-
       from
         events as e,
         "oSurveyInformations" as o,
@@ -384,7 +386,44 @@ module.exports = {
         AND c."idBuildingType" = bt."idBuildingType"
         AND e."idSystemUser" = :id_user
         AND sa."idPublicPrivateWifi" = ppw."idPublicPrivateWifi"
-
+      `
+    }, {
+      queryCode: 'SEL012',
+      queryName: 'Get Structure informations grids exel',
+      description: 'Get Structure informations grids exel',
+      query: `
+            SELECT
+              sg."idstructureInformation",
+              at.description AS descantena,
+              sg.height,
+              sg."legLocation",
+              sg.qty,
+              sg.azimuth,
+              sg.lines
+            FROM
+              "structureInformationGrids" sg,
+              "antenaTypes" at
+            WHERE
+              at."idAntenaType" = sg."idAntenaType"
+            AND sg.state IS TRUE
+      `
+    }, {
+      queryCode: 'SEL013',
+      queryName: 'Get Service availables grids exel',
+      description: 'Get Service availables grids exel',
+      query: `
+            SELECT
+              sg."idServicesAvailable",
+              coalesce(sg.other, cst.description) AS descriptionc,
+              tt.description
+            FROM
+              "serviceAvailableGrids" sg,
+              "cellularServiceProviderTypes" cst,
+              "technologyTypes" tt
+            WHERE
+              sg."idCellularServiceProvider" = cst."idCellularServiceProvider"
+              AND sg."idTechnologyType" = tt."idTechnologyType"
+              AND sg.state IS TRUE
       `
     }], {});
   },
