@@ -95,7 +95,7 @@ router.put('/update/:id_user', ...cookie, (req, res) => {
 });
 
 // falta midleware. se ingresa la contraseña por primera vez. El token viene por url
-router.put('/reset', ...jwtAccess, (req, res) => {
+router.put('/reset', (req, res) => {
   const newPassword = req.body.newPassword;
   // mira si el usuario existe
   systemUsers.find({
