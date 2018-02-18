@@ -1,38 +1,40 @@
 import express from 'express';
 // import { systemUsers } from '../../models';
 import bcrypt from 'bcryptjs';
-import { systemUsers } from '../models';
-import config from '../config/config-jwt';
-import jwt from 'jsonwebtoken';
-import kg from '../global/key';
+import { appUsers } from '../../models';
+// import config from '../../config/config-jwt';
+// import jwt from 'jsonwebtoken';
+// import kg from '../../global/key';
 
 const router = express.Router();
 
 function validatePassword (res, passDB, password, data) {
-  const { idSystemUser, fullName, DBemail } = data;
+  const { idSystemUser, fullName, DBemail, DBaddress, avatar } = data;
 
   const comparePass = bcrypt.compareSync(password, passDB);
   if (comparePass) {
-    const token = jwt.sign(kg.kg(), config.jwtSecret);
+    // const token = jwt.sign(kg.kg(), config.jwtSecret);
     res.json({
       success: true,
       idSystemUser,
       fullName,
       DBemail,
-      msg: 'login',
-      token
+      DBaddress,
+      avatar,
+      msg: 'login'
+      // token
     });
   } else {
     res.json({
       success: false,
-      msg: 'No login',
+      msg: 'Usuario y contraseña no coinciden ',
       flag: 'NONpassword'
     });
   }
 }
 
 function validateEmail (email, password, res) {
-  return systemUsers
+  return appUsers
     .findOne({
       where: {
         emailUsername: email
@@ -42,26 +44,30 @@ function validateEmail (email, password, res) {
       if (login) {
         if (login.state) {
           const passDB = login.password;
-          const idSystemUser = login.idSystemUser;
-          const fullName = `${login.firstName} ${login.firstLastName}`;
+          const idSystemUser = login.idAppUser;
+          const fullName = `${login.firstNameUser} ${login.lastNameUser}`;
           const DBemail = login.emailUsername;
+          const DBaddress = login.addressUser;
+          const avatar = login.avatar;
 
           const data = {
             idSystemUser,
             fullName,
-            DBemail
+            DBemail,
+            DBaddress,
+            avatar
           };
           validatePassword(res, passDB, password, data);
         } else {
           res.json({
-            msg: 'User disabled, please contact to system administrator',
+            msg: 'Usuario deshabilitado, Por favor contacte a soporte',
             success: false,
             flag: 'NONstate'
           });
         }
       } else {
         res.json({
-          msg: 'User isn´t register, please contact to system administrator',
+          msg: 'El usaurio no está registrado',
           success: false,
           flag: 'NONemail'
         });

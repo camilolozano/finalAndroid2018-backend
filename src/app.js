@@ -7,16 +7,19 @@ import bodyParser from 'body-parser';
 import helmet from 'helmet';
 import cors from 'cors';
 
+// WEB
 import login from './routes/login';
 import logout from './routes/logout';
 import users from './routes/users';
 import recuperarContrasena from './routes/recover-password';
-import loginApp from './routes/login-app';
-import setData from './routes/events-app.js';
-import uploadPictures from './routes/events-upload';
-import myEvents from './routes/get-events';
 import tagSelects from './routes/get-tag-selects';
-import updateEvents from './routes/update-events';
+import createCompany from './routes/create-company';
+// Api mobil
+import crateUserApp from './routes/mobil/crateUser';
+import productos from './routes/mobil/products';
+import offerts from './routes/mobil/offerts';
+import loginApp from './routes/mobil/login-app';
+import searchCompanies from './routes/mobil/searchCompanies';
 
 const app = express();
 
@@ -44,16 +47,20 @@ app.use(express.static(path.join(__dirname, 'views')));
 app.use(express.static(path.join(__dirname, 'globalViews')));
 app.use('/storage', express.static(path.join(__dirname, '../uploads')));
 
+// web
 app.use('/login', login);
 app.use('/log-out', logout);
 app.use('/users', users);
 app.use('/recover-pass', recuperarContrasena);
-app.use('/app-login', loginApp);
-app.use('/set-data', setData);
-app.use('/upload-pictures', uploadPictures);
-app.use('/events', myEvents);
 app.use('/tags', tagSelects);
-app.use('/update-events', updateEvents);
+app.use('/company', createCompany);
+
+// app mobil
+app.use('/app-login', loginApp);
+app.use('/create-user-app', crateUserApp);
+app.use('/products', productos);
+app.use('/offerts', offerts);
+app.use('/search-companies', searchCompanies);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

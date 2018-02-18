@@ -1,33 +1,29 @@
 'use strict';
 
 module.exports = function (sequelize, DataTypes) {
-  const picturesLogo = sequelize.define(
-    'picturesLogos',
+  const keyWord = sequelize.define(
+    'keyWords',
     {
-      idpicturesLogo: {
+      // personal identification card
+      idKeyWord: {
         type: DataTypes.BIGINT,
         primaryKey: true,
         autoIncrement: true
       },
-      idEvent: {
-        type: DataTypes.BIGINT,
-        allowNull: false,
-        references: {
-          model: 'events',
-          key: 'idEvent'
-        }
-      },
-      description: {
-        type: DataTypes.TEXT,
+      nameKeyWord: {
+        type: DataTypes.STRING(25),
         allowNull: false
       },
-      uuid: {
-        type: DataTypes.UUID,
+      idCategory: {
+        type: DataTypes.BIGINT,
+        references: {
+          model: 'categories',
+          key: 'idCategory'
+        },
         allowNull: false
       },
       state: {
         type: DataTypes.BOOLEAN,
-        allowNull: false,
         defaultValue: true
       },
       createdAt: {
@@ -40,18 +36,19 @@ module.exports = function (sequelize, DataTypes) {
       }
     },
     {
-      claseMethods: {
+      classMethods: {
         associate: function (models) {
-          picturesLogo.belongsTo(models.events, {
-            foreignKey: 'idEvent'
+          // FK ID_CATEGORY
+          keyWord.belongsTo(models.categories, {
+            foreignKey: 'idCategory'
           });
 
-          models.events.hasMany(picturesLogo, {
-            foreignKey: 'idEvent'
+          models.categories.hasMany(keyWord, {
+            foreignKey: 'idCategory'
           });
         }
       }
     }
   );
-  return picturesLogo;
+  return keyWord;
 };

@@ -2,7 +2,7 @@ module.exports = {
   'development': {
     'username': 'camilo',
     'password': '123456',
-    'database': 'americas',
+    'database': 'big-app2',
     'host': 'localhost',
     'cliente': 'http://localhost:8080',
     'dialect': 'postgres'

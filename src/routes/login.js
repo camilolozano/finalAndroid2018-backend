@@ -1,5 +1,5 @@
 import express from 'express';
-import { auths, systemUsers, serverConfigurations, userTypes } from '../models';
+import { auths, systemUsers, serverConfigurations, userTypes, companies } from '../models';
 import uuidV4 from 'uuid/v4';
 import bcrypt from 'bcryptjs';
 
@@ -56,32 +56,39 @@ function validate (loginData, res) {
         userTypeDesc: userlogin.userType['description'],
         idCompany: userlogin.idCompany
       };
-      const comparePass = bcrypt.compareSync(password, userlogin.password);
-      if (comparePass && userlogin.emailUsername === email) {
-        createUuid(userlogin.idSystemUser, sessionId).then(() => {
-          serverConfigurations.findAll({
-            attributes: ['nameVariable', 'value']
-          }).then((conf) => {
-            // Configurate databse
-            userInfo.config = conf;
-            res.cookie('sessionId', sessionId, { domain: 'localhost' })
-              .json({
-                success: true,
-                userInfo
-              });
+      companies.find({
+        where: {
+          idCompany: userlogin.idCompany
+        }
+      }).then((company) => {
+        userInfo.nameBusiness = company.nameBusiness;
+        const comparePass = bcrypt.compareSync(password, userlogin.password);
+        if (comparePass && userlogin.emailUsername === email) {
+          createUuid(userlogin.idSystemUser, sessionId).then(() => {
+            serverConfigurations.findAll({
+              attributes: ['nameVariable', 'value']
+            }).then((conf) => {
+              // Configurate databse
+              userInfo.config = conf;
+              res.cookie('sessionId', sessionId, { domain: 'localhost' })
+                .json({
+                  success: true,
+                  userInfo
+                });
+            });
+          }).catch((Err) => {
+            res.json({
+              success: false,
+              msg: 'Error, please contact to system administrator'
+            });
           });
-        }).catch((Err) => {
+        } else {
           res.json({
             success: false,
-            msg: 'Error, please contact to system administrator'
+            msg: 'Email and password aren\'t valid'
           });
-        });
-      } else {
-        res.json({
-          success: false,
-          msg: 'Email and password aren\'t valid'
-        });
-      }
+        }
+      });
     }
   }).catch((err) => {
     console.log(err);

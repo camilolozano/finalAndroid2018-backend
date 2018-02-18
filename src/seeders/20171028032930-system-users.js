@@ -13,9 +13,9 @@ module.exports = {
       }], {});
     */
     return queryInterface.bulkInsert('systemUsers', [{
-      firstName: 'ALL',
+      firstName: 'Camilo',
       secondName: '',
-      firstLastName: 'NEXUS',
+      firstLastName: 'Lozano',
       secondLastName: '',
       emailUsername: 'liderdesarrollo@allnexus.com.co',
       password: '$2a$08$c23.I3q4DQKQ4621hW7DzuuggtITuqm7uWWVCvmR0Vt63WM1LRs62',
