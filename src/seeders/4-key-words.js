@@ -59,6 +59,36 @@ module.exports = {
         state: true
       },
       {
+        nameKeyWord: 'tostadas',
+        idCategory: 1,
+        state: true
+      },
+      {
+        nameKeyWord: 'bagette',
+        idCategory: 1,
+        state: true
+      },
+      {
+        nameKeyWord: 'pan frances',
+        idCategory: 1,
+        state: true
+      },
+      {
+        nameKeyWord: 'bonettes',
+        idCategory: 1,
+        state: true
+      },
+      {
+        nameKeyWord: 'bonetes',
+        idCategory: 1,
+        state: true
+      },
+      {
+        nameKeyWord: 'almohabana',
+        idCategory: 1,
+        state: true
+      },
+      {
         nameKeyWord: 'regla',
         idCategory: 2,
         state: true
@@ -110,6 +140,31 @@ module.exports = {
         state: true
       },
       {
+        nameKeyWord: 'libreta',
+        idCategory: 2,
+        state: true
+      },
+      {
+        nameKeyWord: 'escuadra',
+        idCategory: 2,
+        state: true
+      },
+      {
+        nameKeyWord: 'colbon',
+        idCategory: 2,
+        state: true
+      },
+      {
+        nameKeyWord: 'marcadores',
+        idCategory: 2,
+        state: true
+      },
+      {
+        nameKeyWord: 'escarcha',
+        idCategory: 2,
+        state: true
+      },
+      {
         nameKeyWord: 'pollo',
         idCategory: 3,
         state: true
@@ -126,6 +181,11 @@ module.exports = {
       },
       {
         nameKeyWord: 'carne asada',
+        idCategory: 3,
+        state: true
+      },
+      {
+        nameKeyWord: 'carne frita',
         idCategory: 3,
         state: true
       },
@@ -175,6 +235,21 @@ module.exports = {
         state: true
       },
       {
+        nameKeyWord: 'chuleta',
+        idCategory: 3,
+        state: true
+      },
+      {
+        nameKeyWord: 'camarones',
+        idCategory: 3,
+        state: true
+      },
+      {
+        nameKeyWord: 'grille',
+        idCategory: 3,
+        state: true
+      },
+      {
         nameKeyWord: 'hamburguesas',
         idCategory: 4,
         state: true
@@ -220,6 +295,16 @@ module.exports = {
         state: true
       },
       {
+        nameKeyWord: 'pizza',
+        idCategory: 4,
+        state: true
+      },
+      {
+        nameKeyWord: 'tacos',
+        idCategory: 4,
+        state: true
+      },
+      {
         nameKeyWord: 'tornillos',
         idCategory: 5,
         state: true
@@ -255,6 +340,41 @@ module.exports = {
         state: true
       },
       {
+        nameKeyWord: 'destornillador',
+        idCategory: 5,
+        state: true
+      },
+      {
+        nameKeyWord: 'palendra',
+        idCategory: 5,
+        state: true
+      },
+      {
+        nameKeyWord: 'carretilla',
+        idCategory: 5,
+        state: true
+      },
+      {
+        nameKeyWord: 'tuberia pvc',
+        idCategory: 5,
+        state: true
+      },
+      {
+        nameKeyWord: 'tuberia',
+        idCategory: 5,
+        state: true
+      },
+      {
+        nameKeyWord: 'canaleta',
+        idCategory: 5,
+        state: true
+      },
+      {
+        nameKeyWord: 'bombillo',
+        idCategory: 5,
+        state: true
+      },
+      {
         nameKeyWord: 'arroz',
         idCategory: 5,
         state: true
@@ -286,6 +406,26 @@ module.exports = {
       },
       {
         nameKeyWord: 'huevos',
+        idCategory: 5,
+        state: true
+      },
+      {
+        nameKeyWord: 'salchichas',
+        idCategory: 5,
+        state: true
+      },
+      {
+        nameKeyWord: 'lentejas',
+        idCategory: 5,
+        state: true
+      },
+      {
+        nameKeyWord: 'frijol',
+        idCategory: 5,
+        state: true
+      },
+      {
+        nameKeyWord: 'gaseosa',
         idCategory: 5,
         state: true
       }], {});

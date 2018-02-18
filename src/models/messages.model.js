@@ -1,24 +1,20 @@
 'use strict';
 module.exports = function (sequelize, DataTypes) {
-  const docum = sequelize.define('documents', {
-    idDocument: {
+  const message = sequelize.define('messages', {
+    idChat: {
       type: DataTypes.BIGINT,
       primaryKey: true,
       autoIncrement: true
+    },
+    Message: {
+      type: DataTypes.STRING(200),
+      allowNull: false
     },
     idAppUser: {
       type: DataTypes.BIGINT,
       references: {
         model: 'appUsers',
         key: 'idAppUser'
-      },
-      allowNull: false
-    },
-    idPrefix: {
-      type: DataTypes.BIGINT,
-      references: {
-        model: 'prefixes',
-        key: 'idPrefix'
       },
       allowNull: false
     },
@@ -29,6 +25,14 @@ module.exports = function (sequelize, DataTypes) {
         key: 'idCompany'
       },
       allowNull: false
+    },
+    DateMessage: {
+      type: DataTypes.DATEONLY,
+      defaultValue: sequelize.NOW
+    },
+    HourMessage: {
+      type: DataTypes.TIME,
+      defaultValue: sequelize.NOW
     },
     state: {
       type: DataTypes.BOOLEAN,
@@ -47,33 +51,24 @@ module.exports = function (sequelize, DataTypes) {
       classMethods: {
         associate: function (models) {
           // FK ID APP USER
-          docum.belongsTo(models.appUsers, {
+          message.belongsTo(models.appUsers, {
             foreignKey: 'idAppUser'
           });
 
-          models.appUsers.hasMany(docum, {
+          models.appUsers.hasMany(message, {
             foreignKey: 'idAppUser'
-          });
-
-          // FK ID PREFIX
-          docum.belongsTo(models.prefixes, {
-            foreignKey: 'idPrefix'
-          });
-
-          models.prefixes.hasMany(docum, {
-            foreignKey: 'idPrefix'
           });
 
           // FK ID COMPANY
-          docum.belongsTo(models.companies, {
+          message.belongsTo(models.companies, {
             foreignKey: 'idCompany'
           });
 
-          models.companies.hasMany(docum, {
+          models.companies.hasMany(message, {
             foreignKey: 'idCompany'
           });
         }
       }
     });
-  return docum;
+  return message;
 };
