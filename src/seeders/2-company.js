@@ -239,7 +239,7 @@ module.exports = {
       latitude: '1.216641',
       longitude: '-77.288535',
       emailCompany: 'big-app21@big.com',
-      avatarCompany: '',
+      avatarCompany: 'http://s3-media1.fl.yelpcdn.com/bphoto/9i1irkiAJF2VMoGhPrnP0g/ls.jpg',
       state: true
     },
     {
@@ -250,18 +250,18 @@ module.exports = {
       latitude: '1.216641',
       longitude: '-77.288535',
       emailCompany: 'big-app22@big.com',
-      avatarCompany: '',
+      avatarCompany: 'http://casaandina.com.co/oficial/wp-content/uploads/2017/12/Casa-Andina-pasto-ferreteria-distribuidor-oficial-sika-impermeabilizacion-min.png',
       state: true
     },
     {
       nameBusiness: 'Ferreteria Buenos Aires',
       nitCompany: '123456789',
-      addressCompany: 'Calle falsa 123',
+      addressCompany: 'Calle 11 No. 18 Fatima',
       contactCompany: '7202020',
       latitude: '1.216641',
       longitude: '-77.288535',
       emailCompany: 'big-app23@big.com',
-      avatarCompany: '',
+      avatarCompany: 'http://www.ferreteriabuenosaires.com/tiendavirtual/img/mi-tienda-logo-1486741357.jpg',
       state: true
     },
     {
@@ -272,29 +272,29 @@ module.exports = {
       latitude: '1.216641',
       longitude: '-77.288535',
       emailCompany: 'big-app24@big.com',
-      avatarCompany: '',
+      avatarCompany: 'http://www.losandesonline.cl/img/articulo/ferreteria-andina1_(3).jpg',
       state: true
     },
     {
-      nameBusiness: 'Ferreteria la 13',
+      nameBusiness: 'Ferreteria ChavezLeon',
       nitCompany: '123456789',
       addressCompany: 'Calle falsa 123',
       contactCompany: '7202020',
       latitude: '1.216641',
       longitude: '-77.288535',
       emailCompany: 'big-app25@big.com',
-      avatarCompany: '',
+      avatarCompany: 'http://container.amarillasinternet.com/pictures/100000_200000/190000_200000/194000_195000/194500_194600/194574/gallery/14847092502.jpg',
       state: true
     },
     {
-      nameBusiness: 'Ferreteria JALBERTO',
+      nameBusiness: 'Construrama',
       nitCompany: '123456789',
       addressCompany: 'Calle falsa 123',
       contactCompany: '7202020',
       latitude: '1.216641',
       longitude: '-77.288535',
       emailCompany: 'big-app26@big.com',
-      avatarCompany: '',
+      avatarCompany: 'http://cdn0.talenteca.com/company-images/TK_COMPANY_LOGO-2017_09_19_02_50_05-40080244371890241901.png',
       state: true
     },
     {
