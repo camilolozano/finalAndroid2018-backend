@@ -33,6 +33,20 @@ module.exports = {
                       FROM "keyWords" AS foo
                       WHERE "nameKeyWord" ILIKE '%:findWord%'))
       `
+    },
+    {
+      queryCode: 'SEL002',
+      queryName: 'Lista de ofertas a compañias',
+      description: 'Lista de ofertas a compañias',
+      query: `
+        SELECT d."idCompany", c."nameBusiness", c."avatarCompany", dr."searchText"
+        FROM documents AS d 
+        JOIN companies AS c
+        ON d."idCompany" = c."idCompany"
+        JOIN "documentRequests" AS dr
+        ON d."idDocument" = dr."idDocument"
+        WHERE d."idAppUser" = :idUser AND d.state = TRUE
+      `
     }], {});
   },
 
