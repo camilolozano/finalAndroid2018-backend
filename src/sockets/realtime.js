@@ -16,11 +16,22 @@ module.exports = (server) => {
       });
     });
     /**
+     * Creación chat
+     */
+    socket.on('get-chat-on', (order) => {
+      console.log('---llega---', order)
+      createCorder.createOrderRequest(order).then((data) => {
+        console.log('emit');
+        io.sockets.emit('get-chat-emit', 'ok');
+      });
+    });
+
+    /**
       * node-cron Ejemploo (socket)
       */
-    const task = cron.schedule('*/15 * * * * *', () => {
-      io.sockets.emit('alert', 1);
-    }, false);
-    task.start();
+    // const task = cron.schedule('*/15 * * * * *', () => {
+    //   io.sockets.emit('alert', 1);
+    // }, false);
+    // task.start();
   });
 };
