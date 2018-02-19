@@ -40,7 +40,7 @@ module.exports = function (sequelize, DataTypes) {
           });
 
           models.documents.hasMany(documentRequest, {
-            foreignKey: 'idAppUser'
+            foreignKey: 'idDocument'
           });
         }
       }
