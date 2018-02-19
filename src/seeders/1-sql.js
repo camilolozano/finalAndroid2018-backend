@@ -63,9 +63,11 @@ module.exports = {
       queryName: 'Contar pedidos por usuario',
       description: 'Contar pedidos por usuario',
       query: `
-        SELECT COUNT(d."idDocument")
+        SELECT COUNT(dr."idDocumentRequest")
         FROM documents AS d
-        WHERE d."idAppUser" = :idUser
+        JOIN "documentRequests" AS dr
+        ON d."idDocument" = dr."idDocument"
+        WHERE d."idAppUser" = :idUser AND dr.state = TRUE
       `
     }], {});
   },
