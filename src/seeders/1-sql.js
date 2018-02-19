@@ -57,6 +57,16 @@ module.exports = {
         FROM documents AS d
         WHERE d."idCompany" = :idCompany
       `
+    },
+    {
+      queryCode: 'SEL004',
+      queryName: 'Contar pedidos por usuario',
+      description: 'Contar pedidos por usuario',
+      query: `
+        SELECT COUNT(d."idDocument")
+        FROM documents AS d
+        WHERE d."idAppUser" = :idUser
+      `
     }], {});
   },
 
