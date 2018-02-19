@@ -20,6 +20,7 @@ import productos from './routes/mobil/products';
 import offerts from './routes/mobil/offerts';
 import loginApp from './routes/mobil/login-app';
 import searchCompanies from './routes/mobil/searchCompanies';
+import notificationsOffersCompany from './routes/mobil/notifications-app';
 
 const app = express();
 
@@ -61,6 +62,7 @@ app.use('/create-user-app', crateUserApp);
 app.use('/products', productos);
 app.use('/offerts', offerts);
 app.use('/search-companies', searchCompanies);
+app.use('/offers', notificationsOffersCompany);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
