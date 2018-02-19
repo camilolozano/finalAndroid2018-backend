@@ -1,5 +1,6 @@
+import cron from 'node-cron';
 require('events').EventEmitter.defaultMaxListeners = Infinity;
-const cron = require('node-cron');
+const createCorder = require('../controllers/events-socket.js/request-order')
 
 module.exports = (server) => {
   const io = require('socket.io')(server);
@@ -10,9 +11,9 @@ module.exports = (server) => {
      * Creación nuevo pedido
      */
     socket.on('notification-order', (order) => {
-      io.sockets.emit('notification-order', order);
+      // io.sockets.emit('notification-order', order);
+      createCorder.createOrderRequest(order);
     });
-
     /**
       * node-cron Ejemploo (socket)
       */

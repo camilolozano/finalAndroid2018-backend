@@ -28,9 +28,10 @@ function createUuid (usrId, sessionId) {
 function validate (loginData, res) {
   const { email, password } = loginData;
   const sessionId = uuidV4();
+  console.log(email);
   systemUsers.find({
     where: {
-      emailUsername: email
+      emailUsername: email.trim()
     },
     include: [{
       model: userTypes
