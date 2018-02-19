@@ -11,8 +11,9 @@ module.exports = (server) => {
      * Creación nuevo pedido
      */
     socket.on('notification-order', (order) => {
-      // io.sockets.emit('notification-order', order);
-      createCorder.createOrderRequest(order);
+      createCorder.createOrderRequest(order).then((data) => {
+        io.sockets.emit('notification-order-web', data);
+      });
     });
     /**
       * node-cron Ejemploo (socket)

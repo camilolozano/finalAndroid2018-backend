@@ -4,9 +4,8 @@ import {
 } from '../../models';
 const db = require('../../models/index').sequelize;
 
-function transaction (data) {
+function transaction (data, io) {
   const { idAppUser, idCompany, search } = data;
-
   return db.transaction(t => {
     return documents.create({
       idAppUser: idAppUser,
@@ -19,18 +18,11 @@ function transaction (data) {
           searchText: search
         }, { transaction: t });
       });
-  }).then(() => {
-    const body = {
-      success: true,
-      meg: 'Creado exitosamente'
-    };
-    // io.sockets.emit('notification-order', body);
-  }).catch((err) => {
-    console.log('--------------err');
-    console.log(err);
+  }).then((exe) => {
+    return idCompany;
   });
 }
 
-exports.createOrderRequest = (data) => {
-  transaction(data);
+exports.createOrderRequest = (data, io) => {
+  return transaction(data, io);
 };
