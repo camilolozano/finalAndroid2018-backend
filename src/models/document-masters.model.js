@@ -22,6 +22,14 @@ module.exports = function (sequelize, DataTypes) {
       },
       allowNull: false
     },
+    idCompany: {
+      type: DataTypes.BIGINT,
+      references: {
+        model: 'companies',
+        key: 'idCompany'
+      },
+      allowNull: false
+    },
     state: {
       type: DataTypes.BOOLEAN,
       defaultValue: true
@@ -53,6 +61,15 @@ module.exports = function (sequelize, DataTypes) {
 
           models.appUsers.hasMany(documentMaster, {
             foreignKey: 'idAppUser'
+          });
+
+          // FK ID_COMPANY
+          documentMaster.belongsTo(models.companies, {
+            foreignKey: 'idCompany'
+          });
+
+          models.companies.hasMany(documentMaster, {
+            foreignKey: 'idCompany'
           });
         }
       }
