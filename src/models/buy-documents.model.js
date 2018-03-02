@@ -1,7 +1,7 @@
 'use strict';
 module.exports = function (sequelize, DataTypes) {
-  const documentRequest = sequelize.define('documentRequests', {
-    idDocumentRequest: {
+  const buyDocument = sequelize.define('buyDocuments', {
+    idBuyDocument: {
       type: DataTypes.BIGINT,
       primaryKey: true,
       autoIncrement: true
@@ -14,13 +14,13 @@ module.exports = function (sequelize, DataTypes) {
       },
       allowNull: false
     },
-    searchText: {
-      type: DataTypes.STRING(25),
-      allowNull: false
-    },
     state: {
       type: DataTypes.BOOLEAN,
       defaultValue: true
+    },
+    answerText: {
+      type: DataTypes.STRING(50),
+      allowNull: false
     },
     'createdAt': {
       type: DataTypes.DATE,
@@ -34,16 +34,16 @@ module.exports = function (sequelize, DataTypes) {
     {
       classMethods: {
         associate: function (models) {
-          // fk id document
-          documentRequest.belongsTo(models.documents, {
+          // FK ID DOCUMENT
+          buyDocument.belongsTo(models.documents, {
             foreignKey: 'idDocument'
           });
 
-          models.documents.hasMany(documentRequest, {
+          models.documents.hasMany(buyDocument, {
             foreignKey: 'idDocument'
           });
         }
       }
     });
-  return documentRequest;
+  return buyDocument;
 };
