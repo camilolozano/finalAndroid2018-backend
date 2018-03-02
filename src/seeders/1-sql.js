@@ -17,21 +17,21 @@ module.exports = {
       queryName: 'Busqueda de productos segun categorias',
       description: 'Busqueda de productos segun categorias',
       query: `
-        SELECT DISTINCT ON (c."idCompany") c."idCompany", c."nameBusiness", c."addressCompany", c."avatarCompany"
+        SELECT DISTINCT ON (c."idCompany") c."nameBusiness", c."addressCompany", c."avatarCompany"
         FROM companies AS c
-          JOIN "categoriesCompanies" AS ce
-            ON c."idCompany" = ce."idCompany"
-          JOIN "categories" AS cp
-            ON cp."idCategory" = ce."idCategory"
+        JOIN "categoriesCompanies" AS ce
+        ON c."idCompany" = ce."idCompany"
+        JOIN "categories" AS cp
+        ON cp."idCategory" = ce."idCategory"
         WHERE cp."idCategory" IN
-              (SELECT ct."idCategory"
-              FROM categories AS ct
-                JOIN "keyWords" AS kw
-                  ON ct."idCategory" = kw."idCategory"
-              WHERE kw."nameKeyWord" IN
-                    (SELECT foo."nameKeyWord"
-                      FROM "keyWords" AS foo
-                      WHERE "nameKeyWord" ILIKE '%:findWord%'))
+        (SELECT ct."idCategory"
+        FROM categories AS ct
+        JOIN "keyWords" AS kw
+        ON ct."idCategory" = kw."idCategory"
+        WHERE kw."nameKeyWord" IN
+        (SELECT foo."nameKeyWord" 
+        FROM "keyWords" as foo 
+        WHERE foo."nameKeyWord" ILIKE '%' || (SELECT TRIM(BOTH 'aes' FROM ':findWord')) || '%'))
       `
     },
     {
