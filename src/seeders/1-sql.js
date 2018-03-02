@@ -17,7 +17,7 @@ module.exports = {
       queryName: 'Busqueda de productos segun categorias',
       description: 'Busqueda de productos segun categorias',
       query: `
-        SELECT DISTINCT ON (c."idCompany") c."nameBusiness", c."addressCompany", c."avatarCompany"
+        SELECT DISTINCT ON (c."idCompany") c."idCompany", c."nameBusiness", c."addressCompany", c."avatarCompany"
         FROM companies AS c
         JOIN "categoriesCompanies" AS ce
         ON c."idCompany" = ce."idCompany"
