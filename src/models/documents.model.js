@@ -16,7 +16,7 @@ module.exports = function (sequelize, DataTypes) {
     },
     state: {
       type: DataTypes.BOOLEAN,
-      defaultValue: true
+      defaultValue: false
     },
     'createdAt': {
       type: DataTypes.DATE,

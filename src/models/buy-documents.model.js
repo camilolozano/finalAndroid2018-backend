@@ -16,7 +16,7 @@ module.exports = function (sequelize, DataTypes) {
     },
     state: {
       type: DataTypes.BOOLEAN,
-      defaultValue: true
+      defaultValue: false
     },
     answerText: {
       type: DataTypes.STRING(50),

@@ -19,11 +19,7 @@ module.exports = (server) => {
      * Creación chat
      */
     socket.on('get-chat-on', (order) => {
-      console.log('---llega---', order)
-      createCorder.createOrderRequest(order).then((data) => {
-        console.log('emit');
-        io.sockets.emit('get-chat-emit', 'ok');
-      });
+      io.sockets.emit('get-chat-emit', 'Tu petición se ha registrado');
     });
 
     /**
