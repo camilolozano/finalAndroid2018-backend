@@ -73,13 +73,13 @@ module.exports = {
       queryName: 'Seleccionar empresa por solicitud compra',
       description: 'Seleccionar empresa por solicitud compra',
       query: `
-        SELECT DISTINCT ON (c."idCompany") c."idCompany", c."nameBusiness", c."avatarCompany"
+        SELECT DISTINCT ON (c."idCompany") dm."idAppUser", dm."searchText", c."nameBusiness", c."avatarCompany"
         FROM companies AS c
         JOIN "documentMasters" AS dm
         ON c."idCompany" = dm."idCompany"
         JOIN documents AS d
         ON dm."idDocumentMaster" = d."idDocument"
-        WHERE dm."idAppUser" = 1 AND d."idPrefix" = 1
+        WHERE dm."idCompany" = 2 AND d."idPrefix" = 1
       `
     }], {});
   },
