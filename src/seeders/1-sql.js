@@ -67,6 +67,20 @@ module.exports = {
         FROM documents AS d
         WHERE d."idAppUser" = :idUser AND d.state = TRUE
       `
+    },
+    {
+      queryCode: 'SEL005',
+      queryName: 'Seleccionar empresa por solicitud compra',
+      description: 'Seleccionar empresa por solicitud compra',
+      query: `
+        SELECT DISTINCT ON (c."idCompany") c."idCompany", c."nameBusiness", c."avatarCompany"
+        FROM companies AS c
+        JOIN "documentMasters" AS dm
+        ON c."idCompany" = dm."idCompany"
+        JOIN documents AS d
+        ON dm."idDocumentMaster" = d."idDocument"
+        WHERE dm."idAppUser" = 1 AND d."idPrefix" = 1
+      `
     }], {});
   },
 
