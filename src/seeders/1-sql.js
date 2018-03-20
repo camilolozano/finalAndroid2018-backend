@@ -29,8 +29,8 @@ module.exports = {
         JOIN "keyWords" AS kw
         ON ct."idCategory" = kw."idCategory"
         WHERE kw."nameKeyWord" IN
-        (SELECT foo."nameKeyWord" 
-        FROM "keyWords" as foo 
+        (SELECT foo."nameKeyWord"
+        FROM "keyWords" as foo
         WHERE foo."nameKeyWord" ILIKE '%' || (SELECT TRIM(BOTH 'aes' FROM ':findWord')) || '%'))
       `
     },
@@ -79,7 +79,7 @@ module.exports = {
         ON c."idCompany" = dm."idCompany"
         JOIN documents AS d
         ON dm."idDocumentMaster" = d."idDocument"
-        WHERE dm."idCompany" = 2 AND d."idPrefix" = 1
+        WHERE dm."idCompany" = :id_emp AND d."idPrefix" = 1
       `
     }], {});
   },

@@ -30,9 +30,9 @@ function exeSql (sql) {
     });
 }
 
-function transactionSolicitation (body, res, payload) {
+function transactionSolicitation (body, payload) {
   const { idAppUser, search } = body;
-  console.log(body);
+  let aux = 0;
   return payload.map((d) => {
     return db
     .transaction(t => {
@@ -60,37 +60,40 @@ function transactionSolicitation (body, res, payload) {
   });
 }
 
-router.post('/:id_user', async (req, res) => {
-  const { word } = req.body;
-  // const searches = search.split(' ');
-  // const data = dataC(searches);
-  const code = 'SEL001';
-  // const data = [];
-  // searches.map(v => {
-  //   data.push(v);
-  // });
+module.exports = (ws) => {
+  router.post('/:id_user', async (req, res) => {
+    const { word } = req.body;
+    // const searches = search.split(' ');
+    // const data = dataC(searches);
+    const code = 'SEL001';
+    // const data = [];
+    // searches.map(v => {
+    //   data.push(v);
+    // });
 
-  await getSql(code).then(sql => {
-    // data.forEach(async element => {
-    exeSql(sql.replace(`:findWord`, word)).then(payload => {
-      if (payload.length) {
-        const miPrimeraPromise = new Promise((resolve, reject) => {
-          transactionSolicitation(req.body, res, payload);
-          resolve;
-        });
-        miPrimeraPromise.then(() => {
-          res.json({
-            data: payload,
-            success: true
+    await getSql(code).then(sql => {
+      // data.forEach(async element => {
+      exeSql(sql.replace(`:findWord`, word)).then(payload => {
+        if (payload.length) {
+          const miPrimeraPromise = new Promise((resolve, reject) => {
+            transactionSolicitation(req.body, payload);
+            resolve;
           });
-        });
-      } else {
-        res.json({
-          success: false
-        });
-      }
+          miPrimeraPromise.then(() => {
+            res.json({
+              data: payload,
+              success: true
+            });
+            ws.emit('search-companies', payload);
+            // io.sockets.emit('search-companies', data);
+          });
+        } else {
+          res.json({
+            success: false
+          });
+        }
+      });
     });
   });
-});
-
-module.exports = router;
+  return router;
+};

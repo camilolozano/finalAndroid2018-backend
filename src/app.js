@@ -14,6 +14,7 @@ import users from './routes/users';
 import recuperarContrasena from './routes/recover-password';
 import tagSelects from './routes/get-tag-selects';
 import createCompany from './routes/create-company';
+import listOffers from './routes/list-offers';
 // Api mobil
 import crateUserApp from './routes/mobil/crateUser';
 import productos from './routes/mobil/products';
@@ -55,13 +56,13 @@ app.use('/users', users);
 app.use('/recover-pass', recuperarContrasena);
 app.use('/tags', tagSelects);
 app.use('/company', createCompany);
-
+app.use('/list-offers', listOffers);
 // app mobil
 app.use('/app-login', loginApp);
 app.use('/create-user-app', crateUserApp);
 app.use('/products', productos);
 app.use('/offerts', offerts);
-app.use('/search-companies', searchCompanies);
+// app.use('/search-companies', searchCompanies(webSocket));
 app.use('/offers', notificationsOffersCompany);
 
 // catch 404 and forward to error handler
@@ -82,4 +83,11 @@ app.use(function (err, req, res, next) {
   res.render('error');
 });
 
-module.exports = app;
+const wsRoutes = (ws) => {
+  app.use('/search-companies', searchCompanies(ws));
+};
+
+module.exports = {
+  wsRoutes,
+  app
+};

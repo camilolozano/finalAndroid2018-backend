@@ -33,7 +33,7 @@ function exeSql (sql) {
 
 router('/id_user', ...cookie, () => {
   const code = 'SEL001';
-  
+
 });
 
 module.exports = router;
