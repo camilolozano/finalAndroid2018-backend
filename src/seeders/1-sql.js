@@ -65,7 +65,9 @@ module.exports = {
       query: `
         SELECT COUNT(d."idDocument")
         FROM documents AS d
-        WHERE d."idAppUser" = :idUser AND d.state = TRUE
+        JOIN "documentMasters" AS dm
+        ON dm."idDocumentMaster" = d."idDocument"
+        WHERE dm."idAppUser" = :idUser AND d.state = TRUE
       `
     },
     {
