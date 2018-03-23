@@ -87,7 +87,7 @@ function transactionApplyProduct (document) {
       .then(doc => {
         return movementDocuments.create(
           {
-            idDocumentMaster: document,
+            idMaster: document,
             idDocument: doc.idDocument
           },
           { transaction: t }
@@ -104,8 +104,31 @@ function transactionApplyProduct (document) {
   });
 }
 
+function exeSqlNt (sql, idUser) {
+  return db
+    .query(sql, {
+      replacements: {
+        id_emp: idUser
+      },
+      type: db.QueryTypes.SELECT
+    })
+    .then(t => {
+      return t;
+    })
+    .catch(err => {
+      return err;
+    });
+}
+
+function sendNotification() {
+  getSql('SEL004').then((sql, appUser) => {
+    exeSqlNt(sql, appUser).then((data) => {
+      console.log(data);
+    });
+  });
+}
+
 router.post('/apply/:id_user&:id_emp', (req, res) => {
-  // console.log('----->', req.body);
   console.log(req.body);
   const documento = req.body.document;
   transactionApplyProduct(documento).then(() => {

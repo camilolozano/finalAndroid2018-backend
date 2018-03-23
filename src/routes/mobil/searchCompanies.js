@@ -32,17 +32,18 @@ function exeSql (sql) {
 
 function transactionSolicitation (body, payload, typeSearch) {
   const { idAppUser, search } = body;
-  const t = payload.map(d => {
-    return db.transaction(t => {
-      return documents
-        .create(
-        {
-          idPrefix: 1,
-          state: true
-        },
-          { transaction: t }
-        )
-        .then(document => {
+
+  return db.transaction(t => {
+    return documents
+      .create(
+      {
+        idPrefix: 1,
+        state: true
+      },
+        { transaction: t }
+      )
+      .then(document => {
+        const data = payload.map(d => {
           return documentMasters.create(
             {
               idAppUser: +idAppUser,
@@ -54,9 +55,9 @@ function transactionSolicitation (body, payload, typeSearch) {
             { transaction: t }
           );
         });
-    });
+        return Promise.all(data);
+      });
   });
-  return Promise.all(t);
 }
 
 router.post('/:id_user', (req, res) => {
@@ -72,23 +73,26 @@ router.post('/:id_user', (req, res) => {
     exeSql(sql.replace(`:findWord`, word)).then(payload => {
       if (payload.length) {
         transactionSolicitation(req.body, payload, type_search)
-        .then((da) => {
-          res.json({
-            data: payload,
-            success: true
+          .then(da => {
+            res.json({
+              data: payload,
+              success: true
+            });
+          })
+          .then(() => {
+            const data = {
+              payload,
+              search: req.body
+            };
+            req.app.io.emit('new-request', data);
+          })
+          .catch((err) => {
+            console.log('---->', err);
+            res.json({
+              msg: 'Error en la busqueda',
+              success: false
+            });
           });
-        }).then(() => {
-          const data = {
-            payload,
-            search: req.body
-          };
-          req.app.io.emit('new-request', data);
-        }).catch(() => {
-          res.json({
-            msg: 'Error en la busqueda',
-            success: false
-          });
-        });
       } else {
         res.json({
           success: false

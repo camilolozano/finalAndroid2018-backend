@@ -162,5 +162,4 @@ router.put('/update-reset', ...jwtAccess, (req, res) => {
   });
 });
 
-
 module.exports = router;
