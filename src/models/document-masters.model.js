@@ -30,6 +30,10 @@ module.exports = function (sequelize, DataTypes) {
       },
       allowNull: false
     },
+    typeShop: {
+      type: DataTypes.ENUM('Premium','Estandar','Economico'),
+      allowNull: false
+    },
     state: {
       type: DataTypes.BOOLEAN,
       defaultValue: true
