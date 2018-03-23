@@ -6,7 +6,7 @@ module.exports = function (sequelize, DataTypes) {
       primaryKey: true,
       autoIncrement: true
     },
-    idDMaster: {
+    idMaster: {
       type: DataTypes.BIGINT,
       references: {
         model: 'documentMasters',
