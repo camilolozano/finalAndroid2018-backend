@@ -3,13 +3,17 @@ module.exports = function (sequelize, DataTypes) {
   const documentMaster = sequelize.define(
     'documentMasters',
     {
+      idMaster: {
+        type: DataTypes.BIGINT,
+        primaryKey: true,
+        autoIncrement: true
+      },
       idDocumentMaster: {
         type: DataTypes.BIGINT,
         references: {
           model: 'documents',
           key: 'idDocument'
         },
-        primaryKey: true,
         allowNull: false
       },
       searchText: {
