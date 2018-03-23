@@ -47,7 +47,7 @@ module.exports = function (sequelize, DataTypes) {
             foreignKey: 'idDocumentMaster'
           });
 
-          // FK ID DOCUMENT 
+          // FK ID DOCUMENT
           movementDocument.belongsTo(models.documents, {
             foreignKey: 'idDocument'
           });

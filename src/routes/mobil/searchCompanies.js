@@ -30,12 +30,10 @@ function exeSql (sql) {
     });
 }
 
-function transactionSolicitation (body, payload) {
+function transactionSolicitation (body, payload, typeSearch) {
   const { idAppUser, search } = body;
-  let aux = 0;
-  return payload.map((d) => {
-    return db
-    .transaction(t => {
+  const t = payload.map(d => {
+    return db.transaction(t => {
       return documents
         .create(
         {
@@ -45,55 +43,59 @@ function transactionSolicitation (body, payload) {
           { transaction: t }
         )
         .then(document => {
-          return documentMasters
-            .create(
+          return documentMasters.create(
             {
               idAppUser: +idAppUser,
               idDocumentMaster: +document.idDocument,
               searchText: search,
-              idCompany: d.idCompany
+              idCompany: d.idCompany,
+              typeShop: typeSearch
             },
-              { transaction: t }
-            );
+            { transaction: t }
+          );
         });
     });
   });
+  return Promise.all(t);
 }
 
-module.exports = (ws) => {
-  router.post('/:id_user', async (req, res) => {
-    const { word } = req.body;
-    // const searches = search.split(' ');
-    // const data = dataC(searches);
-    const code = 'SEL001';
-    // const data = [];
-    // searches.map(v => {
-    //   data.push(v);
-    // });
-
-    await getSql(code).then(sql => {
-      // data.forEach(async element => {
-      exeSql(sql.replace(`:findWord`, word)).then(payload => {
-        if (payload.length) {
-          const miPrimeraPromise = new Promise((resolve, reject) => {
-            transactionSolicitation(req.body, payload);
-            resolve;
-          });
-          miPrimeraPromise.then(() => {
-            res.json({
-              data: payload,
-              success: true
-            });
-            ws.emit('search-companies', payload);
-            // io.sockets.emit('search-companies', data);
-          });
-        } else {
+router.post('/:id_user', (req, res) => {
+  const { word, type_search } = req.body;
+  // const searches = search.split(' ');
+  // const data = dataC(searches);
+  const code = 'SEL001';
+  // const data = [];
+  // searches.map(v => {
+  //   data.push(v);
+  // });
+  getSql(code).then(sql => {
+    exeSql(sql.replace(`:findWord`, word)).then(payload => {
+      if (payload.length) {
+        transactionSolicitation(req.body, payload, type_search)
+        .then((da) => {
           res.json({
+            data: payload,
+            success: true
+          });
+        }).then(() => {
+          const data = {
+            payload,
+            search: req.body
+          };
+          req.app.io.emit('new-request', data);
+        }).catch(() => {
+          res.json({
+            msg: 'Error en la busqueda',
             success: false
           });
-        }
-      });
+        });
+      } else {
+        res.json({
+          success: false
+        });
+      }
     });
   });
-  return router;
-};
+});
+
+module.exports = router;

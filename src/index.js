@@ -15,10 +15,9 @@ const port = normalizePort(process.env.PORT || '8000');
  * Create HTTP server.
  */
 
-const server = require('http').Server(app.app);
+const server = require('http').Server(app);
 const io = sockets(server);
-app.wsRoutes(io);
-
+app.io = io;
 models.sequelize.sync().then(() => {
   /**
    * Listen on provided port, on all network interfaces.
@@ -89,6 +88,6 @@ function onListening () {
   debug('Listening on ' + bind);
 }
 
-server.listen(process.env.PORT, (err) => {
-  if (err) return;
-});
+// server.listen(process.env.PORT, (err) => {
+//   if (err) return;
+// });

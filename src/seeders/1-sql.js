@@ -53,9 +53,14 @@ module.exports = {
       queryName: 'Contar pedidos por empresa',
       description: 'Contar pedidos por empresa',
       query: `
-        SELECT COUNT(d."idDocument")
-        FROM documents AS d
-        WHERE d."idCompany" = :idComp
+        SELECT
+          COUNT(doc."idDocument")
+        FROM
+          documents AS doc,
+          "documentMasters" AS dm
+        WHERE
+          doc."idDocument" = dm."idDocumentMaster"
+          AND dm."idCompany" = :idComp
       `
     },
     {
@@ -82,6 +87,28 @@ module.exports = {
         JOIN documents AS d
         ON dm."idDocumentMaster" = d."idDocument"
         WHERE dm."idCompany" = :id_emp AND d."idPrefix" = 1
+      `
+    },
+    {
+      queryCode: 'SEL006',
+      queryName: 'Información de los pedidos',
+      description: 'Información de los pedidos realizado a una empresa',
+      query: `
+        SELECT
+          doc."idDocument" AS document,
+          doc.state AS stateDocument,
+          us."idAppUser" AS idClient,
+          CONCAT(us."firstNameUser",' ', us."lastNameUser") AS nameClient,
+          dm."searchText"
+        FROM
+          documents AS doc,
+          "documentMasters" AS dm,
+          "appUsers" AS us
+        WHERE
+          doc."idDocument" = dm."idDocumentMaster"
+          AND us."idAppUser" = dm."idAppUser"
+          AND dm."idCompany" = :id_emp
+          AND doc.state is true
       `
     }], {});
   },

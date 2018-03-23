@@ -1,52 +1,54 @@
 'use strict';
 module.exports = function (sequelize, DataTypes) {
-  const documentMaster = sequelize.define('documentMasters', {
-    idDocumentMaster: {
-      type: DataTypes.BIGINT,
-      references: {
-        model: 'documents',
-        key: 'idDocument'
+  const documentMaster = sequelize.define(
+    'documentMasters',
+    {
+      idDocumentMaster: {
+        type: DataTypes.BIGINT,
+        references: {
+          model: 'documents',
+          key: 'idDocument'
+        },
+        primaryKey: true,
+        allowNull: false
       },
-      primaryKey: true,
-      allowNull: false
-    },
-    searchText: {
-      type: DataTypes.STRING(25),
-      allowNull: false
-    },
-    idAppUser: {
-      type: DataTypes.BIGINT,
-      references: {
-        model: 'appUsers',
-        key: 'idAppUser'
+      searchText: {
+        type: DataTypes.STRING(25),
+        allowNull: false
       },
-      allowNull: false
-    },
-    idCompany: {
-      type: DataTypes.BIGINT,
-      references: {
-        model: 'companies',
-        key: 'idCompany'
+      idAppUser: {
+        type: DataTypes.BIGINT,
+        references: {
+          model: 'appUsers',
+          key: 'idAppUser'
+        },
+        allowNull: false
       },
-      allowNull: false
+      idCompany: {
+        type: DataTypes.BIGINT,
+        references: {
+          model: 'companies',
+          key: 'idCompany'
+        },
+        allowNull: false
+      },
+      typeShop: {
+        type: DataTypes.ENUM('Premium', 'Estandar', 'Economico'),
+        allowNull: false
+      },
+      state: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: true
+      },
+      createdAt: {
+        type: DataTypes.DATE,
+        defaultValue: sequelize.NOW
+      },
+      updatedAt: {
+        type: DataTypes.DATE,
+        defaultValue: sequelize.NOW
+      }
     },
-    typeShop: {
-      type: DataTypes.ENUM('Premium','Estandar','Economico'),
-      allowNull: false
-    },
-    state: {
-      type: DataTypes.BOOLEAN,
-      defaultValue: true
-    },
-    'createdAt': {
-      type: DataTypes.DATE,
-      defaultValue: sequelize.NOW
-    },
-    'updatedAt': {
-      type: DataTypes.DATE,
-      defaultValue: sequelize.NOW
-    }
-  },
     {
       classMethods: {
         associate: function (models) {
@@ -77,6 +79,7 @@ module.exports = function (sequelize, DataTypes) {
           });
         }
       }
-    });
+    }
+  );
   return documentMaster;
 };
