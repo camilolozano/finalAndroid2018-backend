@@ -94,35 +94,36 @@ module.exports = {
       queryName: 'Información de los pedidos',
       description: 'Información de los pedidos realizado a una empresa',
       query: `
-      SELECT
-        doc."idDocument" AS document,
-        doc.state AS stateDocument,
-        us."idAppUser" AS idClient,
-        CONCAT(us."firstNameUser",' ', us."lastNameUser") AS nameClient,
-        dm."searchText"
-      FROM
-        documents AS doc,
-        "documentMasters" AS dm,
-        "appUsers" AS us
-      WHERE
-        doc."idDocument" = dm."idDocumentMaster"
-        AND us."idAppUser" = dm."idAppUser"
-        AND dm."idCompany" = :id_emp
-        AND doc.state is true
+        SELECT
+          doc."idDocument" AS document,
+          doc.state AS stateDocument,
+          us."idAppUser" AS idClient,
+          CONCAT(us."firstNameUser",' ', us."lastNameUser") AS nameClient,
+          dm."searchText"
+        FROM
+          documents AS doc,
+          "documentMasters" AS dm,
+          "appUsers" AS us
+        WHERE
+          doc."idDocument" = dm."idDocumentMaster"
+          AND us."idAppUser" = dm."idAppUser"
+          AND dm."idCompany" = :id_emp
+          AND doc.state is true
       `
-    }, {
+    },
+    {
       queryCode: 'SEL007',
-      queryName: 'Notificacion aceptados',
-      description: 'Notifica al cliente cuatas solicitudes se realiazaron',
+      queryName: 'Conteo de empresas que aceptaron',
+      description: 'Conteo de empresas que aceptaron',
       query: `
-      SELECT
+        SELECT
         COUNT(1)
-      FROM
-        documents AS doc,
-        "documentMasters" AS dm
-      WHERE
-        doc."idDocument" = dm."idDocumentMaster"
-        AND doc."idDocument" = :id_doc
+        FROM documents AS doc
+        JOIN "documentMasters" AS dm
+        ON doc."idDocument" = dm."idDocumentMaster"
+        JOIN "movementDocuments" AS mv
+        ON mv."idMaster" = dm."idMaster"
+        WHERE doc."idDocument" = id_doc
         AND dm."idAppUser" = :id_app_user
       `
     }], {});
