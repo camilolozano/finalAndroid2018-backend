@@ -104,11 +104,12 @@ function transactionApplyProduct (document) {
   });
 }
 
-function exeSqlNt (sql, idUser) {
+function exeSqlNt (sql, idDocument, idAppUser) {
   return db
     .query(sql, {
       replacements: {
-        id_emp: idUser
+        id_doc: idDocument,
+        id_app_user: idAppUser
       },
       type: db.QueryTypes.SELECT
     })
@@ -120,21 +121,27 @@ function exeSqlNt (sql, idUser) {
     });
 }
 
-function sendNotification() {
-  getSql('SEL004').then((sql, appUser) => {
-    exeSqlNt(sql, appUser).then((data) => {
-      console.log(data);
-    });
-  });
-}
-
 router.post('/apply/:id_user&:id_emp', (req, res) => {
-  console.log(req.body);
   const documento = req.body.document;
+  const idclient = req.body.idclient;
   transactionApplyProduct(documento).then(() => {
-    res.json({
-      success: true,
-      msg: 'Respuesta enviada exitosamente'
+    getSql('SEL007').then((sql, appUser) => {
+      exeSqlNt(sql, documento, idclient).then((accept) => {
+        console.log('...............', accept[0].count);
+        if (accept[0].count >= 3) {
+          console.log('...............xentro...............');
+          req.app.io.emit('to-accept', true);
+          res.json({
+            success: true,
+            msg: 'Respuesta enviada exitosamente'
+          });
+        } else {
+          res.json({
+            success: true,
+            msg: 'Respuesta enviada exitosamente'
+          });
+        }
+      });
     });
   }).catch(() => {
     res.json({

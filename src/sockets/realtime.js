@@ -20,7 +20,6 @@ module.exports = (server) => {
      * Busqueda de empresas
      */
     socket.on('search-companies', (search) => {
-      console.log('-----socket----', search);
       searchOrder.createSearchCompanies(search).then((data) => {
         // io.sockets.emit('search-companies', data);
       });
