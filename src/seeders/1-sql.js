@@ -12,11 +12,14 @@ module.exports = {
         isBetaMember: false
       }], {});
     */
-    return queryInterface.bulkInsert('queries', [{
-      queryCode: 'SEL001',
-      queryName: 'Busqueda de productos segun categorias',
-      description: 'Busqueda de productos segun categorias',
-      query: `
+    return queryInterface.bulkInsert(
+      'queries',
+      [
+        {
+          queryCode: 'SEL001',
+          queryName: 'Busqueda de productos segun categorias',
+          description: 'Busqueda de productos segun categorias',
+          query: `
         SELECT DISTINCT ON (c."idCompany") c."idCompany", c."nameBusiness", c."addressCompany", c."avatarCompany"
         FROM companies AS c
         JOIN "categoriesCompanies" AS ce
@@ -33,12 +36,12 @@ module.exports = {
         FROM "keyWords" as foo
         WHERE foo."nameKeyWord" ILIKE '%' || (SELECT TRIM(BOTH 'aes' FROM ':findWord')) || '%'))
       `
-    },
-    {
-      queryCode: 'SEL002',
-      queryName: 'Lista de ofertas a compañias',
-      description: 'Lista de ofertas a compañias',
-      query: `
+        },
+        {
+          queryCode: 'SEL002',
+          queryName: 'Lista de ofertas a compañias',
+          description: 'Lista de ofertas a compañias',
+          query: `
         SELECT d."idCompany", c."nameBusiness", c."avatarCompany", dr."searchText", d.state
         FROM documents AS d
         JOIN companies AS c
@@ -47,12 +50,12 @@ module.exports = {
         ON d."idDocument" = dr."idDocument"
         WHERE d."idAppUser" = :idUser
       `
-    },
-    {
-      queryCode: 'SEL003',
-      queryName: 'Contar pedidos por empresa',
-      description: 'Contar pedidos por empresa',
-      query: `
+        },
+        {
+          queryCode: 'SEL003',
+          queryName: 'Contar pedidos por empresa',
+          description: 'Contar pedidos por empresa',
+          query: `
         SELECT
           COUNT(doc."idDocument")
         FROM
@@ -62,24 +65,24 @@ module.exports = {
           doc."idDocument" = dm."idDocumentMaster"
           AND dm."idCompany" = :idComp
       `
-    },
-    {
-      queryCode: 'SEL004',
-      queryName: 'Contar pedidos por usuario',
-      description: 'Contar pedidos por usuario',
-      query: `
+        },
+        {
+          queryCode: 'SEL004',
+          queryName: 'Contar pedidos por usuario',
+          description: 'Contar pedidos por usuario',
+          query: `
         SELECT COUNT(d."idDocument")
         FROM documents AS d
         JOIN "documentMasters" AS dm
         ON dm."idDocumentMaster" = d."idDocument"
         WHERE dm."idAppUser" = :idUser AND d.state = TRUE
       `
-    },
-    {
-      queryCode: 'SEL005',
-      queryName: 'Seleccionar empresa por solicitud compra',
-      description: 'Seleccionar empresa por solicitud compra',
-      query: `
+        },
+        {
+          queryCode: 'SEL005',
+          queryName: 'Seleccionar empresa por solicitud compra',
+          description: 'Seleccionar empresa por solicitud compra',
+          query: `
         SELECT DISTINCT ON (c."idCompany") dm."idAppUser", dm."searchText", c."nameBusiness", c."avatarCompany"
         FROM companies AS c
         JOIN "documentMasters" AS dm
@@ -88,12 +91,12 @@ module.exports = {
         ON dm."idDocumentMaster" = d."idDocument"
         WHERE dm."idCompany" = :id_emp AND d."idPrefix" = 1
       `
-    },
-    {
-      queryCode: 'SEL006',
-      queryName: 'Información de los pedidos',
-      description: 'Información de los pedidos realizado a una empresa',
-      query: `
+        },
+        {
+          queryCode: 'SEL006',
+          queryName: 'Información de los pedidos',
+          description: 'Información de los pedidos realizado a una empresa',
+          query: `
         SELECT
           doc."idDocument" AS document,
           doc.state AS stateDocument,
@@ -110,23 +113,49 @@ module.exports = {
           AND dm."idCompany" = :id_emp
           AND doc.state is true
       `
-    },
-    {
-      queryCode: 'SEL007',
-      queryName: 'Conteo de empresas que aceptaron',
-      description: 'Conteo de empresas que aceptaron',
-      query: `
-        SELECT
-        COUNT(1)
-        FROM documents AS doc
-        JOIN "documentMasters" AS dm
-        ON doc."idDocument" = dm."idDocumentMaster"
-        JOIN "movementDocuments" AS mv
-        ON mv."idMaster" = dm."idMaster"
-        WHERE doc."idDocument" = id_doc
-        AND dm."idAppUser" = :id_app_user
+        },
+        {
+          queryCode: 'SEL007',
+          queryName: 'Conteo de empresas que aceptaron',
+          description: 'Conteo de empresas que aceptaron',
+          query: `
+          SELECT
+          COUNT(1)
+        FROM
+          documents AS doc,
+          "documentMasters" AS dm
+        WHERE
+          doc."idDocument" = dm."idDocumentMaster"
+          AND doc."idDocument" = :id_doc
+          AND dm."idAppUser" = :id_app_user
       `
-    }], {});
+        },
+        {
+          queryCode: 'SEL008',
+          queryName: 'Listado de empresas que aceptaron',
+          description: 'Listado de empresas que aceptaron producto',
+          query: `
+          SELECT
+            doc."idDocument",
+            dm."idCompany",
+            COALESCE(comp."nameBusiness", CONCAT(comp."name1Company", ' ', comp."last2Company")) AS nameBusiness,
+            comp."avatarCompany",
+            dm."searchText",
+            comp.latitude,
+            comp.longitude
+          FROM
+            documents AS doc,
+            "documentMasters" AS dm,
+            companies AS comp
+          WHERE
+            doc."idDocument" = dm."idDocumentMaster"
+            AND dm."idCompany" = comp."idCompany"
+            AND dm."idAppUser" = :idUser
+          `
+        }
+      ],
+      {}
+    );
   },
 
   down: (queryInterface, Sequelize) => {

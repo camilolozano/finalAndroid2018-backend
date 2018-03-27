@@ -35,7 +35,7 @@ function exeSql (sql, idUser) {
 }
 
 router.get('/list-offers-company/:id_user', async (req, res) => {
-  const code = 'SEL002';
+  const code = 'SEL008';
   const sql = await getSql(code);
   exeSql(sql, req.params.id_user).then((data) => {
     res.json({
@@ -68,7 +68,7 @@ function exeSqlC (sql, idCompany) {
 }
 
 router.get('/offers-company-count/:id_user&:id_company', async (req, res) => {
-  const code = 'SEL003';
+  const code = 'SEL008';
   const sql = await getSql(code);
   exeSqlC(sql, req.params.id_company).then((data) => {
     res.json({

@@ -15,6 +15,7 @@ import recuperarContrasena from './routes/recover-password';
 import tagSelects from './routes/get-tag-selects';
 import createCompany from './routes/create-company';
 import listOffers from './routes/list-offers';
+import chat from './routes/chat';
 // Api mobil
 import crateUserApp from './routes/mobil/crateUser';
 import productos from './routes/mobil/products';
@@ -59,6 +60,7 @@ app.use('/tags', tagSelects);
 app.use('/company', createCompany);
 app.use('/list-offers', listOffers);
 app.use('/solicitor-offers', solicitorsOffers);
+app.use('/chat', chat);
 // app mobil
 app.use('/app-login', loginApp);
 app.use('/create-user-app', crateUserApp);

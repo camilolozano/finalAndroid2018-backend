@@ -127,9 +127,7 @@ router.post('/apply/:id_user&:id_emp', (req, res) => {
   transactionApplyProduct(documento).then(() => {
     getSql('SEL007').then((sql, appUser) => {
       exeSqlNt(sql, documento, idclient).then((accept) => {
-        console.log('...............', accept[0].count);
         if (accept[0].count >= 3) {
-          console.log('...............xentro...............');
           req.app.io.emit('to-accept', true);
           res.json({
             success: true,
