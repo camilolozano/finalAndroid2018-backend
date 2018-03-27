@@ -6,22 +6,6 @@ module.exports = function (sequelize, DataTypes) {
       primaryKey: true,
       autoIncrement: true
     },
-    idAppUser: {
-      type: DataTypes.BIGINT,
-      references: {
-        model: 'appUsers',
-        key: 'idAppUser'
-      },
-      allowNull: false
-    },
-    idCompany: {
-      type: DataTypes.BIGINT,
-      references: {
-        model: 'companies',
-        key: 'idCompany'
-      },
-      allowNull: false
-    },
     idDocument: {
       type: DataTypes.BIGINT,
       references: {
@@ -42,24 +26,6 @@ module.exports = function (sequelize, DataTypes) {
     {
       classMethods: {
         associate: function (models) {
-          // FK ID APP USER
-          conversation.belongsTo(models.appUsers, {
-            foreignKey: 'idAppUser'
-          });
-
-          models.appUsers.hasMany(conversation, {
-            foreignKey: 'idAppUser'
-          });
-
-          // FK ID COMPANY
-          conversation.belongsTo(models.companies, {
-            foreignKey: 'idCompany'
-          });
-
-          models.companies.hasMany(conversation, {
-            foreignKey: 'idCompany'
-          });
-
           // FK ID DOCUMENT
           conversation.belongsTo(models.documents, {
             foreignKey: 'idDocument'

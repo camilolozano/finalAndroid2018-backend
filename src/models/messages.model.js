@@ -10,13 +10,21 @@ module.exports = function (sequelize, DataTypes) {
       type: DataTypes.STRING(200),
       allowNull: false
     },
-    forMessage: {
+    idAppUser: {
       type: DataTypes.BIGINT,
-      allowNull: false
+      references: {
+        model: 'appUsers',
+        key: 'idAppUser'
+      },
+      allowNull: true
     },
-    fromMessage: {
+    idCompany: {
       type: DataTypes.BIGINT,
-      allowNull: false
+      references: {
+        model: 'companies',
+        key: 'idCompany'
+      },
+      allowNull: true
     },
     DateMessage: {
       type: DataTypes.DATEONLY,
@@ -50,6 +58,24 @@ module.exports = function (sequelize, DataTypes) {
     {
       classMethods: {
         associate: function (models) {
+          // FK ID APP USER
+          message.belongsTo(models.appUsers, {
+            foreignKey: 'idAppUser'
+          });
+
+          models.appUsers.hasMany(message, {
+            foreignKey: 'idAppUser'
+          });
+
+          // FK ID COMPANY
+          message.belongsTo(models.companies, {
+            foreignKey: 'idCompany'
+          });
+
+          models.companies.hasMany(message, {
+            foreignKey: 'idCompany'
+          });
+
           // FK ID CONVERSATIONS
           message.belongsTo(models.conversations, {
             foreignKey: 'idConversation'
