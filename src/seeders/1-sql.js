@@ -152,6 +152,33 @@ module.exports = {
             AND dm."idCompany" = comp."idCompany"
             AND dm."idAppUser" = :idUser
           `
+        },
+        {
+          queryCode: 'SEL009',
+          queryName: 'Chat',
+          description: 'Chat',
+          query: `
+          SELECT
+            CASE
+              WHEN ms."idAppUser" IS NULL
+              THEN 'empresa'
+              ELSE 'usuario'
+            END AS flag,
+            coalesce(us."firstNameUser", cp."nameBusiness") as QUIEN,
+            ms.message,
+            ms."createdAt"
+            FROM
+            documents AS doc
+            LEFT JOIN conversations AS ch
+            ON ch."idDocument" = doc."idDocument"
+            LEFT JOIN messages AS ms
+            ON ms."idConversation" = ch."idConversation"
+            LEFT JOIN companies AS cp
+            ON ms."idCompany" = cp."idCompany"
+            LEFT JOIN "appUsers" AS us
+            ON ms."idAppUser" = us."idAppUser"
+          WHERE ch."idDocument" = :id_doc
+          ORDER BY  ms."idMessage"`
         }
       ],
       {}
