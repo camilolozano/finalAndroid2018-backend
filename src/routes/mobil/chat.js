@@ -1,6 +1,6 @@
 import express from 'express';
-import models from '../models/index';
-import { messages, conversations } from '../models';
+import models from '../../models/index';
+import { messages, conversations } from '../../models';
 
 const router = express.Router();
 const db = models.sequelize;
@@ -21,7 +21,6 @@ function transactionChat (req) {
           {
             message: req.body.message,
             idAppUser: req.body.idAppUser,
-            idCompany: req.body.idCompany,
             idConversation: msj.idConversation
           },
             { transaction: t }
@@ -36,7 +35,6 @@ router.post('/', (req, res) => {
       success: true
     });
   }).catch((err) => {
-    console.log(err);
     res.json({
       success: false,
       msg: 'Error en la transacción, intentelo nuevamente'
