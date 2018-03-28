@@ -42,7 +42,7 @@ router.get('/:id_user&:id_emp', async (req, res) => {
       success: true,
       data
     });
-  }).catch(() => {
+  }).catch((err) => {
     res.json({
       success: false,
       msg: 'Error en la consulta'
