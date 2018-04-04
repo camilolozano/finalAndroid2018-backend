@@ -87,7 +87,6 @@ router.post('/:id_user', (req, res) => {
             req.app.io.emit('new-request', data);
           })
           .catch((err) => {
-            console.log('---->', err);
             res.json({
               msg: 'Error en la busqueda',
               success: false

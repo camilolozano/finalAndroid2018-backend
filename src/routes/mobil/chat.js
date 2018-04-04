@@ -31,10 +31,11 @@ function transactionChat (req) {
 
 router.post('/', (req, res) => {
   transactionChat(req).then(() => {
+    req.app.io.emit('send-msg-web', req.body.idDocument);
     res.json({
       success: true
     });
-  }).catch((err) => {
+  }).catch(() => {
     res.json({
       success: false,
       msg: 'Error en la transacción, intentelo nuevamente'
