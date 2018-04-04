@@ -14,6 +14,10 @@ module.exports = function (sequelize, DataTypes) {
       },
       allowNull: false
     },
+    room: {
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUID
+    },
     'createdAt': {
       type: DataTypes.DATE,
       defaultValue: sequelize.NOW
