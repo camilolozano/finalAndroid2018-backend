@@ -140,17 +140,24 @@ module.exports = {
             doc."idDocument",
             dm."idCompany",
             COALESCE(comp."nameBusiness", CONCAT(comp."name1Company", ' ', comp."last2Company")) AS nameBusiness,
-            comp."avatarCompany",
             dm."searchText",
+            bud."answerText",
+            dm."typeShop",
+            comp."avatarCompany",
             comp.latitude,
             comp.longitude
           FROM
             documents AS doc,
             "documentMasters" AS dm,
-            companies AS comp
+            companies AS comp,
+            "buyDocuments" AS bud,
+            "movementDocuments" AS mv
           WHERE
             doc."idDocument" = dm."idDocumentMaster"
+            AND bud."idDocument" = doc."idDocument"
+            AND dm."idMaster" = mv."idMaster"
             AND dm."idCompany" = comp."idCompany"
+            AND bud."idDocument" = :idDoc
             AND dm."idAppUser" = :idUser
           `
         },
