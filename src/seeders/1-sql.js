@@ -98,6 +98,7 @@ module.exports = {
           description: 'Información de los pedidos realizado a una empresa',
           query: `
         SELECT
+          dm."idMaster" AS Master,
           doc."idDocument" AS document,
           doc.state AS stateDocument,
           us."idAppUser" AS idClient,
