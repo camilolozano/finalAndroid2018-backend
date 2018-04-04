@@ -157,7 +157,6 @@ module.exports = {
             AND bud."idDocument" = doc."idDocument"
             AND dm."idMaster" = mv."idMaster"
             AND dm."idCompany" = comp."idCompany"
-            AND bud."idDocument" = :idDoc
             AND dm."idAppUser" = :idUser
           `
         },
