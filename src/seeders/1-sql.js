@@ -137,6 +137,7 @@ module.exports = {
           description: 'Listado de empresas que aceptaron producto',
           query: `
           SELECT
+            DISTINCT ON (doc."idDocument", dm."idCompany")
             doc."idDocument",
             dm."idCompany",
             COALESCE(comp."nameBusiness", CONCAT(comp."name1Company", ' ', comp."last2Company")) AS nameBusiness,
