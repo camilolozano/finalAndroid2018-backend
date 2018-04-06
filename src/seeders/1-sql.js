@@ -97,21 +97,30 @@ module.exports = {
           queryName: 'Información de los pedidos',
           description: 'Información de los pedidos realizado a una empresa',
           query: `
-        SELECT
+          SELECT
           dm."idMaster" AS Master,
           doc."idDocument" AS document,
           doc.state AS stateDocument,
           us."idAppUser" AS idClient,
           CONCAT(us."firstNameUser",' ', us."lastNameUser") AS nameClient,
-          dm."searchText"
+          dm."searchText",
+          bc."answerText"
         FROM
-          documents AS doc,
-          "documentMasters" AS dm,
+          documents AS doc
+         LEFT OUTER JOIN 
+          "documentMasters" AS dm
+         ON 
+         doc."idDocument" = dm."idDocumentMaster"
+         LEFT OUTER JOIN
+          "buyDocuments" AS bc
+         ON 
+         dm."idDocumentMaster" = bc."idDocument"
+         LEFT OUTER JOIN
           "appUsers" AS us
+         ON 
+         us."idAppUser" = dm."idAppUser"
         WHERE
-          doc."idDocument" = dm."idDocumentMaster"
-          AND us."idAppUser" = dm."idAppUser"
-          AND dm."idCompany" = :id_emp
+          dm."idCompany" = :id_emp
           AND doc.state is true
       `
         },
@@ -120,15 +129,26 @@ module.exports = {
           queryName: 'Conteo de empresas que aceptaron',
           description: 'Conteo de empresas que aceptaron',
           query: `
-          SELECT
-          COUNT(1)
-        FROM
-          documents AS doc,
-          "documentMasters" AS dm
-        WHERE
-          doc."idDocument" = dm."idDocumentMaster"
-          AND doc."idDocument" = :id_doc
-          AND dm."idAppUser" = :id_app_user
+          SELECT 
+            COUNT (1)
+          FROM (
+            SELECT
+                DISTINCT ON (doc."idDocument", dm."idCompany")
+                doc."idDocument",
+                dm."idCompany"
+            FROM
+              documents AS doc,
+              "documentMasters" AS dm,
+              companies AS comp,
+              "buyDocuments" AS bud,
+              "movementDocuments" AS mv
+            WHERE
+              doc."idDocument" = dm."idDocumentMaster"
+              AND bud."idDocument" = doc."idDocument"
+              AND dm."idMaster" = mv."idMaster"
+              AND dm."idCompany" = comp."idCompany"
+              AND dm."idAppUser" = id_app_user
+              ) AS foo
       `
         },
         {
