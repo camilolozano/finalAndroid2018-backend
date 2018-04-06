@@ -98,7 +98,7 @@ module.exports = {
           description: 'Información de los pedidos realizado a una empresa',
           query: `
           SELECT
-	        foo.Master,
+          foo.Master,
           foo.document,
           foo.stateDocument,
           foo.idClient,
@@ -124,9 +124,13 @@ module.exports = {
                   AND doc.state is true
                   ) AS foo
           LEFT OUTER JOIN
+            "movementDocuments" AS mv
+          ON
+            mv."idMaster" = foo.master
+          LEFT OUTER JOIN
             "buyDocuments" AS bc
           ON
-            bc."idDocument" = foo.Master
+            bc."idDocument" = mv."idDocument"
       `
         },
         {
@@ -134,26 +138,33 @@ module.exports = {
           queryName: 'Conteo de empresas que aceptaron',
           description: 'Conteo de empresas que aceptaron',
           query: `
-          SELECT
+          SELECT 
             COUNT (1)
-          FROM (
-            SELECT
-                DISTINCT ON (doc."idDocument", dm."idCompany")
-                doc."idDocument",
-                dm."idCompany"
-            FROM
-              documents AS doc,
-              "documentMasters" AS dm,
-              companies AS comp,
-              "buyDocuments" AS bud,
-              "movementDocuments" AS mv
-            WHERE
-              doc."idDocument" = dm."idDocumentMaster"
-              AND bud."idDocument" = doc."idDocument"
-              AND dm."idMaster" = mv."idMaster"
-              AND dm."idCompany" = comp."idCompany"
-              AND dm."idAppUser" = :id_app_user
-              ) AS foo
+          FROM
+            (SELECT
+            DISTINCT ON (doc."idDocument", dm."idCompany")
+            doc."idDocument",
+            dm."idCompany",
+            COALESCE(comp."nameBusiness", CONCAT(comp."name1Company", ' ', comp."last2Company")) AS nameBusiness,
+            dm."searchText",
+            bud."answerText",
+            dm."typeShop",
+            comp."avatarCompany",
+            comp.latitude,
+            comp.longitude
+          FROM
+            documents AS doc,
+            "documentMasters" AS dm,
+            companies AS comp,
+            "buyDocuments" AS bud,
+            "movementDocuments" AS mv
+          WHERE
+            doc."idDocument" = dm."idDocumentMaster"
+            AND dm."idMaster" = mv."idMaster"
+            AND bud."idDocument" = mv."idDocument"
+            AND dm."idCompany" = comp."idCompany"
+            AND dm."idAppUser" = :idUser
+            ) AS foo
       `
         },
         {
@@ -180,8 +191,8 @@ module.exports = {
             "movementDocuments" AS mv
           WHERE
             doc."idDocument" = dm."idDocumentMaster"
-            AND bud."idDocument" = doc."idDocument"
             AND dm."idMaster" = mv."idMaster"
+            AND bud."idDocument" = mv."idDocument"
             AND dm."idCompany" = comp."idCompany"
             AND dm."idAppUser" = :idUser
           `

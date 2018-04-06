@@ -5,8 +5,7 @@ module.exports = {
     'database': 'big-app2',
     'host': 'localhost',
     'cliente': 'http://192.168.0.16:8080',
-    'dialect': 'postgres',
-    'port': '5431'
+    'dialect': 'postgres'
   },
   'test': {
     'username': 'root',
