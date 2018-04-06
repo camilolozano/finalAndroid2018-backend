@@ -74,7 +74,7 @@ router.put('/cancel/:id_user&:id_emp', (req, res) => {
 });
 
 // Creacion de aceptación a solicitud de producto
-function transactionApplyProduct (document) {
+function transactionApplyProduct (document, price) {
   return db.transaction(t => {
     return documents
       .create(
@@ -94,9 +94,9 @@ function transactionApplyProduct (document) {
         ).then(() => {
           return buyDocuments.create(
             {
-              idDocument: document,
+              idDocument: doc.idDocument,
               state: true,
-              answerText: 'xxxx'
+              answerText: price
             },
             { transaction: t });
         });
@@ -124,10 +124,12 @@ function exeSqlNt (sql, idDocument, idAppUser) {
 router.post('/apply/:id_user&:id_emp', (req, res) => {
   const documento = req.body.document;
   const idclient = req.body.idclient;
-  transactionApplyProduct(documento).then(() => {
+  const price = req.body.price;
+
+  transactionApplyProduct(documento, price).then(() => {
     getSql('SEL007').then((sql, appUser) => {
       exeSqlNt(sql, documento, idclient).then((accept) => {
-        if (accept[0].count >= 3) {
+        if (accept[0].COUNT >= 3) {
           req.app.io.emit('to-accept', true);
           res.json({
             success: true,
@@ -141,10 +143,11 @@ router.post('/apply/:id_user&:id_emp', (req, res) => {
         }
       });
     });
-  }).catch(() => {
+  }).catch((err) => {
     res.json({
       success: false,
-      msg: 'La respuesta no fue enviada'
+      msg: 'La respuesta no fue enviada',
+      err
     });
   });
 });

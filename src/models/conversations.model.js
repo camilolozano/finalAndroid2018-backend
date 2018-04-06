@@ -16,7 +16,7 @@ module.exports = function (sequelize, DataTypes) {
     },
     room: {
       type: DataTypes.UUID,
-      defaultValue: DataTypes.UUID
+      defaultValue: DataTypes.UUIDV1
     },
     'createdAt': {
       type: DataTypes.DATE,

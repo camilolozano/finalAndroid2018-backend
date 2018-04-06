@@ -11,6 +11,7 @@ module.exports = (server) => {
     /**
      * Creación nuevo pedido
      */
+    console.log(socket.id);
     socket.on('notification-order', (order) => {
       createCorder.createOrderRequest(order).then((data) => {
         io.sockets.emit('notification-order-web', data);
