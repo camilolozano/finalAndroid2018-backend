@@ -163,7 +163,7 @@ module.exports = {
             AND dm."idMaster" = mv."idMaster"
             AND bud."idDocument" = mv."idDocument"
             AND dm."idCompany" = comp."idCompany"
-            AND dm."idAppUser" = :idUser
+            AND dm."idAppUser" = :id_app_user
             ) AS foo
       `
         },
