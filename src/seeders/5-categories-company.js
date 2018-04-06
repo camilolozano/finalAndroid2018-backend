@@ -187,6 +187,21 @@ module.exports = {
         idCompany: 31,
         idCategory: 6,
         state: true
+      },
+      {
+        idCompany: 32,
+        idCategory: 7,
+        state: true
+      },
+      {
+        idCompany: 33,
+        idCategory: 7,
+        state: true
+      },
+      {
+        idCompany: 34,
+        idCategory: 7,
+        state: true
       }], {});
   },
 

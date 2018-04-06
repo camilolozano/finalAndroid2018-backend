@@ -17,32 +17,37 @@ module.exports = {
       {
         nameCategory: 'Panaderias',
         descriptionCategory: 'Venta de panaderia y pasteleria',
-        state: true,
+        state: true
       },
       {
         nameCategory: 'Papelerias',
         descriptionCategory: 'Venta materiales de trabajo en escuelas y personal',
-        state: true,  
+        state: true  
       },
       {
         nameCategory: 'Restaurantes',
         descriptionCategory: 'Venta de alimentos y especialidades',
-        state: true,  
+        state: true  
       },
       {
         nameCategory: 'Comidas Rapidas',
         descriptionCategory: 'Venta y produccion de comidas rapidas',
-        state: true,  
+        state: true  
       },
       {
         nameCategory: 'Ferreterias',
         descriptionCategory: 'Suministro de elementos del hogar',
-        state: true,  
+        state: true  
       },
       {
         nameCategory: 'Tiendas',
         descriptionCategory: 'Articulos para remesa del hogar Pymes',
-        state: true,  
+        state: true  
+      },
+      {
+        nameCategory: 'Automoviles',
+        descriptionCategory: 'Venta y articulos para automoviles',
+        state: true  
       }], {});
   },
 

@@ -376,57 +376,82 @@ module.exports = {
       },
       {
         nameKeyWord: 'arroz',
-        idCategory: 5,
+        idCategory: 6,
         state: true
       },
       {
         nameKeyWord: 'azucar',
-        idCategory: 5,
+        idCategory: 6,
         state: true
       },
       {
         nameKeyWord: 'sal',
-        idCategory: 5,
+        idCategory: 6,
         state: true
       },
       {
         nameKeyWord: 'aceite',
-        idCategory: 5,
+        idCategory: 6,
         state: true
       },
       {
         nameKeyWord: 'cafe',
-        idCategory: 5,
+        idCategory: 6,
         state: true
       },
       {
         nameKeyWord: 'leche',
-        idCategory: 5,
+        idCategory: 6,
         state: true
       },
       {
         nameKeyWord: 'huevos',
-        idCategory: 5,
+        idCategory: 6,
         state: true
       },
       {
         nameKeyWord: 'salchichas',
-        idCategory: 5,
+        idCategory: 6,
         state: true
       },
       {
         nameKeyWord: 'lentejas',
-        idCategory: 5,
+        idCategory: 6,
         state: true
       },
       {
         nameKeyWord: 'frijol',
-        idCategory: 5,
+        idCategory: 6,
         state: true
       },
       {
         nameKeyWord: 'gaseosa',
-        idCategory: 5,
+        idCategory: 6,
+        state: true
+      },
+      {
+        nameKeyWord: 'llantas',
+        idCategory: 7,
+        state: true
+      },
+      {
+        nameKeyWord: 'motor',
+        idCategory: 7,
+        state: true
+      },
+      {
+        nameKeyWord: 'frenos',
+        idCategory: 7,
+        state: true
+      },
+      {
+        nameKeyWord: 'espejos',
+        idCategory: 7,
+        state: true
+      },
+      {
+        nameKeyWord: 'radio',
+        idCategory: 7,
         state: true
       }], {});
   },
