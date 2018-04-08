@@ -112,7 +112,8 @@ module.exports = {
                     doc.state AS stateDocument,
                     us."idAppUser" AS idClient,
                     CONCAT(us."firstNameUser",' ', us."lastNameUser") AS nameClient,
-                    dm."searchText"
+                    dm."searchText",
+                    dm."typeShop"
                   FROM
                     documents AS doc,
                     "documentMasters" AS dm,
