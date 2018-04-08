@@ -20,6 +20,15 @@ module.exports = {
         emailUsername: 'admin@admin.com',
         password: '$2a$08$c23.I3q4DQKQ4621hW7DzuuggtITuqm7uWWVCvmR0Vt63WM1LRs62',
         state: true
+      },
+      {
+        firstNameUser: 'Prueba',
+        lastNameUser: 'Prueba2',
+        addressUser: 'Big App',
+        contactUser: '7216212',
+        emailUsername: 'prueba@prueba.com',
+        password: '$2a$08$c23.I3q4DQKQ4621hW7DzuuggtITuqm7uWWVCvmR0Vt63WM1LRs62',
+        state: true
       }], {});
   },
 
