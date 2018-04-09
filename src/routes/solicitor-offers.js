@@ -124,12 +124,14 @@ function exeSqlNt (sql, idDocument, idAppUser) {
 router.post('/apply/:id_user&:id_emp', (req, res) => {
   const documento = req.body.document;
   const idclient = req.body.idclient;
+  const flagdocumet = req.body.flagdocumet; // documento padre
   const price = req.body.price;
 
   transactionApplyProduct(documento, price).then(() => {
     getSql('SEL007').then((sql, appUser) => {
-      exeSqlNt(sql, documento, idclient).then((accept) => {
-        if (accept[0].COUNT >= 3) {
+      exeSqlNt(sql, flagdocumet, idclient).then((accept) => {
+        console.log(accept[0].count);
+        if (accept[0].count >= 3) {
           req.app.io.emit('to-accept', true);
           res.json({
             success: true,

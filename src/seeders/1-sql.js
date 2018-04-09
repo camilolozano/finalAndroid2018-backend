@@ -104,7 +104,8 @@ module.exports = {
           foo.idClient,
           foo.nameClient,
           foo."searchText",
-          bc."answerText"
+          bc."answerText",
+          foo."typeShop"
           FROM
             (SELECT
                     dm."idMaster" AS Master,
@@ -139,7 +140,7 @@ module.exports = {
           queryName: 'Conteo de empresas que aceptaron',
           description: 'Conteo de empresas que aceptaron',
           query: `
-          SELECT 
+          SELECT
             COUNT (1)
           FROM
             (SELECT
