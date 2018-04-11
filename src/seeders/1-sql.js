@@ -229,6 +229,7 @@ module.exports = {
             WHERE ch."idDocument" = :id_doc
             AND (ms."idCompany" = :id_company OR ms."idAppUser" = :id_user)
           ORDER BY  ms."idMessage"
+          `
         }
       ],
       {}
