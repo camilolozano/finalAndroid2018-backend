@@ -176,7 +176,7 @@ module.exports = {
           description: 'Listado de empresas que aceptaron producto',
           query: `
           SELECT
-            DISTINCT ON (doc."idDocument", dm."idCompany")
+            --DISTINCT ON (doc."idDocument", dm."idCompany")
             doc."idDocument",
             dm."idCompany",
             COALESCE(comp."nameBusiness", CONCAT(comp."name1Company", ' ', comp."last2Company")) AS nameBusiness,
@@ -198,6 +198,8 @@ module.exports = {
             AND bud."idDocument" = mv."idDocument"
             AND dm."idCompany" = comp."idCompany"
             AND dm."idAppUser" = :idUser
+          ORDER BY
+            doc."idDocument" ASC
           `
         },
         {
