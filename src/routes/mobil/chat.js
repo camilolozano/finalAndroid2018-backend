@@ -59,11 +59,13 @@ function getSql (code) {
     });
 }
 
-function exeSql (sql, doc) {
+function exeSql (sql, doc, company, user) {
   return db
     .query(sql, {
       replacements: {
-        id_doc: doc
+        id_doc: doc,
+        id_company: company,
+        id_user: user
       },
       type: db.QueryTypes.SELECT
     })
@@ -75,10 +77,10 @@ function exeSql (sql, doc) {
     });
 }
 
-router.get('/talk/:id_doc', (req, res) => {
+router.get('/talk/:id_doc&:id_app&:company', (req, res) => {
   const code = 'SEL009';
   getSql(code).then((sql) => {
-    exeSql(sql, req.params.id_doc).then((data) => {
+    exeSql(sql, req.params.id_doc, req.body.company, req.params.id_app).then((data) => {
       res.json({
         data
       });

@@ -76,7 +76,6 @@ function transaction (req, res) {
       .then((company) => {
         return systemUsers.create({
           idCompany: company.idCompany,
-          userCode: req.body.userCode,
           firstName: req.body.firstName,
           secondName: req.body.secondName,
           firstLastName: req.body.firstLastName,
@@ -84,10 +83,11 @@ function transaction (req, res) {
           emailUsername: req.body.emailUsername.toLowerCase(),
           // Se da un caracter provicional para el psw
           password: bcrypt.hashSync('admin123', 8),
-          idUserType: req.body.idUserType,
+          // idUserType: req.body.idUserType,
+          idUserType: 2,
           contactNumber: req.body.contactNumber,
           identificationCard: req.body.identificationCard,
-          identificationType: req.body.identificationType
+          identificationType: 'ID_NUMBER',
         }, { transaction: t }).then(user => {
           const data = {
             req,

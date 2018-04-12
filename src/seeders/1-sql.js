@@ -207,16 +207,16 @@ module.exports = {
           queryName: 'Chat',
           description: 'Chat',
           query: `
-          SELECT 
+          SELECT
             CASE
               WHEN ms."idAppUser" IS NULL
-              THEN 'empresa' 
-              ELSE 'usuario' 
+              THEN 'empresa'
+              ELSE 'usuario'
             END AS flag,
-            coalesce(us."firstNameUser", cp."nameBusiness") as QUIEN, 
-            ms.message, 
+            coalesce(us."firstNameUser", cp."nameBusiness") as QUIEN,
+            ms.message,
             ms."createdAt"
-            FROM 
+            FROM
             documents AS doc
             LEFT OUTER JOIN conversations AS ch
             ON ch."idDocument" = doc."idDocument"
@@ -228,7 +228,7 @@ module.exports = {
             ON ms."idAppUser" = us."idAppUser"
             WHERE ch."idDocument" = :id_doc
             AND (ms."idCompany" = :id_company OR ms."idAppUser" = :id_user)
-          ORDER BY  ms."idMessage"
+          ORDER BY  ms."idMessage"`
         }
       ],
       {}

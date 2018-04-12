@@ -130,12 +130,12 @@ router.post('/apply/:id_user&:id_emp', (req, res) => {
   transactionApplyProduct(documento, price).then(() => {
     getSql('SEL007').then((sql, appUser) => {
       exeSqlNt(sql, flagdocumet, idclient).then((accept) => {
-        console.log(accept[0].count);
-        if (accept[0].count >= 3) {
+        if (accept[0].count > 0) {
           req.app.io.emit('to-accept', true);
           res.json({
             success: true,
-            msg: 'Respuesta enviada exitosamente'
+            msg: 'Respuesta enviada exitosamente',
+            count: accept[0].count
           });
         } else {
           res.json({
