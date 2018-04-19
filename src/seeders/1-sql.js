@@ -175,10 +175,12 @@ module.exports = {
           queryName: 'Listado de empresas que aceptaron',
           description: 'Listado de empresas que aceptaron producto',
           query: `
+
           SELECT
             --DISTINCT ON (doc."idDocument", dm."idCompany")
             doc."idDocument",
             dm."idCompany",
+            dm."idMaster",
             COALESCE(comp."nameBusiness", CONCAT(comp."name1Company", ' ', comp."last2Company")) AS nameBusiness,
             dm."searchText",
             bud."answerText",
@@ -198,7 +200,8 @@ module.exports = {
             AND bud."idDocument" = mv."idDocument"
             AND dm."idCompany" = comp."idCompany"
             AND dm."idAppUser" = :idUser
-          :order
+          ORDER BY
+            doc."idDocument" ASC
           `
         },
         {
@@ -216,18 +219,18 @@ module.exports = {
             ms.message,
             ms."createdAt"
             FROM
-            documents AS doc
+            "documentMasters" AS dm
             LEFT OUTER JOIN conversations AS ch
-            ON ch."idDocument" = doc."idDocument"
+            ON ch."idMaster" = dm."idMaster"
             LEFT OUTER JOIN messages AS ms
             ON ms."idConversation" = ch."idConversation"
             LEFT OUTER JOIN companies AS cp
             ON ms."idCompany" = cp."idCompany"
             LEFT OUTER JOIN "appUsers" AS us
             ON ms."idAppUser" = us."idAppUser"
-            WHERE ch."idDocument" = :id_doc
-            AND (ms."idCompany" = :id_company OR ms."idAppUser" = :id_user)
-          ORDER BY  ms."idMessage"`
+            WHERE ch."idMaster" = :id_doc
+          ORDER BY  ms."idMessage"
+          `
         },
         {
           queryCode: 'SEL010',
