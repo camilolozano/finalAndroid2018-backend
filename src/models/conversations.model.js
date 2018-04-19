@@ -6,11 +6,11 @@ module.exports = function (sequelize, DataTypes) {
       primaryKey: true,
       autoIncrement: true
     },
-    idDocument: {
+    idMaster: {
       type: DataTypes.BIGINT,
       references: {
-        model: 'documents',
-        key: 'idDocument'
+        model: 'documentMasters',
+        key: 'idMaster'
       },
       allowNull: false
     },
@@ -27,12 +27,12 @@ module.exports = function (sequelize, DataTypes) {
       classMethods: {
         associate: function (models) {
           // FK ID DOCUMENT
-          conversation.belongsTo(models.documents, {
-            foreignKey: 'idDocument'
+          conversation.belongsTo(models.documentMasters, {
+            foreignKey: 'idMaster'
           });
 
-          models.documents.hasMany(conversation, {
-            foreignKey: 'idDocument'
+          models.documentMasters.hasMany(conversation, {
+            foreignKey: 'idMaster'
           });
         }
       }

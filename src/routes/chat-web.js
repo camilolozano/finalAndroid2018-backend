@@ -11,7 +11,7 @@ function transactionChat (req) {
     return conversations
       .create(
       {
-        idDocument: req.body.idDocument
+        idMaster: req.body.idMaster
       },
         { transaction: t }
       )

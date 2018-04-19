@@ -198,8 +198,7 @@ module.exports = {
             AND bud."idDocument" = mv."idDocument"
             AND dm."idCompany" = comp."idCompany"
             AND dm."idAppUser" = :idUser
-          ORDER BY
-            doc."idDocument" ASC
+          :order
           `
         },
         {
@@ -229,6 +228,38 @@ module.exports = {
             WHERE ch."idDocument" = :id_doc
             AND (ms."idCompany" = :id_company OR ms."idAppUser" = :id_user)
           ORDER BY  ms."idMessage"`
+        },
+        {
+          queryCode: 'SEL010',
+          queryName: 'Listado de empresas que aceptaron x precio',
+          description: 'Listado de empresas que aceptaron producto x precio',
+          query: `
+          SELECT
+            --DISTINCT ON (doc."idDocument", dm."idCompany")
+            doc."idDocument",
+            dm."idCompany",
+            COALESCE(comp."nameBusiness", CONCAT(comp."name1Company", ' ', comp."last2Company")) AS nameBusiness,
+            dm."searchText",
+            bud."answerText",
+            dm."typeShop",
+            comp."avatarCompany",
+            comp.latitude,
+            comp.longitude
+          FROM
+            documents AS doc,
+            "documentMasters" AS dm,
+            companies AS comp,
+            "buyDocuments" AS bud,
+            "movementDocuments" AS mv
+          WHERE
+            doc."idDocument" = dm."idDocumentMaster"
+            AND dm."idMaster" = mv."idMaster"
+            AND bud."idDocument" = mv."idDocument"
+            AND dm."idCompany" = comp."idCompany"
+            AND dm."idAppUser" = :idUser
+          ORDER BY
+            doc."idDocument", bud."answerText" ASC
+          `
         }
       ],
       {}
