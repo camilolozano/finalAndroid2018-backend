@@ -67,7 +67,7 @@ function exeSqlC (sql, idUser) {
     });
 }
 
-router.get('/offers-company-count/:id_user&:id_company', async (req, res) => {
+router.get('/offers-company-count/:id_user', async (req, res) => {
   const code = 'SEL011';
   const sql = await getSql(code);
   exeSqlC(sql, req.params.id_user).then((data) => {
