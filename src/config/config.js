@@ -1,12 +1,12 @@
 module.exports = {
   'development': {
-    'username': 'postgres',
-    'password': 'root',
+    'username': 'camilo',
+    'password': '123456',
     'database': 'big-app2',
     'host': 'localhost',
     'cliente': 'http://localhost:8080',
     'dialect': 'postgres',
-    'port': '5432'
+    'port': '5431'
   },
   'test': {
     'username': 'root',

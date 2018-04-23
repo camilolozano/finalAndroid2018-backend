@@ -130,6 +130,7 @@ router.post('/apply/:id_user&:id_emp', (req, res) => {
   transactionApplyProduct(documento, price).then(() => {
     getSql('SEL007').then((sql, appUser) => {
       exeSqlNt(sql, flagdocumet, idclient).then((accept) => {
+        req.app.io.sockets.emit('alert', 1);
         if (accept[0].count > 0) {
           req.app.io.emit('to-accept', true);
           res.json({
