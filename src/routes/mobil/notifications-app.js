@@ -104,12 +104,12 @@ router.get('/offers-company-count-app/:id_user', async (req, res) => {
   const code = 'SEL011';
   const sql = await getSql(code);
   exeSqlCW(sql, req.params.id_user).then((data) => {
-    // const info = (data[0].count === undefined || data[0].count === null) ? 0 : data[0].count;
-    // console.log('--->', info);
-    // res.json({
-    //   success: true,
-    //   data: info
-    // });
+    const info = (data[0].count === undefined || data[0].count === null) ? 0 : data[0].count;
+    console.log('--->', info);
+    res.json({
+      success: true,
+      data: info
+    });
   }).catch((err) => {
     res.json({
       success: false,
