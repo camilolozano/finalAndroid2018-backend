@@ -263,6 +263,42 @@ module.exports = {
           ORDER BY
             doc."idDocument", bud."answerText" ASC
           `
+        },
+        {
+          queryCode: 'SEL011',
+          queryName: 'Listado de empresas que aceptaron',
+          description: 'Listado de empresas que aceptaron producto',
+          query: `
+          SELECT
+            COUNT(1)
+          FROM
+            (SELECT
+            --DISTINCT ON (doc."idDocument", dm."idCompany")
+            doc."idDocument",
+            dm."idCompany",
+            dm."idMaster",
+            COALESCE(comp."nameBusiness", CONCAT(comp."name1Company", ' ', comp."last2Company")) AS nameBusiness,
+            dm."searchText",
+            bud."answerText",
+            dm."typeShop",
+            comp."avatarCompany",
+            comp.latitude,
+            comp.longitude
+          FROM
+            documents AS doc,
+            "documentMasters" AS dm,
+            companies AS comp,
+            "buyDocuments" AS bud,
+            "movementDocuments" AS mv
+          WHERE
+            doc."idDocument" = dm."idDocumentMaster"
+            AND dm."idMaster" = mv."idMaster"
+            AND bud."idDocument" = mv."idDocument"
+            AND dm."idCompany" = comp."idCompany"
+            AND dm."idAppUser" = :idUser
+          ORDER BY
+            doc."idDocument" ASC) AS foo
+          `
         }
       ],
       {}
