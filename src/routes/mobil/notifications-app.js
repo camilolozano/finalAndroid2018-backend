@@ -51,11 +51,11 @@ router.get('/list-offers-company/:id_user', async (req, res) => {
 });
 
 // Cuenta cuantas solicitudes le han realizado a una empresa web
-function exeSqlC (sql, idCompany) {
+function exeSqlC (sql, idUser) {
   return db
     .query(sql, {
       replacements: {
-        idComp: idCompany
+        idUser: idUser
       },
       type: db.QueryTypes.SELECT
     })
@@ -68,9 +68,9 @@ function exeSqlC (sql, idCompany) {
 }
 
 router.get('/offers-company-count/:id_user&:id_company', async (req, res) => {
-  const code = 'SEL0011';
+  const code = 'SEL011';
   const sql = await getSql(code);
-  exeSqlC(sql, req.params.id_company).then((data) => {
+  exeSqlC(sql, req.params.id_user).then((data) => {
     res.json({
       success: true,
       data: data[0].count
